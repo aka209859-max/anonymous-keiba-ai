@@ -75,7 +75,7 @@ def create_base_query(keibajo_code=None, start_year=None, end_year=None, limit=N
         ra.shusso_tosu,
         ra.grade_code,
         
-        -- === 出馬情報 ===
+        -- === 出馬情報（前日までに確定）===
         se.wakuban,
         se.seibetsu_code,
         se.barei,
@@ -85,25 +85,8 @@ def create_base_query(keibajo_code=None, start_year=None, end_year=None, limit=N
         se.blinker_shiyo_kubun,
         se.tozai_shozoku_code,
         
-        -- === 当日データ（参考情報、学習には使わない）===
-        se.bataiju,
-        se.tansho_odds,
-        se.tansho_ninkijun,
-        
-        -- === レース結果 ===
-        se.kakutei_chakujun,
-        se.soha_time,
-        se.kohan_3f,
-        se.corner_1,
-        se.corner_2,
-        se.corner_3,
-        se.corner_4,
-        se.time_sa,
-        
         -- === 馬情報 ===
-        um.moshoku_code,
-        um.seisanshamei,
-        um.banushimei
+        um.moshoku_code
 
     FROM 
         nvd_ra ra
@@ -196,11 +179,7 @@ def preprocess_data(df):
     # 識別カラムと目的変数を分離
     id_columns = ['kaisai_nen', 'kaisai_tsukihi', 'keibajo_code', 'race_bango', 'ketto_toroku_bango', 'umaban']
     
-    # 当日データを除外（学習に使わない）
-    exclude_columns = ['bataiju', 'tansho_odds', 'tansho_ninkijun', 'kakutei_chakujun', 'soha_time', 
-                      'kohan_3f', 'corner_1', 'corner_2', 'corner_3', 'corner_4', 'time_sa']
-    
-    feature_columns = [col for col in df.columns if col not in id_columns + ['target'] + exclude_columns]
+    feature_columns = [col for col in df.columns if col not in id_columns + ['target']]
     
     # 特徴量の型変換（可能なものは数値に）
     for col in feature_columns:
@@ -280,8 +259,9 @@ def main():
         print(f"レコード制限: {args.limit:,}件（テストモード）")
     
     print()
-    print("⚠️  注意: このバージョンでは過去走データは含まれません")
-    print("   完全版の実装には nvd_hr テーブルの統合が必要です")
+    print("⚠️  重要: レース結果データ（着順、タイム、オッズ等）は除外されています")
+    print("   学習には前日までに確定している情報のみを使用します")
+    print("   現バージョンでは過去走データは含まれません（nvd_hrテーブル統合が必要）")
     print()
     
     # データベース接続
