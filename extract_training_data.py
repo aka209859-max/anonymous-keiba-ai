@@ -255,8 +255,8 @@ def main():
         description='PC-KEIBA Databaseから地方競馬の学習データを抽出'
     )
     parser.add_argument('--keibajo', type=str, help='競馬場コード（例: 44=大井）')
-    parser.add_argument('--start-date', type=int, default=2022, help='開始年（デフォルト: 2022）')
-    parser.add_argument('--end-date', type=int, default=2024, help='終了年（デフォルト: 2024）')
+    parser.add_argument('--start-date', type=int, default=2020, help='開始年（デフォルト: 2020）')
+    parser.add_argument('--end-date', type=int, default=2025, help='終了年（デフォルト: 2025）')
     parser.add_argument('--output', type=str, default='training_data.csv', help='出力ファイル名')
     parser.add_argument('--limit', type=int, help='最大レコード数（テスト用）')
     
