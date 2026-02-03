@@ -1,0 +1,22 @@
+﻿# Core
+pandas>=2.0.0
+numpy>=1.24.0
+
+# Machine Learning
+lightgbm>=4.0.0
+scikit-learn>=1.3.0
+boruta>=0.3
+
+# Optimization
+optuna>=3.5.0
+optuna-integration>=3.5.0
+
+# Database
+psycopg2-binary>=2.9.9
+
+# Visualization
+matplotlib>=3.7.0
+seaborn>=0.12.0
+
+# Utilities
+tqdm>=4.66.0
