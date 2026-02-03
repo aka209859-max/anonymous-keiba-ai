@@ -43,13 +43,18 @@ KEIBAJO_NAMES = {
 
 
 def create_base_query(keibajo_code=None, start_year=None, end_year=None, limit=None):
-    """基本的なデータ抽出SQLクエリを生成"""
+    """基本的なデータ抽出SQLクエリを生成
+    
+    注意: nvd_seテーブルには過去走データが含まれていないため、
+    この簡易版では現在のレース情報のみを使用します。
+    過去走データはnvd_hrテーブルから別途取得する必要があります。
+    """
     
     query = """
     SELECT 
         -- 目的変数
         CASE 
-            WHEN se.chakujun ~ '^[0-9]+$' AND se.chakujun::INTEGER <= 3 THEN 1
+            WHEN se.kakutei_chakujun ~ '^[0-9]+$' AND se.kakutei_chakujun::INTEGER <= 3 THEN 1
             ELSE 0
         END AS target,
         
@@ -58,15 +63,16 @@ def create_base_query(keibajo_code=None, start_year=None, end_year=None, limit=N
         ra.kaisai_tsukihi,
         ra.keibajo_code,
         ra.race_bango,
-        se.uma_code,
+        se.ketto_toroku_bango,
         se.umaban,
         
         -- === レース情報 ===
         ra.kyori,
         ra.track_code,
-        ra.baba_jotai_code,
-        ra.tenkou_code,
-        ra.tosu,
+        ra.babajotai_code_shiba,
+        ra.babajotai_code_dirt,
+        ra.tenko_code,
+        ra.shusso_tosu,
         ra.grade_code,
         
         -- === 出馬情報 ===
@@ -76,59 +82,28 @@ def create_base_query(keibajo_code=None, start_year=None, end_year=None, limit=N
         se.futan_juryo,
         se.kishu_code,
         se.chokyoshi_code,
-        se.blinker,
-        se.zokusho,
+        se.blinker_shiyo_kubun,
+        se.tozai_shozoku_code,
+        
+        -- === 当日データ（参考情報、学習には使わない）===
+        se.bataiju,
+        se.tansho_odds,
+        se.tansho_ninkijun,
+        
+        -- === レース結果 ===
+        se.kakutei_chakujun,
+        se.soha_time,
+        se.kohan_3f,
+        se.corner_1,
+        se.corner_2,
+        se.corner_3,
+        se.corner_4,
+        se.time_sa,
         
         -- === 馬情報 ===
-        um.keiro_code,
-        um.sire_code,
-        um.broodmare_sire_code,
-        
-        -- === 過去走データ（前走1〜5） ===
-        -- 前走1
-        se.zensou1_chakujun,
-        se.zensou1_time_sa,
-        se.zensou1_agari_3f,
-        se.zensou1_kyori,
-        se.zensou1_keibajo,
-        se.zensou1_baba,
-        se.zensou1_bataiju,
-        
-        -- 前走2
-        se.zensou2_chakujun,
-        se.zensou2_time_sa,
-        se.zensou2_agari_3f,
-        se.zensou2_kyori,
-        se.zensou2_keibajo,
-        se.zensou2_baba,
-        se.zensou2_bataiju,
-        
-        -- 前走3
-        se.zensou3_chakujun,
-        se.zensou3_time_sa,
-        se.zensou3_agari_3f,
-        se.zensou3_kyori,
-        se.zensou3_keibajo,
-        se.zensou3_baba,
-        se.zensou3_bataiju,
-        
-        -- 前走4
-        se.zensou4_chakujun,
-        se.zensou4_time_sa,
-        se.zensou4_agari_3f,
-        se.zensou4_kyori,
-        se.zensou4_keibajo,
-        se.zensou4_baba,
-        se.zensou4_bataiju,
-        
-        -- 前走5
-        se.zensou5_chakujun,
-        se.zensou5_time_sa,
-        se.zensou5_agari_3f,
-        se.zensou5_kyori,
-        se.zensou5_keibajo,
-        se.zensou5_baba,
-        se.zensou5_bataiju
+        um.moshoku_code,
+        um.seisanshamei,
+        um.banushimei
 
     FROM 
         nvd_ra ra
@@ -139,14 +114,14 @@ def create_base_query(keibajo_code=None, start_year=None, end_year=None, limit=N
             AND ra.race_bango = se.race_bango
         )
         LEFT JOIN nvd_um um ON (
-            se.uma_code = um.uma_code
+            se.ketto_toroku_bango = um.ketto_toroku_bango
         )
 
     WHERE 
         -- 着順が確定している（取消・除外を除く）
-        se.chakujun IS NOT NULL
-        AND se.chakujun NOT IN ('取消', '除外', '中止', '失格')
-        AND se.chakujun ~ '^[0-9]+$'
+        se.kakutei_chakujun IS NOT NULL
+        AND se.kakutei_chakujun NOT IN ('00', '取消', '除外', '中止', '失格')
+        AND se.kakutei_chakujun ~ '^[0-9]+$'
     """
     
     # 地方競馬場フィルタ
@@ -158,9 +133,9 @@ def create_base_query(keibajo_code=None, start_year=None, end_year=None, limit=N
     
     # 年フィルタ
     if start_year:
-        query += f"\n        AND ra.kaisai_nen >= {start_year}"
+        query += f"\n        AND ra.kaisai_nen >= '{start_year}'"
     if end_year:
-        query += f"\n        AND ra.kaisai_nen <= {end_year}"
+        query += f"\n        AND ra.kaisai_nen <= '{end_year}'"
     
     query += """
     ORDER BY 
@@ -219,8 +194,13 @@ def preprocess_data(df):
     print(f"    クラス 1: {target_dist.get(1, 0):,}件 ({target_dist.get(1, 0) / len(df) * 100:.1f}%)")
     
     # 識別カラムと目的変数を分離
-    id_columns = ['kaisai_nen', 'kaisai_tsukihi', 'keibajo_code', 'race_bango', 'uma_code', 'umaban']
-    feature_columns = [col for col in df.columns if col not in id_columns + ['target']]
+    id_columns = ['kaisai_nen', 'kaisai_tsukihi', 'keibajo_code', 'race_bango', 'ketto_toroku_bango', 'umaban']
+    
+    # 当日データを除外（学習に使わない）
+    exclude_columns = ['bataiju', 'tansho_odds', 'tansho_ninkijun', 'kakutei_chakujun', 'soha_time', 
+                      'kohan_3f', 'corner_1', 'corner_2', 'corner_3', 'corner_4', 'time_sa']
+    
+    feature_columns = [col for col in df.columns if col not in id_columns + ['target'] + exclude_columns]
     
     # 特徴量の型変換（可能なものは数値に）
     for col in feature_columns:
@@ -244,6 +224,7 @@ def preprocess_data(df):
             print(f"    ... 他 {len(high_null_cols) - 5}個")
     
     print(f"✅ 前処理完了")
+    print(f"  使用可能な特徴量: {len(feature_columns)}個")
     
     return df
 
@@ -298,6 +279,9 @@ def main():
     if args.limit:
         print(f"レコード制限: {args.limit:,}件（テストモード）")
     
+    print()
+    print("⚠️  注意: このバージョンでは過去走データは含まれません")
+    print("   完全版の実装には nvd_hr テーブルの統合が必要です")
     print()
     
     # データベース接続

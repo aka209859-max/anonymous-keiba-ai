@@ -131,7 +131,10 @@ def main():
             
             columns, count = get_table_info(conn, table_name)
             
-            print(f"\nレコード数: {count:,}件\n")
+            if isinstance(count, int):
+        print(f"\nレコード数: {count:,}件\n")
+    else:
+        print(f"\nレコード数: {count}件\n")
             print("カラム情報:")
             print("-" * 80)
             print(f"{'カラム名':40s} {'データ型':20s} {'NULL許可':10s}")
