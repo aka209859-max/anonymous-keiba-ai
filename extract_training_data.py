@@ -179,7 +179,22 @@ def preprocess_data(df):
     # 識別カラムと目的変数を分離
     id_columns = ['kaisai_nen', 'kaisai_tsukihi', 'keibajo_code', 'race_bango', 'ketto_toroku_bango', 'umaban']
     
-    feature_columns = [col for col in df.columns if col not in id_columns + ['target']]
+    # レース結果データを除外（データリーク防止）
+    exclude_columns = [
+        'kakutei_chakujun',  # 確定着順（結果そのもの）
+        'soha_time',         # 走破タイム
+        'kohan_3f',          # 後半3F
+        'corner_1', 'corner_2', 'corner_3', 'corner_4',  # コーナー通過順位
+        'time_sa',           # タイム差
+        'bataiju',           # 当日馬体重
+        'zougen',            # 馬体重増減
+        'tansho_odds',       # 当日単勝オッズ
+        'tansho_ninkijun',   # 当日人気順位
+        'seisanshamei',      # 生産者名（欠損率100%）
+        'banushimei',        # 馬主名（欠損率100%）
+    ]
+    
+    feature_columns = [col for col in df.columns if col not in id_columns + ['target'] + exclude_columns]
     
     # 特徴量の型変換（可能なものは数値に）
     for col in feature_columns:
