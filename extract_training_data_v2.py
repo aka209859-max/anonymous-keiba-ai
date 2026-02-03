@@ -174,13 +174,13 @@ def create_query_with_past_races(keibajo_code=None, start_year=None, end_year=No
             AND se.kakutei_chakujun ~ '^[0-9]+$'
     )
     SELECT 
-        -- ✅ 目的変数（3着以内=1, それ以外=0）
+        -- Target variable: 3rd place or better = 1, others = 0
         CASE 
             WHEN tr.kakutei_chakujun ~ '^[0-9]+$' AND tr.kakutei_chakujun::INTEGER <= 3 THEN 1
             ELSE 0
         END AS target,
         
-        -- 識別情報（学習には使わないが、分析用に保持）
+        -- Race identifiers
         tr.kaisai_nen,
         tr.kaisai_tsukihi,
         tr.keibajo_code,
@@ -188,7 +188,7 @@ def create_query_with_past_races(keibajo_code=None, start_year=None, end_year=No
         tr.ketto_toroku_bango,
         tr.umaban,
         
-        -- === レース情報 ===
+        -- Race information
         tr.kyori,
         tr.track_code,
         tr.babajotai_code_shiba,
@@ -197,7 +197,7 @@ def create_query_with_past_races(keibajo_code=None, start_year=None, end_year=No
         tr.shusso_tosu,
         tr.grade_code,
         
-        -- === 出馬情報（前日までに確定）===
+        -- Entry information
         tr.wakuban,
         tr.seibetsu_code,
         tr.barei,
@@ -207,10 +207,10 @@ def create_query_with_past_races(keibajo_code=None, start_year=None, end_year=No
         tr.blinker_shiyo_kubun,
         tr.tozai_shozoku_code,
         
-        -- === 馬情報 ===
+        -- Horse information
         tr.moshoku_code,
         
-        -- === 前走（1走前）のデータ ===
+        -- Previous race 1
         MAX(CASE WHEN pr.race_order = 1 THEN pr.kakutei_chakujun END) AS prev1_rank,
         MAX(CASE WHEN pr.race_order = 1 THEN pr.soha_time END) AS prev1_time,
         MAX(CASE WHEN pr.race_order = 1 THEN pr.kohan_3f END) AS prev1_last3f,
@@ -226,7 +226,7 @@ def create_query_with_past_races(keibajo_code=None, start_year=None, end_year=No
         MAX(CASE WHEN pr.race_order = 1 THEN pr.past_baba_shiba END) AS prev1_baba_shiba,
         MAX(CASE WHEN pr.race_order = 1 THEN pr.past_baba_dirt END) AS prev1_baba_dirt,
         
-        -- === 2走前のデータ ===
+        -- Previous race 2
         MAX(CASE WHEN pr.race_order = 2 THEN pr.kakutei_chakujun END) AS prev2_rank,
         MAX(CASE WHEN pr.race_order = 2 THEN pr.soha_time END) AS prev2_time,
         MAX(CASE WHEN pr.race_order = 2 THEN pr.kohan_3f END) AS prev2_last3f,
@@ -234,16 +234,16 @@ def create_query_with_past_races(keibajo_code=None, start_year=None, end_year=No
         MAX(CASE WHEN pr.race_order = 2 THEN pr.past_kyori END) AS prev2_kyori,
         MAX(CASE WHEN pr.race_order = 2 THEN pr.past_keibajo END) AS prev2_keibajo,
         
-        -- === 3走前のデータ ===
+        -- Previous race 3
         MAX(CASE WHEN pr.race_order = 3 THEN pr.kakutei_chakujun END) AS prev3_rank,
         MAX(CASE WHEN pr.race_order = 3 THEN pr.soha_time END) AS prev3_time,
         MAX(CASE WHEN pr.race_order = 3 THEN pr.bataiju END) AS prev3_weight,
         
-        -- === 4走前のデータ ===
+        -- Previous race 4
         MAX(CASE WHEN pr.race_order = 4 THEN pr.kakutei_chakujun END) AS prev4_rank,
         MAX(CASE WHEN pr.race_order = 4 THEN pr.soha_time END) AS prev4_time,
         
-        -- === 5走前のデータ ===
+        -- Previous race 5
         MAX(CASE WHEN pr.race_order = 5 THEN pr.kakutei_chakujun END) AS prev5_rank,
         MAX(CASE WHEN pr.race_order = 5 THEN pr.soha_time END) AS prev5_time
         
