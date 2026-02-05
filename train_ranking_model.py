@@ -23,6 +23,7 @@ import os
 import pandas as pd
 import numpy as np
 from sklearn.model_selection import GroupShuffleSplit
+from sklearn.metrics import ndcg_score
 import lightgbm as lgb
 import optuna.integration.lightgbm as lgb_optuna
 import matplotlib
@@ -200,13 +201,47 @@ def main():
     # 予測（ランキングスコア）
     y_pred = model.predict(X_test)
     
-    # NDCGスコアの計算（LightGBMの内部評価を使用）
-    eval_results = {}
-    lgb_eval_dataset = lgb.Dataset(X_test, y_test, group=test_groups, reference=lgb_train)
-    eval_result = model.eval(lgb_eval_dataset, name='test')
+    # NDCGスコアの計算（手動計算に変更）
+    from sklearn.metrics import ndcg_score
+    
+    # レースごとにNDCGを計算
+    ndcg_scores = {k: [] for k in [1, 3, 5, 10]}
+    
+    # test_groups は各レースの馬数のリスト
+    start_idx = 0
+    for group_size in test_groups:
+        end_idx = start_idx + group_size
+        
+        # このレースの真の順位と予測スコア
+        y_true_race = y_test.iloc[start_idx:end_idx].values
+        y_pred_race = y_pred[start_idx:end_idx]
+        
+        # NDCGを計算（各k値について）
+        for k in [1, 3, 5, 10]:
+            if group_size >= k:
+                # y_true_race は着順（1,2,3,...）なので、relevance に変換
+                # 1着=最大relevance、2着=次、... とする
+                relevance = np.max(y_true_race) - y_true_race + 1
+                
+                ndcg_k = ndcg_score(
+                    [relevance], 
+                    [y_pred_race], 
+                    k=k
+                )
+                ndcg_scores[k].append(ndcg_k)
+        
+        start_idx = end_idx
+    
+    # 平均NDCGを計算
+    avg_ndcg = {k: np.mean(scores) for k, scores in ndcg_scores.items()}
     
     print("  - 評価指標:")
-    print(f"    {eval_result}\n")
+    print(f"    NDCG@1:  {avg_ndcg[1]:.6f}")
+    print(f"    NDCG@3:  {avg_ndcg[3]:.6f}")
+    print(f"    NDCG@5:  {avg_ndcg[5]:.6f}")
+    print(f"    NDCG@10: {avg_ndcg[10]:.6f}\n")
+    
+    eval_result = f"NDCG@1: {avg_ndcg[1]:.6f}, NDCG@3: {avg_ndcg[3]:.6f}, NDCG@5: {avg_ndcg[5]:.6f}, NDCG@10: {avg_ndcg[10]:.6f}"
     
     # 出力ファイルの準備
     print("[保存] 結果を保存中...")
