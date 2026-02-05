@@ -53,8 +53,8 @@ def predict_ranking(test_csv, model_path, output_path):
     unique_races = df['race_id'].nunique()
     print(f"レース数: {unique_races}")
     
-    # 不要列を除外
-    exclude_cols = ['target', 'kakutei_chakujun', 'race_id', 'umaban']
+    # 不要列を除外（umaban はモデルの特徴量、race_id は除外）
+    exclude_cols = ['target', 'kakutei_chakujun', 'race_id']
     feature_cols = [col for col in df.columns if col not in exclude_cols]
     
     X_test = df[feature_cols]

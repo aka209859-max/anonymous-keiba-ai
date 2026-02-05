@@ -45,8 +45,8 @@ def predict_regression(test_csv, model_path, output_path):
     
     y_true = df['target']
     
-    # 不要列を除外
-    exclude_cols = ['target', 'kakutei_chakujun', 'race_id', 'umaban']
+    # 不要列を除外（umaban はモデルの特徴量）
+    exclude_cols = ['target', 'kakutei_chakujun', 'race_id']
     feature_cols = [col for col in df.columns if col not in exclude_cols]
     
     X_test = df[feature_cols]
@@ -119,7 +119,7 @@ if __name__ == "__main__":
         results = predict_regression(test_csv, model_path, output_path)
         print("\n✅ 予測完了")
     except Exception as e:
-        print(f("\n❌ エラー発生: {e}")
+        print(f"\n❌ エラー発生: {e}")
         import traceback
         traceback.print_exc()
         sys.exit(1)
