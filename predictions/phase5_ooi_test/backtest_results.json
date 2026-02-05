@@ -1,0 +1,4880 @@
+{
+  "timestamp": "2026-02-05T12:38:58.032156",
+  "summary": {
+    "total_investment": 293800,
+    "total_payout": 70100,
+    "total_profit": -223700,
+    "recovery_rate": 23.859768550034037,
+    "hit_count": 121,
+    "total_bets": 2938,
+    "hit_rate": 4.118447923757658
+  },
+  "by_bet_type": {
+    "tansho": {
+      "investment": 31400,
+      "payout": 23100,
+      "hits": 77,
+      "total": 314,
+      "recovery_rate": 73.56687898089172,
+      "hit_rate": 24.522292993630572
+    },
+    "umaren": {
+      "investment": 54700,
+      "payout": 0,
+      "hits": 0,
+      "total": 547,
+      "recovery_rate": 0.0,
+      "hit_rate": 0.0
+    },
+    "wide": {
+      "investment": 58600,
+      "payout": 17000,
+      "hits": 34,
+      "total": 586,
+      "recovery_rate": 29.01023890784983,
+      "hit_rate": 5.802047781569966
+    },
+    "sanrenpuku": {
+      "investment": 149100,
+      "payout": 30000,
+      "hits": 10,
+      "total": 1491,
+      "recovery_rate": 20.12072434607646,
+      "hit_rate": 0.670690811535882
+    }
+  },
+  "race_results": [
+    {
+      "race_id": "202301234401",
+      "investment": 1000,
+      "payout": 0,
+      "profit": -1000,
+      "hits": []
+    },
+    {
+      "race_id": "202301234402",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202301234403",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202301234404",
+      "investment": 700,
+      "payout": 1300,
+      "profit": 600,
+      "hits": [
+        "tansho",
+        "wide",
+        "wide"
+      ]
+    },
+    {
+      "race_id": "202301234405",
+      "investment": 700,
+      "payout": 300,
+      "profit": -400,
+      "hits": [
+        "tansho"
+      ]
+    },
+    {
+      "race_id": "202301234406",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202301234407",
+      "investment": 900,
+      "payout": 0,
+      "profit": -900,
+      "hits": []
+    },
+    {
+      "race_id": "202301234408",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202301234409",
+      "investment": 700,
+      "payout": 0,
+      "profit": -700,
+      "hits": []
+    },
+    {
+      "race_id": "202301234410",
+      "investment": 700,
+      "payout": 0,
+      "profit": -700,
+      "hits": []
+    },
+    {
+      "race_id": "202301234411",
+      "investment": 1000,
+      "payout": 0,
+      "profit": -1000,
+      "hits": []
+    },
+    {
+      "race_id": "202301234412",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202301244401",
+      "investment": 900,
+      "payout": 0,
+      "profit": -900,
+      "hits": []
+    },
+    {
+      "race_id": "202301244402",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202301244403",
+      "investment": 900,
+      "payout": 0,
+      "profit": -900,
+      "hits": []
+    },
+    {
+      "race_id": "202301244404",
+      "investment": 1000,
+      "payout": 300,
+      "profit": -700,
+      "hits": [
+        "tansho"
+      ]
+    },
+    {
+      "race_id": "202301244405",
+      "investment": 1100,
+      "payout": 300,
+      "profit": -800,
+      "hits": [
+        "tansho"
+      ]
+    },
+    {
+      "race_id": "202301244406",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202301244407",
+      "investment": 1000,
+      "payout": 0,
+      "profit": -1000,
+      "hits": []
+    },
+    {
+      "race_id": "202301244408",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202301244409",
+      "investment": 1000,
+      "payout": 300,
+      "profit": -700,
+      "hits": [
+        "tansho"
+      ]
+    },
+    {
+      "race_id": "202301244410",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202301244411",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202301244412",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202301254401",
+      "investment": 700,
+      "payout": 0,
+      "profit": -700,
+      "hits": []
+    },
+    {
+      "race_id": "202301254402",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202301254403",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202301254404",
+      "investment": 1000,
+      "payout": 0,
+      "profit": -1000,
+      "hits": []
+    },
+    {
+      "race_id": "202301254405",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202301254406",
+      "investment": 800,
+      "payout": 0,
+      "profit": -800,
+      "hits": []
+    },
+    {
+      "race_id": "202301254407",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202301254408",
+      "investment": 1000,
+      "payout": 0,
+      "profit": -1000,
+      "hits": []
+    },
+    {
+      "race_id": "202301254409",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202301254410",
+      "investment": 1100,
+      "payout": 300,
+      "profit": -800,
+      "hits": [
+        "tansho"
+      ]
+    },
+    {
+      "race_id": "202301254411",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202301254412",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202301264401",
+      "investment": 1000,
+      "payout": 0,
+      "profit": -1000,
+      "hits": []
+    },
+    {
+      "race_id": "202301264402",
+      "investment": 1000,
+      "payout": 0,
+      "profit": -1000,
+      "hits": []
+    },
+    {
+      "race_id": "202301264403",
+      "investment": 1000,
+      "payout": 300,
+      "profit": -700,
+      "hits": [
+        "tansho"
+      ]
+    },
+    {
+      "race_id": "202301264404",
+      "investment": 900,
+      "payout": 0,
+      "profit": -900,
+      "hits": []
+    },
+    {
+      "race_id": "202301264405",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202301264406",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202301264407",
+      "investment": 900,
+      "payout": 0,
+      "profit": -900,
+      "hits": []
+    },
+    {
+      "race_id": "202301264408",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202301264409",
+      "investment": 1000,
+      "payout": 0,
+      "profit": -1000,
+      "hits": []
+    },
+    {
+      "race_id": "202301264410",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202301264411",
+      "investment": 1100,
+      "payout": 0,
+      "profit": -1100,
+      "hits": []
+    },
+    {
+      "race_id": "202301264412",
+      "investment": 1100,
+      "payout": 1300,
+      "profit": 200,
+      "hits": [
+        "tansho",
+        "wide",
+        "wide"
+      ]
+    },
+    {
+      "race_id": "202301274401",
+      "investment": 1000,
+      "payout": 0,
+      "profit": -1000,
+      "hits": []
+    },
+    {
+      "race_id": "202301274402",
+      "investment": 1000,
+      "payout": 0,
+      "profit": -1000,
+      "hits": []
+    },
+    {
+      "race_id": "202301274403",
+      "investment": 1000,
+      "payout": 0,
+      "profit": -1000,
+      "hits": []
+    },
+    {
+      "race_id": "202301274404",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202301274405",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202301274406",
+      "investment": 1100,
+      "payout": 0,
+      "profit": -1100,
+      "hits": []
+    },
+    {
+      "race_id": "202301274407",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202301274408",
+      "investment": 900,
+      "payout": 0,
+      "profit": -900,
+      "hits": []
+    },
+    {
+      "race_id": "202301274409",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202301274410",
+      "investment": 700,
+      "payout": 0,
+      "profit": -700,
+      "hits": []
+    },
+    {
+      "race_id": "202301274411",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202301274412",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202302204401",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202302204402",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202302204403",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202302204404",
+      "investment": 900,
+      "payout": 0,
+      "profit": -900,
+      "hits": []
+    },
+    {
+      "race_id": "202302204405",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202302204406",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202302204407",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202302204408",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202302204409",
+      "investment": 900,
+      "payout": 300,
+      "profit": -600,
+      "hits": [
+        "tansho"
+      ]
+    },
+    {
+      "race_id": "202302204410",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202302204411",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202302204412",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202302214401",
+      "investment": 1100,
+      "payout": 0,
+      "profit": -1100,
+      "hits": []
+    },
+    {
+      "race_id": "202302214402",
+      "investment": 1000,
+      "payout": 0,
+      "profit": -1000,
+      "hits": []
+    },
+    {
+      "race_id": "202302214403",
+      "investment": 1100,
+      "payout": 0,
+      "profit": -1100,
+      "hits": []
+    },
+    {
+      "race_id": "202302214404",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202302214405",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202302214406",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202302214407",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202302214408",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202302214409",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202302214410",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202302214411",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202302214412",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202302224401",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202302224402",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202302224403",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202302224404",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202302224405",
+      "investment": 1000,
+      "payout": 0,
+      "profit": -1000,
+      "hits": []
+    },
+    {
+      "race_id": "202302224406",
+      "investment": 1000,
+      "payout": 0,
+      "profit": -1000,
+      "hits": []
+    },
+    {
+      "race_id": "202302224407",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202302224408",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202302224409",
+      "investment": 900,
+      "payout": 300,
+      "profit": -600,
+      "hits": [
+        "tansho"
+      ]
+    },
+    {
+      "race_id": "202302224410",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202302224411",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202302224412",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202302234401",
+      "investment": 900,
+      "payout": 0,
+      "profit": -900,
+      "hits": []
+    },
+    {
+      "race_id": "202302234402",
+      "investment": 900,
+      "payout": 0,
+      "profit": -900,
+      "hits": []
+    },
+    {
+      "race_id": "202302234403",
+      "investment": 900,
+      "payout": 300,
+      "profit": -600,
+      "hits": [
+        "tansho"
+      ]
+    },
+    {
+      "race_id": "202302234404",
+      "investment": 1000,
+      "payout": 300,
+      "profit": -700,
+      "hits": [
+        "tansho"
+      ]
+    },
+    {
+      "race_id": "202302234405",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202302234406",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202302234407",
+      "investment": 700,
+      "payout": 0,
+      "profit": -700,
+      "hits": []
+    },
+    {
+      "race_id": "202302234408",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202302234409",
+      "investment": 1000,
+      "payout": 0,
+      "profit": -1000,
+      "hits": []
+    },
+    {
+      "race_id": "202302234410",
+      "investment": 900,
+      "payout": 300,
+      "profit": -600,
+      "hits": [
+        "tansho"
+      ]
+    },
+    {
+      "race_id": "202302234411",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202302234412",
+      "investment": 600,
+      "payout": 1300,
+      "profit": 700,
+      "hits": [
+        "tansho",
+        "wide",
+        "wide"
+      ]
+    },
+    {
+      "race_id": "202302244401",
+      "investment": 1000,
+      "payout": 0,
+      "profit": -1000,
+      "hits": []
+    },
+    {
+      "race_id": "202302244402",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202302244403",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202302244404",
+      "investment": 1000,
+      "payout": 0,
+      "profit": -1000,
+      "hits": []
+    },
+    {
+      "race_id": "202302244405",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202302244406",
+      "investment": 900,
+      "payout": 0,
+      "profit": -900,
+      "hits": []
+    },
+    {
+      "race_id": "202302244407",
+      "investment": 1000,
+      "payout": 0,
+      "profit": -1000,
+      "hits": []
+    },
+    {
+      "race_id": "202302244408",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202302244409",
+      "investment": 1100,
+      "payout": 300,
+      "profit": -800,
+      "hits": [
+        "tansho"
+      ]
+    },
+    {
+      "race_id": "202302244410",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202302244411",
+      "investment": 900,
+      "payout": 0,
+      "profit": -900,
+      "hits": []
+    },
+    {
+      "race_id": "202302244412",
+      "investment": 1000,
+      "payout": 0,
+      "profit": -1000,
+      "hits": []
+    },
+    {
+      "race_id": "202303064401",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202303064402",
+      "investment": 1000,
+      "payout": 0,
+      "profit": -1000,
+      "hits": []
+    },
+    {
+      "race_id": "202303064403",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202303064404",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202303064405",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202303064406",
+      "investment": 900,
+      "payout": 0,
+      "profit": -900,
+      "hits": []
+    },
+    {
+      "race_id": "202303064407",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202303064408",
+      "investment": 900,
+      "payout": 1300,
+      "profit": 400,
+      "hits": [
+        "tansho",
+        "wide",
+        "wide"
+      ]
+    },
+    {
+      "race_id": "202303064409",
+      "investment": 900,
+      "payout": 0,
+      "profit": -900,
+      "hits": []
+    },
+    {
+      "race_id": "202303064410",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202303064411",
+      "investment": 1000,
+      "payout": 0,
+      "profit": -1000,
+      "hits": []
+    },
+    {
+      "race_id": "202303064412",
+      "investment": 900,
+      "payout": 0,
+      "profit": -900,
+      "hits": []
+    },
+    {
+      "race_id": "202303074401",
+      "investment": 1000,
+      "payout": 0,
+      "profit": -1000,
+      "hits": []
+    },
+    {
+      "race_id": "202303074402",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202303074403",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202303074404",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202303074405",
+      "investment": 1000,
+      "payout": 0,
+      "profit": -1000,
+      "hits": []
+    },
+    {
+      "race_id": "202303074406",
+      "investment": 900,
+      "payout": 1300,
+      "profit": 400,
+      "hits": [
+        "tansho",
+        "wide",
+        "wide"
+      ]
+    },
+    {
+      "race_id": "202303074407",
+      "investment": 600,
+      "payout": 0,
+      "profit": -600,
+      "hits": []
+    },
+    {
+      "race_id": "202303074409",
+      "investment": 1000,
+      "payout": 0,
+      "profit": -1000,
+      "hits": []
+    },
+    {
+      "race_id": "202303074410",
+      "investment": 900,
+      "payout": 300,
+      "profit": -600,
+      "hits": [
+        "tansho"
+      ]
+    },
+    {
+      "race_id": "202303074411",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202303074412",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202303084401",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202303084402",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202303084403",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202303084404",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202303084405",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202303084406",
+      "investment": 1000,
+      "payout": 0,
+      "profit": -1000,
+      "hits": []
+    },
+    {
+      "race_id": "202303084407",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202303084408",
+      "investment": 900,
+      "payout": 0,
+      "profit": -900,
+      "hits": []
+    },
+    {
+      "race_id": "202303084409",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202303084410",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202303084411",
+      "investment": 1000,
+      "payout": 300,
+      "profit": -700,
+      "hits": [
+        "tansho"
+      ]
+    },
+    {
+      "race_id": "202303084412",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202303094401",
+      "investment": 1000,
+      "payout": 0,
+      "profit": -1000,
+      "hits": []
+    },
+    {
+      "race_id": "202303094402",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202303094403",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202303094404",
+      "investment": 1000,
+      "payout": 0,
+      "profit": -1000,
+      "hits": []
+    },
+    {
+      "race_id": "202303094405",
+      "investment": 900,
+      "payout": 300,
+      "profit": -600,
+      "hits": [
+        "tansho"
+      ]
+    },
+    {
+      "race_id": "202303094406",
+      "investment": 1000,
+      "payout": 0,
+      "profit": -1000,
+      "hits": []
+    },
+    {
+      "race_id": "202303094407",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202303094408",
+      "investment": 900,
+      "payout": 0,
+      "profit": -900,
+      "hits": []
+    },
+    {
+      "race_id": "202303094409",
+      "investment": 1000,
+      "payout": 0,
+      "profit": -1000,
+      "hits": []
+    },
+    {
+      "race_id": "202303094410",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202303094411",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202303094412",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202303104401",
+      "investment": 1000,
+      "payout": 0,
+      "profit": -1000,
+      "hits": []
+    },
+    {
+      "race_id": "202303104402",
+      "investment": 700,
+      "payout": 0,
+      "profit": -700,
+      "hits": []
+    },
+    {
+      "race_id": "202303104403",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202303104404",
+      "investment": 1000,
+      "payout": 0,
+      "profit": -1000,
+      "hits": []
+    },
+    {
+      "race_id": "202303104405",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202303104406",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202303104407",
+      "investment": 1100,
+      "payout": 0,
+      "profit": -1100,
+      "hits": []
+    },
+    {
+      "race_id": "202303104408",
+      "investment": 1000,
+      "payout": 300,
+      "profit": -700,
+      "hits": [
+        "tansho"
+      ]
+    },
+    {
+      "race_id": "202303104409",
+      "investment": 1000,
+      "payout": 0,
+      "profit": -1000,
+      "hits": []
+    },
+    {
+      "race_id": "202303104410",
+      "investment": 1100,
+      "payout": 0,
+      "profit": -1100,
+      "hits": []
+    },
+    {
+      "race_id": "202303104411",
+      "investment": 1000,
+      "payout": 0,
+      "profit": -1000,
+      "hits": []
+    },
+    {
+      "race_id": "202303104412",
+      "investment": 800,
+      "payout": 0,
+      "profit": -800,
+      "hits": []
+    },
+    {
+      "race_id": "202303274401",
+      "investment": 900,
+      "payout": 300,
+      "profit": -600,
+      "hits": [
+        "tansho"
+      ]
+    },
+    {
+      "race_id": "202303274402",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202303274403",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202303274404",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202303274405",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202303274406",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202303274407",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202303274408",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202303274409",
+      "investment": 900,
+      "payout": 0,
+      "profit": -900,
+      "hits": []
+    },
+    {
+      "race_id": "202303274410",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202303274411",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202303274412",
+      "investment": 1000,
+      "payout": 300,
+      "profit": -700,
+      "hits": [
+        "tansho"
+      ]
+    },
+    {
+      "race_id": "202303284401",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202303284402",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202303284403",
+      "investment": 900,
+      "payout": 0,
+      "profit": -900,
+      "hits": []
+    },
+    {
+      "race_id": "202303284404",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202303284405",
+      "investment": 900,
+      "payout": 0,
+      "profit": -900,
+      "hits": []
+    },
+    {
+      "race_id": "202303284406",
+      "investment": 900,
+      "payout": 0,
+      "profit": -900,
+      "hits": []
+    },
+    {
+      "race_id": "202303284407",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202303284408",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202303284409",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202303284410",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202303284411",
+      "investment": 900,
+      "payout": 0,
+      "profit": -900,
+      "hits": []
+    },
+    {
+      "race_id": "202303284412",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202303294401",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202303294402",
+      "investment": 1100,
+      "payout": 0,
+      "profit": -1100,
+      "hits": []
+    },
+    {
+      "race_id": "202303294403",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202303294404",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202303294405",
+      "investment": 1000,
+      "payout": 0,
+      "profit": -1000,
+      "hits": []
+    },
+    {
+      "race_id": "202303294406",
+      "investment": 900,
+      "payout": 0,
+      "profit": -900,
+      "hits": []
+    },
+    {
+      "race_id": "202303294407",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202303294408",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202303294409",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202303294410",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202303294411",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202303294412",
+      "investment": 900,
+      "payout": 0,
+      "profit": -900,
+      "hits": []
+    },
+    {
+      "race_id": "202303304401",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202303304402",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202303304403",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202303304404",
+      "investment": 1100,
+      "payout": 0,
+      "profit": -1100,
+      "hits": []
+    },
+    {
+      "race_id": "202303304405",
+      "investment": 1000,
+      "payout": 300,
+      "profit": -700,
+      "hits": [
+        "tansho"
+      ]
+    },
+    {
+      "race_id": "202303304406",
+      "investment": 800,
+      "payout": 300,
+      "profit": -500,
+      "hits": [
+        "tansho"
+      ]
+    },
+    {
+      "race_id": "202303304407",
+      "investment": 1000,
+      "payout": 0,
+      "profit": -1000,
+      "hits": []
+    },
+    {
+      "race_id": "202303304408",
+      "investment": 1000,
+      "payout": 0,
+      "profit": -1000,
+      "hits": []
+    },
+    {
+      "race_id": "202303304409",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202303304410",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202303304411",
+      "investment": 700,
+      "payout": 0,
+      "profit": -700,
+      "hits": []
+    },
+    {
+      "race_id": "202303304412",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202303314401",
+      "investment": 1100,
+      "payout": 0,
+      "profit": -1100,
+      "hits": []
+    },
+    {
+      "race_id": "202303314402",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202303314403",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202303314404",
+      "investment": 900,
+      "payout": 0,
+      "profit": -900,
+      "hits": []
+    },
+    {
+      "race_id": "202303314405",
+      "investment": 900,
+      "payout": 0,
+      "profit": -900,
+      "hits": []
+    },
+    {
+      "race_id": "202303314406",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202303314407",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202303314408",
+      "investment": 1100,
+      "payout": 0,
+      "profit": -1100,
+      "hits": []
+    },
+    {
+      "race_id": "202303314409",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202303314410",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202303314411",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202303314412",
+      "investment": 900,
+      "payout": 0,
+      "profit": -900,
+      "hits": []
+    },
+    {
+      "race_id": "202304174401",
+      "investment": 700,
+      "payout": 0,
+      "profit": -700,
+      "hits": []
+    },
+    {
+      "race_id": "202304174402",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202304174403",
+      "investment": 1000,
+      "payout": 0,
+      "profit": -1000,
+      "hits": []
+    },
+    {
+      "race_id": "202304174404",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202304174405",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202304174406",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202304174407",
+      "investment": 1100,
+      "payout": 0,
+      "profit": -1100,
+      "hits": []
+    },
+    {
+      "race_id": "202304174408",
+      "investment": 1000,
+      "payout": 300,
+      "profit": -700,
+      "hits": [
+        "tansho"
+      ]
+    },
+    {
+      "race_id": "202304174409",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202304174410",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202304174411",
+      "investment": 900,
+      "payout": 0,
+      "profit": -900,
+      "hits": []
+    },
+    {
+      "race_id": "202304174412",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202304184401",
+      "investment": 1000,
+      "payout": 0,
+      "profit": -1000,
+      "hits": []
+    },
+    {
+      "race_id": "202304184402",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202304184403",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202304184404",
+      "investment": 1000,
+      "payout": 300,
+      "profit": -700,
+      "hits": [
+        "tansho"
+      ]
+    },
+    {
+      "race_id": "202304184405",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202304184406",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202304184407",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202304184408",
+      "investment": 1100,
+      "payout": 300,
+      "profit": -800,
+      "hits": [
+        "tansho"
+      ]
+    },
+    {
+      "race_id": "202304184409",
+      "investment": 1000,
+      "payout": 0,
+      "profit": -1000,
+      "hits": []
+    },
+    {
+      "race_id": "202304184410",
+      "investment": 700,
+      "payout": 0,
+      "profit": -700,
+      "hits": []
+    },
+    {
+      "race_id": "202304184411",
+      "investment": 1000,
+      "payout": 0,
+      "profit": -1000,
+      "hits": []
+    },
+    {
+      "race_id": "202304184412",
+      "investment": 900,
+      "payout": 0,
+      "profit": -900,
+      "hits": []
+    },
+    {
+      "race_id": "202304194401",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202304194402",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202304194403",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202304194404",
+      "investment": 900,
+      "payout": 0,
+      "profit": -900,
+      "hits": []
+    },
+    {
+      "race_id": "202304194405",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202304194406",
+      "investment": 800,
+      "payout": 0,
+      "profit": -800,
+      "hits": []
+    },
+    {
+      "race_id": "202304194407",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202304194408",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202304194409",
+      "investment": 1000,
+      "payout": 0,
+      "profit": -1000,
+      "hits": []
+    },
+    {
+      "race_id": "202304194410",
+      "investment": 900,
+      "payout": 0,
+      "profit": -900,
+      "hits": []
+    },
+    {
+      "race_id": "202304194411",
+      "investment": 1100,
+      "payout": 300,
+      "profit": -800,
+      "hits": [
+        "tansho"
+      ]
+    },
+    {
+      "race_id": "202304194412",
+      "investment": 1100,
+      "payout": 0,
+      "profit": -1100,
+      "hits": []
+    },
+    {
+      "race_id": "202304204401",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202304204402",
+      "investment": 1000,
+      "payout": 0,
+      "profit": -1000,
+      "hits": []
+    },
+    {
+      "race_id": "202304204403",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202304204404",
+      "investment": 1000,
+      "payout": 0,
+      "profit": -1000,
+      "hits": []
+    },
+    {
+      "race_id": "202304204405",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202304204406",
+      "investment": 1000,
+      "payout": 0,
+      "profit": -1000,
+      "hits": []
+    },
+    {
+      "race_id": "202304204407",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202304204408",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202304204409",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202304204410",
+      "investment": 1000,
+      "payout": 0,
+      "profit": -1000,
+      "hits": []
+    },
+    {
+      "race_id": "202304204411",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202304204412",
+      "investment": 1000,
+      "payout": 0,
+      "profit": -1000,
+      "hits": []
+    },
+    {
+      "race_id": "202304214401",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202304214402",
+      "investment": 900,
+      "payout": 300,
+      "profit": -600,
+      "hits": [
+        "tansho"
+      ]
+    },
+    {
+      "race_id": "202304214403",
+      "investment": 900,
+      "payout": 0,
+      "profit": -900,
+      "hits": []
+    },
+    {
+      "race_id": "202304214404",
+      "investment": 1000,
+      "payout": 0,
+      "profit": -1000,
+      "hits": []
+    },
+    {
+      "race_id": "202304214405",
+      "investment": 800,
+      "payout": 0,
+      "profit": -800,
+      "hits": []
+    },
+    {
+      "race_id": "202304214406",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202304214407",
+      "investment": 800,
+      "payout": 0,
+      "profit": -800,
+      "hits": []
+    },
+    {
+      "race_id": "202304214408",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202304214409",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202304214410",
+      "investment": 900,
+      "payout": 0,
+      "profit": -900,
+      "hits": []
+    },
+    {
+      "race_id": "202304214411",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202304214412",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202305084401",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202305084402",
+      "investment": 1000,
+      "payout": 0,
+      "profit": -1000,
+      "hits": []
+    },
+    {
+      "race_id": "202305084403",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202305084404",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202305084405",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202305084406",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202305084407",
+      "investment": 1000,
+      "payout": 0,
+      "profit": -1000,
+      "hits": []
+    },
+    {
+      "race_id": "202305084408",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202305084409",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202305084410",
+      "investment": 1000,
+      "payout": 0,
+      "profit": -1000,
+      "hits": []
+    },
+    {
+      "race_id": "202305084411",
+      "investment": 900,
+      "payout": 300,
+      "profit": -600,
+      "hits": [
+        "tansho"
+      ]
+    },
+    {
+      "race_id": "202305084412",
+      "investment": 900,
+      "payout": 0,
+      "profit": -900,
+      "hits": []
+    },
+    {
+      "race_id": "202305094401",
+      "investment": 200,
+      "payout": 0,
+      "profit": -200,
+      "hits": []
+    },
+    {
+      "race_id": "202305094402",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202305094403",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202305094404",
+      "investment": 900,
+      "payout": 300,
+      "profit": -600,
+      "hits": [
+        "tansho"
+      ]
+    },
+    {
+      "race_id": "202305094405",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202305094406",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202305094407",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202305094408",
+      "investment": 1000,
+      "payout": 0,
+      "profit": -1000,
+      "hits": []
+    },
+    {
+      "race_id": "202305094409",
+      "investment": 900,
+      "payout": 300,
+      "profit": -600,
+      "hits": [
+        "tansho"
+      ]
+    },
+    {
+      "race_id": "202305094410",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202305094411",
+      "investment": 900,
+      "payout": 1300,
+      "profit": 400,
+      "hits": [
+        "tansho",
+        "wide",
+        "wide"
+      ]
+    },
+    {
+      "race_id": "202305094412",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202305104401",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202305104402",
+      "investment": 900,
+      "payout": 0,
+      "profit": -900,
+      "hits": []
+    },
+    {
+      "race_id": "202305104403",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202305104404",
+      "investment": 900,
+      "payout": 0,
+      "profit": -900,
+      "hits": []
+    },
+    {
+      "race_id": "202305104405",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202305104406",
+      "investment": 1000,
+      "payout": 300,
+      "profit": -700,
+      "hits": [
+        "tansho"
+      ]
+    },
+    {
+      "race_id": "202305104407",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202305104408",
+      "investment": 1000,
+      "payout": 0,
+      "profit": -1000,
+      "hits": []
+    },
+    {
+      "race_id": "202305104409",
+      "investment": 1000,
+      "payout": 0,
+      "profit": -1000,
+      "hits": []
+    },
+    {
+      "race_id": "202305104410",
+      "investment": 900,
+      "payout": 0,
+      "profit": -900,
+      "hits": []
+    },
+    {
+      "race_id": "202305104411",
+      "investment": 900,
+      "payout": 0,
+      "profit": -900,
+      "hits": []
+    },
+    {
+      "race_id": "202305104412",
+      "investment": 900,
+      "payout": 0,
+      "profit": -900,
+      "hits": []
+    },
+    {
+      "race_id": "202305114401",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202305114402",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202305114403",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202305114404",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202305114405",
+      "investment": 1100,
+      "payout": 0,
+      "profit": -1100,
+      "hits": []
+    },
+    {
+      "race_id": "202305114406",
+      "investment": 1000,
+      "payout": 0,
+      "profit": -1000,
+      "hits": []
+    },
+    {
+      "race_id": "202305114407",
+      "investment": 700,
+      "payout": 0,
+      "profit": -700,
+      "hits": []
+    },
+    {
+      "race_id": "202305114408",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202305114409",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202305114411",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202305114412",
+      "investment": 900,
+      "payout": 0,
+      "profit": -900,
+      "hits": []
+    },
+    {
+      "race_id": "202305124401",
+      "investment": 700,
+      "payout": 0,
+      "profit": -700,
+      "hits": []
+    },
+    {
+      "race_id": "202305124402",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202305124403",
+      "investment": 1000,
+      "payout": 16300,
+      "profit": 15300,
+      "hits": [
+        "tansho",
+        "wide",
+        "wide",
+        "sanrenpuku",
+        "sanrenpuku",
+        "sanrenpuku",
+        "sanrenpuku",
+        "sanrenpuku"
+      ]
+    },
+    {
+      "race_id": "202305124404",
+      "investment": 900,
+      "payout": 300,
+      "profit": -600,
+      "hits": [
+        "tansho"
+      ]
+    },
+    {
+      "race_id": "202305124405",
+      "investment": 1100,
+      "payout": 0,
+      "profit": -1100,
+      "hits": []
+    },
+    {
+      "race_id": "202305124406",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202305124407",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202305124408",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202305124409",
+      "investment": 1000,
+      "payout": 0,
+      "profit": -1000,
+      "hits": []
+    },
+    {
+      "race_id": "202305124410",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202305124411",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202305124412",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202305224401",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202305224402",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202305224403",
+      "investment": 1000,
+      "payout": 0,
+      "profit": -1000,
+      "hits": []
+    },
+    {
+      "race_id": "202305224404",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202305224405",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202305224406",
+      "investment": 900,
+      "payout": 0,
+      "profit": -900,
+      "hits": []
+    },
+    {
+      "race_id": "202305224407",
+      "investment": 800,
+      "payout": 300,
+      "profit": -500,
+      "hits": [
+        "tansho"
+      ]
+    },
+    {
+      "race_id": "202305224408",
+      "investment": 1000,
+      "payout": 0,
+      "profit": -1000,
+      "hits": []
+    },
+    {
+      "race_id": "202305224409",
+      "investment": 900,
+      "payout": 0,
+      "profit": -900,
+      "hits": []
+    },
+    {
+      "race_id": "202305224410",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202305224411",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202305224412",
+      "investment": 800,
+      "payout": 0,
+      "profit": -800,
+      "hits": []
+    },
+    {
+      "race_id": "202305234401",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202305234402",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202305234403",
+      "investment": 1000,
+      "payout": 0,
+      "profit": -1000,
+      "hits": []
+    },
+    {
+      "race_id": "202305234404",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202305234405",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202305234406",
+      "investment": 900,
+      "payout": 300,
+      "profit": -600,
+      "hits": [
+        "tansho"
+      ]
+    },
+    {
+      "race_id": "202305234407",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202305234408",
+      "investment": 1100,
+      "payout": 0,
+      "profit": -1100,
+      "hits": []
+    },
+    {
+      "race_id": "202305234409",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202305234410",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202305234411",
+      "investment": 1100,
+      "payout": 0,
+      "profit": -1100,
+      "hits": []
+    },
+    {
+      "race_id": "202305234412",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202305244401",
+      "investment": 1100,
+      "payout": 0,
+      "profit": -1100,
+      "hits": []
+    },
+    {
+      "race_id": "202305244402",
+      "investment": 1000,
+      "payout": 0,
+      "profit": -1000,
+      "hits": []
+    },
+    {
+      "race_id": "202305244403",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202305244404",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202305244405",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202305244406",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202305244407",
+      "investment": 1000,
+      "payout": 0,
+      "profit": -1000,
+      "hits": []
+    },
+    {
+      "race_id": "202305244408",
+      "investment": 900,
+      "payout": 300,
+      "profit": -600,
+      "hits": [
+        "tansho"
+      ]
+    },
+    {
+      "race_id": "202305244409",
+      "investment": 900,
+      "payout": 0,
+      "profit": -900,
+      "hits": []
+    },
+    {
+      "race_id": "202305244410",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202305244411",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202305244412",
+      "investment": 900,
+      "payout": 0,
+      "profit": -900,
+      "hits": []
+    },
+    {
+      "race_id": "202305254401",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202305254402",
+      "investment": 1000,
+      "payout": 0,
+      "profit": -1000,
+      "hits": []
+    },
+    {
+      "race_id": "202305254403",
+      "investment": 1000,
+      "payout": 0,
+      "profit": -1000,
+      "hits": []
+    },
+    {
+      "race_id": "202305254404",
+      "investment": 900,
+      "payout": 0,
+      "profit": -900,
+      "hits": []
+    },
+    {
+      "race_id": "202305254405",
+      "investment": 900,
+      "payout": 0,
+      "profit": -900,
+      "hits": []
+    },
+    {
+      "race_id": "202305254406",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202305254407",
+      "investment": 1000,
+      "payout": 0,
+      "profit": -1000,
+      "hits": []
+    },
+    {
+      "race_id": "202305254408",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202305254409",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202305254410",
+      "investment": 1000,
+      "payout": 300,
+      "profit": -700,
+      "hits": [
+        "tansho"
+      ]
+    },
+    {
+      "race_id": "202305254411",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202305254412",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202305264401",
+      "investment": 1100,
+      "payout": 0,
+      "profit": -1100,
+      "hits": []
+    },
+    {
+      "race_id": "202305264402",
+      "investment": 1000,
+      "payout": 0,
+      "profit": -1000,
+      "hits": []
+    },
+    {
+      "race_id": "202305264403",
+      "investment": 1100,
+      "payout": 300,
+      "profit": -800,
+      "hits": [
+        "tansho"
+      ]
+    },
+    {
+      "race_id": "202305264404",
+      "investment": 1000,
+      "payout": 300,
+      "profit": -700,
+      "hits": [
+        "tansho"
+      ]
+    },
+    {
+      "race_id": "202305264405",
+      "investment": 400,
+      "payout": 800,
+      "profit": 400,
+      "hits": [
+        "tansho",
+        "wide"
+      ]
+    },
+    {
+      "race_id": "202305264406",
+      "investment": 1000,
+      "payout": 0,
+      "profit": -1000,
+      "hits": []
+    },
+    {
+      "race_id": "202305264407",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202305264408",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202305264409",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202305264410",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202305264411",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202305264412",
+      "investment": 900,
+      "payout": 0,
+      "profit": -900,
+      "hits": []
+    },
+    {
+      "race_id": "202306054401",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202306054402",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202306054403",
+      "investment": 1000,
+      "payout": 1300,
+      "profit": 300,
+      "hits": [
+        "tansho",
+        "wide",
+        "wide"
+      ]
+    },
+    {
+      "race_id": "202306054404",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202306054405",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202306054406",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202306054407",
+      "investment": 1000,
+      "payout": 0,
+      "profit": -1000,
+      "hits": []
+    },
+    {
+      "race_id": "202306054408",
+      "investment": 1000,
+      "payout": 0,
+      "profit": -1000,
+      "hits": []
+    },
+    {
+      "race_id": "202306054409",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202306054410",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202306054411",
+      "investment": 1100,
+      "payout": 0,
+      "profit": -1100,
+      "hits": []
+    },
+    {
+      "race_id": "202306054412",
+      "investment": 1000,
+      "payout": 0,
+      "profit": -1000,
+      "hits": []
+    },
+    {
+      "race_id": "202306064401",
+      "investment": 800,
+      "payout": 0,
+      "profit": -800,
+      "hits": []
+    },
+    {
+      "race_id": "202306064402",
+      "investment": 1000,
+      "payout": 0,
+      "profit": -1000,
+      "hits": []
+    },
+    {
+      "race_id": "202306064403",
+      "investment": 700,
+      "payout": 0,
+      "profit": -700,
+      "hits": []
+    },
+    {
+      "race_id": "202306064404",
+      "investment": 1000,
+      "payout": 0,
+      "profit": -1000,
+      "hits": []
+    },
+    {
+      "race_id": "202306064405",
+      "investment": 1100,
+      "payout": 300,
+      "profit": -800,
+      "hits": [
+        "tansho"
+      ]
+    },
+    {
+      "race_id": "202306064406",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202306064407",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202306064408",
+      "investment": 900,
+      "payout": 0,
+      "profit": -900,
+      "hits": []
+    },
+    {
+      "race_id": "202306064409",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202306064410",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202306064411",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202306064412",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202306074401",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202306074402",
+      "investment": 1000,
+      "payout": 0,
+      "profit": -1000,
+      "hits": []
+    },
+    {
+      "race_id": "202306074403",
+      "investment": 900,
+      "payout": 0,
+      "profit": -900,
+      "hits": []
+    },
+    {
+      "race_id": "202306074404",
+      "investment": 900,
+      "payout": 1300,
+      "profit": 400,
+      "hits": [
+        "tansho",
+        "wide",
+        "wide"
+      ]
+    },
+    {
+      "race_id": "202306074405",
+      "investment": 900,
+      "payout": 0,
+      "profit": -900,
+      "hits": []
+    },
+    {
+      "race_id": "202306074406",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202306074407",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202306074408",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202306074409",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202306074410",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202306074411",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202306074412",
+      "investment": 1000,
+      "payout": 300,
+      "profit": -700,
+      "hits": [
+        "tansho"
+      ]
+    },
+    {
+      "race_id": "202306084401",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202306084402",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202306084403",
+      "investment": 900,
+      "payout": 0,
+      "profit": -900,
+      "hits": []
+    },
+    {
+      "race_id": "202306084404",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202306084405",
+      "investment": 1000,
+      "payout": 0,
+      "profit": -1000,
+      "hits": []
+    },
+    {
+      "race_id": "202306084406",
+      "investment": 1000,
+      "payout": 800,
+      "profit": -200,
+      "hits": [
+        "tansho",
+        "wide"
+      ]
+    },
+    {
+      "race_id": "202306084407",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202306084408",
+      "investment": 700,
+      "payout": 300,
+      "profit": -400,
+      "hits": [
+        "tansho"
+      ]
+    },
+    {
+      "race_id": "202306084409",
+      "investment": 1000,
+      "payout": 0,
+      "profit": -1000,
+      "hits": []
+    },
+    {
+      "race_id": "202306084410",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202306084411",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202306084412",
+      "investment": 900,
+      "payout": 0,
+      "profit": -900,
+      "hits": []
+    },
+    {
+      "race_id": "202306094401",
+      "investment": 1000,
+      "payout": 1300,
+      "profit": 300,
+      "hits": [
+        "tansho",
+        "wide",
+        "wide"
+      ]
+    },
+    {
+      "race_id": "202306094402",
+      "investment": 900,
+      "payout": 0,
+      "profit": -900,
+      "hits": []
+    },
+    {
+      "race_id": "202306094403",
+      "investment": 900,
+      "payout": 0,
+      "profit": -900,
+      "hits": []
+    },
+    {
+      "race_id": "202306094404",
+      "investment": 900,
+      "payout": 0,
+      "profit": -900,
+      "hits": []
+    },
+    {
+      "race_id": "202306094405",
+      "investment": 100,
+      "payout": 300,
+      "profit": 200,
+      "hits": [
+        "tansho"
+      ]
+    },
+    {
+      "race_id": "202306094406",
+      "investment": 700,
+      "payout": 800,
+      "profit": 100,
+      "hits": [
+        "tansho",
+        "wide"
+      ]
+    },
+    {
+      "race_id": "202306094407",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202306094408",
+      "investment": 900,
+      "payout": 0,
+      "profit": -900,
+      "hits": []
+    },
+    {
+      "race_id": "202306094409",
+      "investment": 1000,
+      "payout": 0,
+      "profit": -1000,
+      "hits": []
+    },
+    {
+      "race_id": "202306094410",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202306094411",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202306094412",
+      "investment": 1000,
+      "payout": 0,
+      "profit": -1000,
+      "hits": []
+    },
+    {
+      "race_id": "202306264401",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202306264402",
+      "investment": 700,
+      "payout": 300,
+      "profit": -400,
+      "hits": [
+        "tansho"
+      ]
+    },
+    {
+      "race_id": "202306264403",
+      "investment": 700,
+      "payout": 0,
+      "profit": -700,
+      "hits": []
+    },
+    {
+      "race_id": "202306264404",
+      "investment": 900,
+      "payout": 0,
+      "profit": -900,
+      "hits": []
+    },
+    {
+      "race_id": "202306264405",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202306264406",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202306264407",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202306264408",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202306264409",
+      "investment": 800,
+      "payout": 0,
+      "profit": -800,
+      "hits": []
+    },
+    {
+      "race_id": "202306264410",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202306264411",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202306264412",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202306274401",
+      "investment": 1000,
+      "payout": 300,
+      "profit": -700,
+      "hits": [
+        "tansho"
+      ]
+    },
+    {
+      "race_id": "202306274402",
+      "investment": 1000,
+      "payout": 0,
+      "profit": -1000,
+      "hits": []
+    },
+    {
+      "race_id": "202306274403",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202306274404",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202306274405",
+      "investment": 1100,
+      "payout": 16300,
+      "profit": 15200,
+      "hits": [
+        "tansho",
+        "wide",
+        "wide",
+        "sanrenpuku",
+        "sanrenpuku",
+        "sanrenpuku",
+        "sanrenpuku",
+        "sanrenpuku"
+      ]
+    },
+    {
+      "race_id": "202306274406",
+      "investment": 1000,
+      "payout": 0,
+      "profit": -1000,
+      "hits": []
+    },
+    {
+      "race_id": "202306274407",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202306274408",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202306274409",
+      "investment": 1100,
+      "payout": 0,
+      "profit": -1100,
+      "hits": []
+    },
+    {
+      "race_id": "202306274410",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202306274411",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202306274412",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202306284401",
+      "investment": 900,
+      "payout": 0,
+      "profit": -900,
+      "hits": []
+    },
+    {
+      "race_id": "202306284402",
+      "investment": 1000,
+      "payout": 0,
+      "profit": -1000,
+      "hits": []
+    },
+    {
+      "race_id": "202306284403",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202306284404",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202306284405",
+      "investment": 900,
+      "payout": 0,
+      "profit": -900,
+      "hits": []
+    },
+    {
+      "race_id": "202306284406",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202306284407",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202306284408",
+      "investment": 1000,
+      "payout": 0,
+      "profit": -1000,
+      "hits": []
+    },
+    {
+      "race_id": "202306284409",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202306284410",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202306284411",
+      "investment": 1000,
+      "payout": 300,
+      "profit": -700,
+      "hits": [
+        "tansho"
+      ]
+    },
+    {
+      "race_id": "202306284412",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202306294401",
+      "investment": 1000,
+      "payout": 0,
+      "profit": -1000,
+      "hits": []
+    },
+    {
+      "race_id": "202306294402",
+      "investment": 1000,
+      "payout": 0,
+      "profit": -1000,
+      "hits": []
+    },
+    {
+      "race_id": "202306294403",
+      "investment": 900,
+      "payout": 0,
+      "profit": -900,
+      "hits": []
+    },
+    {
+      "race_id": "202306294404",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202306294405",
+      "investment": 1000,
+      "payout": 300,
+      "profit": -700,
+      "hits": [
+        "tansho"
+      ]
+    },
+    {
+      "race_id": "202306294406",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202306294407",
+      "investment": 1100,
+      "payout": 0,
+      "profit": -1100,
+      "hits": []
+    },
+    {
+      "race_id": "202306294408",
+      "investment": 900,
+      "payout": 0,
+      "profit": -900,
+      "hits": []
+    },
+    {
+      "race_id": "202306294409",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202306294410",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202306294411",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202306294412",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202306304401",
+      "investment": 1000,
+      "payout": 0,
+      "profit": -1000,
+      "hits": []
+    },
+    {
+      "race_id": "202306304402",
+      "investment": 1000,
+      "payout": 0,
+      "profit": -1000,
+      "hits": []
+    },
+    {
+      "race_id": "202306304403",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202306304404",
+      "investment": 1000,
+      "payout": 0,
+      "profit": -1000,
+      "hits": []
+    },
+    {
+      "race_id": "202306304405",
+      "investment": 900,
+      "payout": 0,
+      "profit": -900,
+      "hits": []
+    },
+    {
+      "race_id": "202306304406",
+      "investment": 1000,
+      "payout": 0,
+      "profit": -1000,
+      "hits": []
+    },
+    {
+      "race_id": "202306304407",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202306304408",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202306304409",
+      "investment": 1000,
+      "payout": 0,
+      "profit": -1000,
+      "hits": []
+    },
+    {
+      "race_id": "202306304410",
+      "investment": 1000,
+      "payout": 0,
+      "profit": -1000,
+      "hits": []
+    },
+    {
+      "race_id": "202306304411",
+      "investment": 900,
+      "payout": 300,
+      "profit": -600,
+      "hits": [
+        "tansho"
+      ]
+    },
+    {
+      "race_id": "202306304412",
+      "investment": 700,
+      "payout": 0,
+      "profit": -700,
+      "hits": []
+    },
+    {
+      "race_id": "202307104401",
+      "investment": 1000,
+      "payout": 1300,
+      "profit": 300,
+      "hits": [
+        "tansho",
+        "wide",
+        "wide"
+      ]
+    },
+    {
+      "race_id": "202307104402",
+      "investment": 900,
+      "payout": 0,
+      "profit": -900,
+      "hits": []
+    },
+    {
+      "race_id": "202307104403",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202307104404",
+      "investment": 900,
+      "payout": 0,
+      "profit": -900,
+      "hits": []
+    },
+    {
+      "race_id": "202307104405",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202307104406",
+      "investment": 1000,
+      "payout": 300,
+      "profit": -700,
+      "hits": [
+        "tansho"
+      ]
+    },
+    {
+      "race_id": "202307104407",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202307104408",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202307104409",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202307104410",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202307104411",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202307104412",
+      "investment": 1000,
+      "payout": 0,
+      "profit": -1000,
+      "hits": []
+    },
+    {
+      "race_id": "202307114401",
+      "investment": 700,
+      "payout": 0,
+      "profit": -700,
+      "hits": []
+    },
+    {
+      "race_id": "202307114402",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202307114403",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202307114404",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202307114405",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202307114406",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202307114407",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202307114408",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202307114409",
+      "investment": 1000,
+      "payout": 0,
+      "profit": -1000,
+      "hits": []
+    },
+    {
+      "race_id": "202307114410",
+      "investment": 1000,
+      "payout": 300,
+      "profit": -700,
+      "hits": [
+        "tansho"
+      ]
+    },
+    {
+      "race_id": "202307114411",
+      "investment": 1000,
+      "payout": 0,
+      "profit": -1000,
+      "hits": []
+    },
+    {
+      "race_id": "202307114412",
+      "investment": 900,
+      "payout": 1300,
+      "profit": 400,
+      "hits": [
+        "tansho",
+        "wide",
+        "wide"
+      ]
+    },
+    {
+      "race_id": "202307124401",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202307124402",
+      "investment": 1100,
+      "payout": 300,
+      "profit": -800,
+      "hits": [
+        "tansho"
+      ]
+    },
+    {
+      "race_id": "202307124403",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202307124404",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202307124405",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202307124406",
+      "investment": 1100,
+      "payout": 0,
+      "profit": -1100,
+      "hits": []
+    },
+    {
+      "race_id": "202307124407",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202307124408",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202307124409",
+      "investment": 1000,
+      "payout": 0,
+      "profit": -1000,
+      "hits": []
+    },
+    {
+      "race_id": "202307124410",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202307124411",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202307124412",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202307134401",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202307134402",
+      "investment": 1100,
+      "payout": 0,
+      "profit": -1100,
+      "hits": []
+    },
+    {
+      "race_id": "202307134403",
+      "investment": 400,
+      "payout": 0,
+      "profit": -400,
+      "hits": []
+    },
+    {
+      "race_id": "202307134404",
+      "investment": 1000,
+      "payout": 300,
+      "profit": -700,
+      "hits": [
+        "tansho"
+      ]
+    },
+    {
+      "race_id": "202307134405",
+      "investment": 800,
+      "payout": 0,
+      "profit": -800,
+      "hits": []
+    },
+    {
+      "race_id": "202307134406",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202307134407",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202307134408",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202307134409",
+      "investment": 1000,
+      "payout": 300,
+      "profit": -700,
+      "hits": [
+        "tansho"
+      ]
+    },
+    {
+      "race_id": "202307134410",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202307134411",
+      "investment": 700,
+      "payout": 1300,
+      "profit": 600,
+      "hits": [
+        "tansho",
+        "wide",
+        "wide"
+      ]
+    },
+    {
+      "race_id": "202307134412",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202307144401",
+      "investment": 1000,
+      "payout": 0,
+      "profit": -1000,
+      "hits": []
+    },
+    {
+      "race_id": "202307144402",
+      "investment": 1000,
+      "payout": 0,
+      "profit": -1000,
+      "hits": []
+    },
+    {
+      "race_id": "202307144403",
+      "investment": 1000,
+      "payout": 0,
+      "profit": -1000,
+      "hits": []
+    },
+    {
+      "race_id": "202307144404",
+      "investment": 400,
+      "payout": 300,
+      "profit": -100,
+      "hits": [
+        "tansho"
+      ]
+    },
+    {
+      "race_id": "202307144405",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202307144406",
+      "investment": 900,
+      "payout": 0,
+      "profit": -900,
+      "hits": []
+    },
+    {
+      "race_id": "202307144407",
+      "investment": 700,
+      "payout": 800,
+      "profit": 100,
+      "hits": [
+        "tansho",
+        "wide"
+      ]
+    },
+    {
+      "race_id": "202307144408",
+      "investment": 1000,
+      "payout": 0,
+      "profit": -1000,
+      "hits": []
+    },
+    {
+      "race_id": "202307144409",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202307144410",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202307144411",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202307144412",
+      "investment": 900,
+      "payout": 300,
+      "profit": -600,
+      "hits": [
+        "tansho"
+      ]
+    },
+    {
+      "race_id": "202307314401",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202307314402",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202307314403",
+      "investment": 1000,
+      "payout": 0,
+      "profit": -1000,
+      "hits": []
+    },
+    {
+      "race_id": "202307314404",
+      "investment": 1000,
+      "payout": 0,
+      "profit": -1000,
+      "hits": []
+    },
+    {
+      "race_id": "202307314405",
+      "investment": 600,
+      "payout": 0,
+      "profit": -600,
+      "hits": []
+    },
+    {
+      "race_id": "202307314406",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202307314407",
+      "investment": 1000,
+      "payout": 0,
+      "profit": -1000,
+      "hits": []
+    },
+    {
+      "race_id": "202307314408",
+      "investment": 800,
+      "payout": 0,
+      "profit": -800,
+      "hits": []
+    },
+    {
+      "race_id": "202307314409",
+      "investment": 1000,
+      "payout": 0,
+      "profit": -1000,
+      "hits": []
+    },
+    {
+      "race_id": "202307314410",
+      "investment": 700,
+      "payout": 0,
+      "profit": -700,
+      "hits": []
+    },
+    {
+      "race_id": "202307314411",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202307314412",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202308014401",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202308014402",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202308014403",
+      "investment": 1000,
+      "payout": 0,
+      "profit": -1000,
+      "hits": []
+    },
+    {
+      "race_id": "202308014404",
+      "investment": 1000,
+      "payout": 300,
+      "profit": -700,
+      "hits": [
+        "tansho"
+      ]
+    },
+    {
+      "race_id": "202308014405",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202308014406",
+      "investment": 1000,
+      "payout": 0,
+      "profit": -1000,
+      "hits": []
+    },
+    {
+      "race_id": "202308014407",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202308014408",
+      "investment": 900,
+      "payout": 0,
+      "profit": -900,
+      "hits": []
+    },
+    {
+      "race_id": "202308014409",
+      "investment": 1000,
+      "payout": 0,
+      "profit": -1000,
+      "hits": []
+    },
+    {
+      "race_id": "202308014410",
+      "investment": 900,
+      "payout": 0,
+      "profit": -900,
+      "hits": []
+    },
+    {
+      "race_id": "202308014411",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202308014412",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202308024401",
+      "investment": 1000,
+      "payout": 0,
+      "profit": -1000,
+      "hits": []
+    },
+    {
+      "race_id": "202308024402",
+      "investment": 900,
+      "payout": 0,
+      "profit": -900,
+      "hits": []
+    },
+    {
+      "race_id": "202308024403",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202308024404",
+      "investment": 1000,
+      "payout": 1300,
+      "profit": 300,
+      "hits": [
+        "tansho",
+        "wide",
+        "wide"
+      ]
+    },
+    {
+      "race_id": "202308024405",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202308024406",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202308024407",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202308024408",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202308024409",
+      "investment": 1000,
+      "payout": 0,
+      "profit": -1000,
+      "hits": []
+    },
+    {
+      "race_id": "202308024410",
+      "investment": 200,
+      "payout": 0,
+      "profit": -200,
+      "hits": []
+    },
+    {
+      "race_id": "202308024411",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202308024412",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202308034401",
+      "investment": 900,
+      "payout": 0,
+      "profit": -900,
+      "hits": []
+    },
+    {
+      "race_id": "202308034402",
+      "investment": 900,
+      "payout": 0,
+      "profit": -900,
+      "hits": []
+    },
+    {
+      "race_id": "202308034403",
+      "investment": 1000,
+      "payout": 300,
+      "profit": -700,
+      "hits": [
+        "tansho"
+      ]
+    },
+    {
+      "race_id": "202308034404",
+      "investment": 1100,
+      "payout": 0,
+      "profit": -1100,
+      "hits": []
+    },
+    {
+      "race_id": "202308034405",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202308034406",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202308034407",
+      "investment": 1000,
+      "payout": 0,
+      "profit": -1000,
+      "hits": []
+    },
+    {
+      "race_id": "202308034408",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202308034409",
+      "investment": 1000,
+      "payout": 0,
+      "profit": -1000,
+      "hits": []
+    },
+    {
+      "race_id": "202308034410",
+      "investment": 1000,
+      "payout": 300,
+      "profit": -700,
+      "hits": [
+        "tansho"
+      ]
+    },
+    {
+      "race_id": "202308034411",
+      "investment": 1000,
+      "payout": 300,
+      "profit": -700,
+      "hits": [
+        "tansho"
+      ]
+    },
+    {
+      "race_id": "202308034412",
+      "investment": 1000,
+      "payout": 300,
+      "profit": -700,
+      "hits": [
+        "tansho"
+      ]
+    },
+    {
+      "race_id": "202308044401",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202308044402",
+      "investment": 1100,
+      "payout": 0,
+      "profit": -1100,
+      "hits": []
+    },
+    {
+      "race_id": "202308044403",
+      "investment": 1000,
+      "payout": 300,
+      "profit": -700,
+      "hits": [
+        "tansho"
+      ]
+    },
+    {
+      "race_id": "202308044404",
+      "investment": 1000,
+      "payout": 0,
+      "profit": -1000,
+      "hits": []
+    },
+    {
+      "race_id": "202308044405",
+      "investment": 900,
+      "payout": 0,
+      "profit": -900,
+      "hits": []
+    },
+    {
+      "race_id": "202308044406",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202308044407",
+      "investment": 1100,
+      "payout": 0,
+      "profit": -1100,
+      "hits": []
+    },
+    {
+      "race_id": "202308044408",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202308044409",
+      "investment": 1000,
+      "payout": 0,
+      "profit": -1000,
+      "hits": []
+    },
+    {
+      "race_id": "202308044410",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202308044411",
+      "investment": 1000,
+      "payout": 0,
+      "profit": -1000,
+      "hits": []
+    },
+    {
+      "race_id": "202308044412",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202308134407",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202308134408",
+      "investment": 1100,
+      "payout": 0,
+      "profit": -1100,
+      "hits": []
+    },
+    {
+      "race_id": "202308134409",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    },
+    {
+      "race_id": "202308134410",
+      "investment": 0,
+      "payout": 0,
+      "profit": 0,
+      "hits": []
+    }
+  ]
+}
