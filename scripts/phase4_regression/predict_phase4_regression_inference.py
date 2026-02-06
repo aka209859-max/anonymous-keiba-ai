@@ -99,7 +99,11 @@ def predict_regression(test_csv, model_path, output_path):
     
     # 予測
     print(f"\n[4/6] 予測実行中...")
-    predicted_times = model.predict(X_test, num_iteration=model.best_iteration)
+    predicted_times_raw = model.predict(X_test, num_iteration=model.best_iteration)
+    
+    # ⚠️ 重要: 予測値は1/10秒単位なので、秒単位に変換
+    predicted_times = predicted_times_raw / 10.0
+    print(f"  ℹ️  予測値を1/10秒単位から秒単位に変換 (÷10)")
     
     # 統計情報
     print(f"  - 予測時間の平均: {predicted_times.mean():.2f}秒")
