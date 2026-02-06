@@ -1,4 +1,5 @@
 @echo off
+chcp 65001 >nul
 setlocal enabledelayedexpansion
 
 REM =============================================================================
@@ -62,7 +63,7 @@ echo ログファイル: %LOG_FILE%
 echo.
 
 REM Phase 0: データ取得
-echo Phase 0 データ取得中 (PC-KEIBA)
+echo Phase 0 データ取得中
 python scripts\phase0_data_acquisition\extract_race_data.py --keibajo %KEIBAJO_CODE% --date %TARGET_DATE% >> %LOG_FILE% 2>&1
 if errorlevel 1 (
     echo ERROR Phase 0 でエラーが発生しました。ログを確認: %LOG_FILE%
