@@ -1,125 +1,137 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
+predict_phase4_regression.py
 Phase 4 回帰モデルで予測を実行
 """
 
 import sys
 import pandas as pd
-import lightgbm as lgb
 import numpy as np
+import lightgbm as lgb
 from sklearn.metrics import mean_squared_error, mean_absolute_error, r2_score
-import warnings
-warnings.filterwarnings('ignore')
 
-def predict_regression(test_csv, model_path, output_path):
+def predict_regression(test_csv, model_file, output_csv):
     """
-    回帰モデルで予測を実行
+    Phase 4 回帰モデルで予測
     
     Parameters
     ----------
     test_csv : str
-        テストデータCSV (target=走破タイム)
-    model_path : str
-        学習済みモデルパス
-    output_path : str
-        予測結果の出力先
-    
-    Returns
-    -------
-    dict
-        評価結果の辞書
+        テストデータCSV
+    model_file : str
+        学習済み回帰モデル
+    output_csv : str
+        出力CSVファイル
     """
-    print(f"\n{'='*60}")
-    print(f"Phase 4 回帰予測（走破タイム）")
-    print(f"{'='*60}")
+    print("=" * 80)
+    print("Phase 4 回帰予測")
+    print("=" * 80)
+    print()
+    
+    # モデル読み込み
+    print(f"モデル読み込み: {model_file}")
+    try:
+        model = lgb.Booster(model_file=model_file)
+        print("  - モデル読み込み完了\n")
+    except Exception as e:
+        print(f"エラー: モデル読み込みに失敗しました: {e}")
+        sys.exit(1)
     
     # テストデータ読み込み
     print(f"テストデータ読み込み: {test_csv}")
-    df = pd.read_csv(test_csv)
-    print(f"データ件数: {len(df)}")
+    try:
+        df = pd.read_csv(test_csv, encoding='shift-jis')
+    except UnicodeDecodeError:
+        df = pd.read_csv(test_csv, encoding='utf-8')
     
-    # target列を確保（正解ラベル: 走破タイム）
-    if 'target' not in df.columns:
-        raise ValueError("target列が見つかりません")
+    print(f"  - データ件数: {len(df):,}件\n")
     
-    y_true = df['target']
+    # target列の有無を確認
+    has_target = 'target' in df.columns
+    if has_target:
+        y_true = df['target'].copy()
+        X = df.drop('target', axis=1)
+    else:
+        X = df.copy()
     
-    # 不要列を除外（umaban はモデルの特徴量）
-    exclude_cols = ['target', 'kakutei_chakujun', 'race_id']
-    feature_cols = [col for col in df.columns if col not in exclude_cols]
+    # 非数値カラムを削除
+    non_numeric_cols = X.select_dtypes(exclude=[np.number]).columns.tolist()
+    if non_numeric_cols:
+        print(f"  警告: 非数値カラムを削除します: {non_numeric_cols}\n")
+        X = X.select_dtypes(include=[np.number])
     
-    X_test = df[feature_cols]
-    
-    print(f"特徴量数: {len(feature_cols)}")
-    
-    # モデル読み込み
-    print(f"モデル読み込み: {model_path}")
-    model = lgb.Booster(model_file=model_path)
+    # 欠損値を補完
+    if X.isnull().any().any():
+        print("  警告: 欠損値を平均値で補完します\n")
+        X = X.fillna(X.mean())
     
     # 予測
-    print("予測実行中...")
-    y_pred = model.predict(X_test, num_iteration=model.best_iteration)
+    print("予測中...")
+    try:
+        predictions = model.predict(X)
+        print("  - 予測完了\n")
+    except Exception as e:
+        print(f"エラー: 予測に失敗しました: {e}")
+        sys.exit(1)
     
-    # 評価
-    rmse = np.sqrt(mean_squared_error(y_true, y_pred))
-    mae = mean_absolute_error(y_true, y_pred)
-    r2 = r2_score(y_true, y_pred)
+    # 予測結果を正規化（0-1）
+    # Min-Max正規化: (x - min) / (max - min)
+    # 反転して、タイムが速いほどスコアが高くなるようにする
+    pred_min = predictions.min()
+    pred_max = predictions.max()
     
-    # 相対誤差（平均走破タイムに対する割合）
-    mean_time = y_true.mean()
-    relative_error = (mae / mean_time) * 100
+    if pred_max > pred_min:
+        # 反転正規化: 1 - ((x - min) / (max - min))
+        normalized_scores = 1.0 - ((predictions - pred_min) / (pred_max - pred_min))
+    else:
+        normalized_scores = np.ones_like(predictions) * 0.5
     
-    # タイム統計
-    time_stats = {
-        'Mean Time (True)': mean_time,
-        'Mean Time (Predicted)': y_pred.mean(),
-        'Min Time (True)': y_true.min(),
-        'Max Time (True)': y_true.max()
-    }
+    # 評価指標（target列がある場合のみ）
+    if has_target:
+        # 欠損値を除外
+        valid_mask = ~y_true.isnull()
+        y_true_valid = y_true[valid_mask]
+        predictions_valid = predictions[valid_mask]
+        
+        if len(y_true_valid) > 0:
+            rmse = np.sqrt(mean_squared_error(y_true_valid, predictions_valid))
+            mae = mean_absolute_error(y_true_valid, predictions_valid)
+            r2 = r2_score(y_true_valid, predictions_valid)
+            relative_error = (rmse / y_true_valid.mean()) * 100 if y_true_valid.mean() != 0 else 0
+            
+            print("評価指標（走破タイムが既知のデータ）:")
+            print(f"  - 評価可能データ: {len(y_true_valid):,}件")
+            print(f"  - RMSE: {rmse:.4f}秒")
+            print(f"  - MAE: {mae:.4f}秒")
+            print(f"  - R2: {r2:.4f}")
+            print(f"  - 相対誤差: {relative_error:.2f}%")
+            print(f"  - 目的変数の平均値: {y_true_valid.mean():.2f}秒\n")
     
-    results = {
-        'Data Count': len(df),
-        'RMSE': rmse,
-        'MAE': mae,
-        'R²': r2,
-        '相対誤差(%)': relative_error,
-        **time_stats
-    }
+    # 出力データフレーム作成
+    output_df = df.copy()
+    output_df['predicted_time'] = predictions
+    output_df['regression_score'] = normalized_scores
     
-    print("\n=== 評価結果 ===")
-    for metric, value in results.items():
-        if isinstance(value, float):
-            print(f"{metric}: {value:.4f}")
-        else:
-            print(f"{metric}: {value}")
+    # 統計情報
+    print("予測結果の統計:")
+    print(f"  - 予測タイムの平均: {predictions.mean():.2f}秒")
+    print(f"  - 予測タイムの最小: {predictions.min():.2f}秒")
+    print(f"  - 予測タイムの最大: {predictions.max():.2f}秒")
+    print(f"  - regression_scoreの平均: {normalized_scores.mean():.4f}")
+    print(f"  - regression_scoreの範囲: [{normalized_scores.min():.4f}, {normalized_scores.max():.4f}]\n")
     
-    # 予測結果をCSVに保存
-    df['predicted_time'] = y_pred
-    df['time_error'] = y_pred - y_true
-    df['abs_time_error'] = np.abs(y_pred - y_true)
-    
-    df.to_csv(output_path, index=False)
-    print(f"\n予測結果を保存: {output_path}")
-    
-    return results
+    # 保存
+    output_df.to_csv(output_csv, index=False, encoding='utf-8-sig')
+    print(f"出力: {output_csv}")
+    print("=" * 80)
+    print()
 
 if __name__ == "__main__":
     if len(sys.argv) != 4:
-        print("使用法: python predict_phase4_regression.py <test_csv> <model_path> <output_csv>")
+        print("使用法: python predict_phase4_regression.py <test_csv> <model_file> <output_csv>")
         print("\n例:")
-        print("  python predict_phase4_regression.py csv/ooi_2026_jan_test_time.csv models/ooi_2023-2025_v3_time_regression_model.txt predictions/ooi_2026_jan_regression.csv")
+        print("  python predict_phase4_regression.py ooi_2025_full_test_with_time.csv ooi_2023-2025_with_time_regression_model.txt ooi_2025_phase4_regression_v3.csv")
         sys.exit(1)
     
-    test_csv = sys.argv[1]
-    model_path = sys.argv[2]
-    output_path = sys.argv[3]
-    
-    try:
-        results = predict_regression(test_csv, model_path, output_path)
-        print("\n✅ 予測完了")
-    except Exception as e:
-        print(f"\n❌ エラー発生: {e}")
-        import traceback
-        traceback.print_exc()
-        sys.exit(1)
+    predict_regression(sys.argv[1], sys.argv[2], sys.argv[3])

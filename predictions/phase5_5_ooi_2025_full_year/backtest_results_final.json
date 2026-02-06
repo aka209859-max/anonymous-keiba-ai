@@ -1,0 +1,86 @@
+{
+  "summary": {
+    "total_bets": 1966,
+    "total_hit": 1117,
+    "total_hit_rate": 56.81586978636825,
+    "total_cost": 196600,
+    "total_return": 223400,
+    "total_recovery_rate": 113.6317395727365,
+    "total_profit": 26800,
+    "details": {
+      "tansho": {
+        "hit": 108,
+        "total": 191,
+        "cost": 19100,
+        "return": 23970
+      },
+      "fukusho": {
+        "hit": 996,
+        "total": 1095,
+        "cost": 109500,
+        "return": 160000
+      },
+      "umaren": {
+        "hit": 1,
+        "total": 219,
+        "cost": 21900,
+        "return": 570
+      },
+      "wide": {
+        "hit": 4,
+        "total": 188,
+        "cost": 18800,
+        "return": 1140
+      },
+      "umatan": {
+        "hit": 5,
+        "total": 240,
+        "cost": 24000,
+        "return": 8960
+      },
+      "sanrenpuku": {
+        "hit": 0,
+        "total": 11,
+        "cost": 1100,
+        "return": 0
+      },
+      "sanrentan": {
+        "hit": 3,
+        "total": 22,
+        "cost": 2200,
+        "return": 28760
+      }
+    }
+  },
+  "strategy": {
+    "tansho_min_rank": "S",
+    "fukusho_min_rank": "A",
+    "fukusho_max_horses": 2,
+    "umaren_min_rank": "B",
+    "wide_min_rank": "A",
+    "umatan_min_rank": "A",
+    "sanrenpuku_min_z_score": 1.5,
+    "sanrentan_min_z_score": 1.5,
+    "max_horses_tansho": 3,
+    "max_horses_umaren": 4,
+    "max_horses_wide_axis": 1,
+    "max_horses_wide_target": 3,
+    "max_horses_umatan_axis": 1,
+    "max_horses_umatan_target": 2,
+    "max_horses_sanrenpuku": 5,
+    "max_horses_sanrentan": 7,
+    "unit_bet": 100,
+    "wide_min_odds": 2.5,
+    "ev_threshold": 1.05
+  },
+  "matched_races": 1073,
+  "strategy_description": {
+    "tansho": "Sランクのみ（最大3頭）",
+    "fukusho": "S+Aランク最大2頭",
+    "umaren": "S×AのフォーメーションまたはSランクBOX",
+    "wide": "S軸×Aランク3頭のフォーメーション",
+    "umatan": "Sランク1頭を軸、Aランク2頭を相手",
+    "sanrenpuku": "Zスコア≥1.5が3頭以上、上位5頭BOX（最大10点）",
+    "sanrentan": "Zスコア≥1.5が3頭以上、フォーメーション（1位→2-4位→2-7位）"
+  }
+}

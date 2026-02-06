@@ -1,0 +1,70 @@
+
+================================================================================
+🚀 大井2025年 Phase 5 アンサンブル統合 実行開始
+================================================================================
+📅 実行日時: 2026年02月05日 23:44:26
+
+📋 ファイル存在確認:
+   ✅ テストデータ: /home/user/uploaded_files/ooi_2025_full_test_with_time.csv
+   ✅ テストデータ(race_id付き): /home/user/uploaded_files/ooi_2025_full_test_with_race_id.csv
+   ✅ Phase 3 モデル: /home/user/uploaded_files/ooi_2023-2025_v3_model.txt
+   ✅ Phase 4 ランキングモデル: /home/user/uploaded_files/ooi_2023-2025_v3_with_race_id_ranking_model.txt
+   ✅ Phase 4 回帰予測結果: /home/user/uploaded_files/ooi_2025_phase4_regression_v3_fixed.csv
+
+✅ 全ファイル確認完了
+
+================================================================================
+Step 1/6: Phase 3 二値分類予測
+================================================================================
+📥 モデル読み込み中: /home/user/uploaded_files/ooi_2023-2025_v3_model.txt
+🔑 モデル特徴量数: 49
+📥 テストデータ読み込み中: /home/user/uploaded_files/ooi_2025_full_test_with_time.csv
+✅ データ件数: 2,803件
+🔮 予測実行中... (特徴量数: 49)
+✅ 予測結果保存: /home/user/webapp/predictions/phase5_ooi_2025/ooi_2025_phase3_binary_predictions.csv
+   - 入線確率 平均: 0.2468
+   - 入線予測数: 551頭
+
+================================================================================
+Step 2/6: Phase 4 ランキング予測
+================================================================================
+📥 モデル読み込み中: /home/user/uploaded_files/ooi_2023-2025_v3_with_race_id_ranking_model.txt
+🔑 モデル特徴量数: 49
+📥 テストデータ読み込み中: /home/user/uploaded_files/ooi_2025_full_test_with_race_id.csv
+✅ データ件数: 2,803件
+🔮 予測実行中... (特徴量数: 49)
+✅ 予測結果保存: /home/user/webapp/predictions/phase5_ooi_2025/ooi_2025_phase4_ranking_predictions.csv
+   - ランキングスコア 平均: 0.4367
+   - 最小値: 0.0000, 最大値: 1.0000
+
+================================================================================
+Step 3/6: Phase 5 アンサンブル統合
+================================================================================
+📊 ウェイト設定:
+   - 二値分類: 30.0%
+   - ランキング: 50.0%
+   - 回帰予測: 20.0%
+
+📥 予測結果読み込み中...
+   - 二値分類: 2,803件
+   - ランキング: 2,803件
+   - 回帰予測: 2,803件
+
+🔗 データ統合中...
+Traceback (most recent call last):
+  File "/home/user/webapp/run_phase5_ooi_2025.py", line 333, in <module>
+    main()
+  File "/home/user/webapp/run_phase5_ooi_2025.py", line 305, in main
+    df_ensemble = ensemble_integration(
+                  ^^^^^^^^^^^^^^^^^^^^^
+  File "/home/user/webapp/run_phase5_ooi_2025.py", line 188, in ensemble_integration
+    df = df.merge(df_ranking[merge_cols + ['ranking_score']], 
+                  ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/site-packages/pandas/core/frame.py", line 4108, in __getitem__
+    indexer = self.columns._get_indexer_strict(key, "columns")[1]
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/site-packages/pandas/core/indexes/base.py", line 6200, in _get_indexer_strict
+    self._raise_if_missing(keyarr, indexer, axis_name)
+  File "/usr/local/lib/python3.12/site-packages/pandas/core/indexes/base.py", line 6252, in _raise_if_missing
+    raise KeyError(f"{not_found} not in index")
+KeyError: "['kaisai_nen'] not in index"

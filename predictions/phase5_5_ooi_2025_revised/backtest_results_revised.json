@@ -1,0 +1,77 @@
+{
+  "summary": {
+    "total_bets": 1545,
+    "total_hit": 406,
+    "total_hit_rate": 26.278317152103558,
+    "total_cost": 154500,
+    "total_return": 146890,
+    "total_recovery_rate": 95.07443365695792,
+    "total_profit": -7610,
+    "details": {
+      "tansho": {
+        "hit": 49,
+        "total": 94,
+        "cost": 9400,
+        "return": 10590
+      },
+      "fukusho": {
+        "hit": 319,
+        "total": 346,
+        "cost": 34600,
+        "return": 57260
+      },
+      "umaren": {
+        "hit": 4,
+        "total": 271,
+        "cost": 27100,
+        "return": 2330
+      },
+      "wide": {
+        "hit": 12,
+        "total": 271,
+        "cost": 27100,
+        "return": 4840
+      },
+      "umatan": {
+        "hit": 20,
+        "total": 542,
+        "cost": 54200,
+        "return": 44130
+      },
+      "sanrenpuku": {
+        "hit": 0,
+        "total": 7,
+        "cost": 700,
+        "return": 0
+      },
+      "sanrentan": {
+        "hit": 2,
+        "total": 14,
+        "cost": 1400,
+        "return": 27740
+      }
+    }
+  },
+  "strategy": {
+    "tansho_min_rank": "S",
+    "fukusho_min_rank": "A",
+    "fukusho_max_horses": 2,
+    "umaren_max_horses": 3,
+    "wide_max_horses": 3,
+    "umatan_max_horses": 3,
+    "sanrenpuku_min_z_score": 1.5,
+    "sanrentan_min_z_score": 1.5,
+    "max_horses_tansho": 3,
+    "unit_bet": 100
+  },
+  "matched_races": 231,
+  "strategy_description": {
+    "tansho": "Sランクのみ（最大3頭）",
+    "fukusho": "S+Aランク最大2頭",
+    "umaren": "S+Aランクボックス（最大3頭）",
+    "wide": "S+Aランクボックス（最大3頭）",
+    "umatan": "S+Aランクボックス（最大3頭）",
+    "sanrenpuku": "Zスコア≥1.5が3頭以上、三連単と同じ組み合わせ",
+    "sanrentan": "Zスコア≥1.5が3頭以上、フォーメーション（1位→2-4位→2-7位）"
+  }
+}

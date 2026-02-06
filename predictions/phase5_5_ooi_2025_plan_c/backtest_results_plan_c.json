@@ -1,0 +1,80 @@
+{
+  "summary": {
+    "total_bets": 1972,
+    "total_hit": 460,
+    "total_hit_rate": 23.32657200811359,
+    "total_cost": 197200,
+    "total_return": 197810,
+    "total_recovery_rate": 100.30933062880325,
+    "total_profit": 610,
+    "details": {
+      "tansho": {
+        "hit": 49,
+        "total": 94,
+        "cost": 9400,
+        "return": 10590
+      },
+      "fukusho": {
+        "hit": 379,
+        "total": 423,
+        "cost": 42300,
+        "return": 73230
+      },
+      "umaren": {
+        "hit": 13,
+        "total": 985,
+        "cost": 98500,
+        "return": 30140
+      },
+      "wide": {
+        "hit": 0,
+        "total": 17,
+        "cost": 1700,
+        "return": 0
+      },
+      "umatan": {
+        "hit": 13,
+        "total": 290,
+        "cost": 29000,
+        "return": 27970
+      },
+      "sanrenpuku": {
+        "hit": 1,
+        "total": 121,
+        "cost": 12100,
+        "return": 2550
+      },
+      "sanrentan": {
+        "hit": 5,
+        "total": 42,
+        "cost": 4200,
+        "return": 53330
+      }
+    }
+  },
+  "strategy": {
+    "tansho_min_rank": "S",
+    "fukusho_min_rank": "A",
+    "umaren_min_rank": "B",
+    "wide_min_rank": "S",
+    "umatan_min_rank": "A",
+    "sanrenpuku_min_z_score": 1.0,
+    "sanrentan_min_z_score": 1.5,
+    "max_horses_tansho": 3,
+    "max_horses_fukusho": 5,
+    "max_horses_umaren": 4,
+    "max_horses_wide": 2,
+    "max_horses_umatan": 2,
+    "max_horses_sanrenpuku": 4,
+    "max_horses_sanrentan": 3,
+    "unit_bet": 100,
+    "wide_min_odds": 2.5,
+    "ev_threshold": 1.05
+  },
+  "matched_races": 231,
+  "improvements": {
+    "plan_a": "ワイドをSランクのみに厳格化（最大2点/レース）",
+    "plan_b": "三連単の基準緩和（Zスコア2.0 → 1.5）",
+    "plan_c": "馬単を軸馬+1頭に削減（最大2点/レース）"
+  }
+}
