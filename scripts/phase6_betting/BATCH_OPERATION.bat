@@ -132,14 +132,58 @@ if %FAIL_COUNT% gtr 0 (
 
 if %SUCCESS_COUNT% gtr 0 (
     echo.
-    echo 📝 生成されたファイル:
-    echo    predictions\{競馬場名}_%DATE_SHORT%_note.txt
-    echo    predictions\{競馬場名}_%DATE_SHORT%_bookers.txt
+    echo 📝 生成されたファイル（各競馬場別）:
+    echo.
+    echo    【Note用】
+    for %%K in (%KEIBA_CODES%) do (
+        if "%%K"=="30" set KNAME=門別
+        if "%%K"=="35" set KNAME=盛岡
+        if "%%K"=="36" set KNAME=水沢
+        if "%%K"=="42" set KNAME=浦和
+        if "%%K"=="43" set KNAME=船橋
+        if "%%K"=="44" set KNAME=大井
+        if "%%K"=="45" set KNAME=川崎
+        if "%%K"=="46" set KNAME=金沢
+        if "%%K"=="47" set KNAME=笠松
+        if "%%K"=="48" set KNAME=名古屋
+        if "%%K"=="50" set KNAME=園田
+        if "%%K"=="51" set KNAME=姫路
+        if "%%K"=="54" set KNAME=高知
+        if "%%K"=="55" set KNAME=佐賀
+        
+        set CHECK_FILE=predictions\!KNAME!_%DATE_SHORT%_note.txt
+        if exist "!CHECK_FILE!" (
+            echo      - !KNAME!_%DATE_SHORT%_note.txt
+        )
+    )
+    echo.
+    echo    【ブッカーズ用】
+    for %%K in (%KEIBA_CODES%) do (
+        if "%%K"=="30" set KNAME=門別
+        if "%%K"=="35" set KNAME=盛岡
+        if "%%K"=="36" set KNAME=水沢
+        if "%%K"=="42" set KNAME=浦和
+        if "%%K"=="43" set KNAME=船橋
+        if "%%K"=="44" set KNAME=大井
+        if "%%K"=="45" set KNAME=川崎
+        if "%%K"=="46" set KNAME=金沢
+        if "%%K"=="47" set KNAME=笠松
+        if "%%K"=="48" set KNAME=名古屋
+        if "%%K"=="50" set KNAME=園田
+        if "%%K"=="51" set KNAME=姫路
+        if "%%K"=="54" set KNAME=高知
+        if "%%K"=="55" set KNAME=佐賀
+        
+        set CHECK_FILE=predictions\!KNAME!_%DATE_SHORT%_bookers.txt
+        if exist "!CHECK_FILE!" (
+            echo      - !KNAME!_%DATE_SHORT%_bookers.txt
+        )
+    )
     echo.
     echo 📋 次のステップ:
     echo    1. predictions フォルダを開く
-    echo    2. 各ファイルを確認
-    echo    3. Note / ブッカーズに投稿
+    echo    2. 各競馬場のファイルを確認
+    echo    3. Note用とブッカーズ用をそれぞれ投稿
     echo.
     echo 🚀 確認用コマンド:
     echo    explorer predictions

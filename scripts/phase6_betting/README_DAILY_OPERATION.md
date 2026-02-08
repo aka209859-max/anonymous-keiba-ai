@@ -277,7 +277,7 @@ def assign_rank_label(score):
 
 ---
 
-### 複数競馬場を一括処理したい
+### 複数競馬場の一括処理
 
 **バッチ処理スクリプトの例（Windows）:**
 
@@ -291,6 +291,18 @@ call scripts\phase6_betting\DAILY_OPERATION.bat 43 2026-02-10
 
 echo すべての競馬場の処理が完了しました！
 ```
+
+**または、BATCH_OPERATION.bat を使用（推奨）:**
+
+```batch
+REM 自動的に開催中の競馬場を検出して処理
+scripts\phase6_betting\BATCH_OPERATION.bat 2026-02-10 wed
+```
+
+**出力される各競馬場別のファイル:**
+- `predictions/大井_20260210_note.txt` + `predictions/大井_20260210_bookers.txt`
+- `predictions/川崎_20260210_note.txt` + `predictions/川崎_20260210_bookers.txt`
+- `predictions/船橋_20260210_note.txt` + `predictions/船橋_20260210_bookers.txt`
 
 **バッチ処理スクリプトの例（Linux/Mac）:**
 

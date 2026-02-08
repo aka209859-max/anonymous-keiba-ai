@@ -24,7 +24,13 @@ cd E:\anonymous-keiba-ai
 scripts\phase6_betting\BATCH_OPERATION.bat 2026-02-08 sat
 ```
 
-**自動的に開催中の競馬場を検出して処理します!**
+**自動的に開催中の競馬場を検出して、各競馬場別にNote用・ブッカーズ用を生成します!**
+
+**出力例:**
+- `predictions/佐賀_20260208_note.txt` + `predictions/佐賀_20260208_bookers.txt`
+- `predictions/大井_20260208_note.txt` + `predictions/大井_20260208_bookers.txt`
+- `predictions/川崎_20260208_note.txt` + `predictions/川崎_20260208_bookers.txt`
+- ...（その他の開催競馬場も同様）
 
 ---
 
@@ -90,6 +96,12 @@ scripts\phase6_betting\BATCH_OPERATION.bat 2026-02-10 wed
 REM 土曜日のすべての競馬場を一括処理
 scripts\phase6_betting\BATCH_OPERATION.bat 2026-02-08 sat
 ```
+
+**各競馬場別に以下のファイルが生成されます:**
+- 佐賀競馬: `佐賀_20260208_note.txt` + `佐賀_20260208_bookers.txt`
+- 大井競馬: `大井_20260208_note.txt` + `大井_20260208_bookers.txt`
+- 川崎競馬: `川崎_20260208_note.txt` + `川崎_20260208_bookers.txt`
+- ...（その他の開催場も同様に各2ファイル）
 
 ### パターン3: 特定の競馬場のみ（手動指定）
 
