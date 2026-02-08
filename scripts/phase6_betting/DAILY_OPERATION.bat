@@ -8,6 +8,7 @@ if "%~2"=="" goto :SHOW_USAGE
 
 set KEIBA_CODE=%~1
 set TARGET_DATE=%~2
+set DATE_SHORT=%TARGET_DATE:-=%
 
 if "%KEIBA_CODE%"=="30" set KEIBA_NAME=Monbetsu
 if "%KEIBA_CODE%"=="35" set KEIBA_NAME=Morioka
@@ -29,68 +30,63 @@ if "%KEIBA_NAME%"=="" (
     goto :SHOW_USAGE
 )
 
-set DATE_SHORT=%TARGET_DATE:-=%
-
 set ENSEMBLE_CSV=data\predictions\phase5\%KEIBA_NAME%_%DATE_SHORT%_ensemble.csv
 set NOTE_TXT=predictions\%KEIBA_NAME%_%DATE_SHORT%_note.txt
 set BOOKERS_TXT=predictions\%KEIBA_NAME%_%DATE_SHORT%_bookers.txt
 
 echo ==================================================
-echo Local Keiba AI Prediction - Daily Operation
+echo Keiba AI Daily Operation
 echo ==================================================
 echo.
 echo Venue: %KEIBA_NAME% (Code: %KEIBA_CODE%)
 echo Date: %TARGET_DATE%
 echo.
-echo Input CSV: %ENSEMBLE_CSV%
-echo Output 1  : %NOTE_TXT%
-echo Output 2  : %BOOKERS_TXT%
+echo Input : %ENSEMBLE_CSV%
+echo Output: %NOTE_TXT%
+echo        %BOOKERS_TXT%
 echo.
 echo ==================================================
 
 if not exist "%ENSEMBLE_CSV%" (
+    echo.
     echo [ERROR] Input file not found
     echo File: %ENSEMBLE_CSV%
     echo.
-    echo Please complete Phase 0-5 first
+    echo Please run Phase 0-5 first
+    echo.
     exit /b 1
 )
 
 echo.
-echo [Phase 6-1] Generating Note format text...
+echo [1/2] Generating Note format...
 python scripts\phase6_betting\generate_distribution_note.py "%ENSEMBLE_CSV%" "%NOTE_TXT%"
 
 if errorlevel 1 (
-    echo [ERROR] Note format generation failed
+    echo [ERROR] Note generation failed
     exit /b 1
 )
 
-echo [COMPLETE] Note format: %NOTE_TXT%
+echo [OK] Note: %NOTE_TXT%
 echo.
 
-echo [Phase 6-2] Generating Bookers format text...
+echo [2/2] Generating Bookers format...
 python scripts\phase6_betting\generate_distribution_bookers.py "%ENSEMBLE_CSV%" "%BOOKERS_TXT%"
 
 if errorlevel 1 (
-    echo [ERROR] Bookers format generation failed
+    echo [ERROR] Bookers generation failed
     exit /b 1
 )
 
-echo [COMPLETE] Bookers format: %BOOKERS_TXT%
+echo [OK] Bookers: %BOOKERS_TXT%
 echo.
 
 echo ==================================================
-echo All processing complete!
+echo All Complete!
 echo ==================================================
 echo.
-echo Generated files:
+echo Files:
 echo   1. Note    : %NOTE_TXT%
 echo   2. Bookers : %BOOKERS_TXT%
-echo.
-echo Next steps:
-echo   1. Review files in notepad
-echo   2. Copy and paste to Note
-echo   3. Copy and paste to Bookers
 echo.
 echo Commands:
 echo   notepad "%NOTE_TXT%"
@@ -101,24 +97,23 @@ goto :EOF
 
 :SHOW_USAGE
 echo ==================================================
-echo Local Keiba AI Prediction - Daily Operation
+echo Keiba AI Daily Operation
 echo ==================================================
 echo.
 echo Usage:
-echo   DAILY_OPERATION.bat [venue_code] [target_date]
+echo   DAILY_OPERATION.bat [code] [date]
 echo.
 echo Venue Codes:
-echo   30: Monbetsu   35: Morioka    36: Mizusawa   42: Urawa
-echo   43: Funabashi  44: Ooi        45: Kawasaki   46: Kanazawa
-echo   47: Kasamatsu  48: Nagoya     50: Sonoda     51: Himeji
-echo   54: Kochi      55: Saga
+echo   30=Monbetsu  35=Morioka   36=Mizusawa  42=Urawa
+echo   43=Funabashi 44=Ooi       45=Kawasaki  46=Kanazawa
+echo   47=Kasamatsu 48=Nagoya    50=Sonoda    51=Himeji
+echo   54=Kochi     55=Saga
 echo.
 echo Date Format: YYYY-MM-DD
 echo.
 echo Examples:
 echo   DAILY_OPERATION.bat 55 2026-02-08
 echo   DAILY_OPERATION.bat 44 2026-02-10
-echo   DAILY_OPERATION.bat 45 2026-02-10
 echo.
 echo ==================================================
 exit /b 1
