@@ -77,6 +77,12 @@ def predict_ranking(test_csv, models_dir, output_path):
         print(f"  - 不足特徴量を0で補完しました")
     
     X_test = df[model_features].fillna(0)
+    
+    # データ型変換: object型をnumericに変換
+    for col in X_test.columns:
+        if X_test[col].dtype == 'object':
+            X_test[col] = pd.to_numeric(X_test[col], errors='coerce').fillna(0)
+    
     print(f"  ✅ 特徴量準備完了: {len(model_features)}個")
     
     # 予測
