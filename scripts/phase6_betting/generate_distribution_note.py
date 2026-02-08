@@ -21,15 +21,15 @@ def safe_print(msg):
 def assign_rank_label(score):
     """スコアに基づいてランクラベルを付与（絵文字付き）"""
     if score >= 0.80:
-        return '⭐ S級'
+        return '⭐ S'
     elif score >= 0.70:
-        return '🔥 A級'
+        return '🔥 A'
     elif score >= 0.60:
-        return '💫 B級'
+        return '💫 B'
     elif score >= 0.50:
-        return '✨ C級'
+        return '✨ C'
     else:
-        return '📍 D級'
+        return '📍 D'
 
 
 def load_horse_names_from_raw(ensemble_csv_path):
@@ -302,11 +302,11 @@ def generate_distribution_text_note(input_csv, output_txt):
     lines.append("")
     lines.append("### 📌 ランク評価基準")
     lines.append("")
-    lines.append("- ⭐ **S級**: スコア0.80以上（最有力候補）")
-    lines.append("- 🔥 **A級**: スコア0.70-0.79（有力候補）")
-    lines.append("- 💫 **B級**: スコア0.60-0.69（注目候補）")
-    lines.append("- ✨ **C級**: スコア0.50-0.59（穴候補）")
-    lines.append("- 📍 **D級**: スコア0.50未満（警戒候補）")
+    lines.append("- ⭐ **S**: スコア0.80以上（最有力候補）")
+    lines.append("- 🔥 **A**: スコア0.70-0.79（有力候補）")
+    lines.append("- 💫 **B**: スコア0.60-0.69（注目候補）")
+    lines.append("- ✨ **C**: スコア0.50-0.59（穴候補）")
+    lines.append("- 📍 **D**: スコア0.50未満（警戒候補）")
     lines.append("")
     lines.append("---")
     lines.append("")
