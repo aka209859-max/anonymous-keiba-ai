@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Phase 3 二値分類モデルで予測を実行（予測専用版）
+Phase 3 二値分類モデルで予測を実行（予測専用版・全競馬場対応）
 
 target列がない予測用データに対応
+競馬場を自動検出してモデルを選択
 """
 
 import sys
@@ -14,16 +15,20 @@ import numpy as np
 import warnings
 warnings.filterwarnings('ignore')
 
-def predict_binary_classification(test_csv, model_path, output_path):
+# 親ディレクトリのutilsをインポート
+sys.path.insert(0, os.path.join(os.path.dirname(__file__), '..'))
+from utils.keibajo_mapping import extract_keibajo_from_filename, get_model_filename
+
+def predict_binary_classification(test_csv, models_dir, output_path):
     """
-    二値分類モデルで予測を実行（予測専用）
+    二値分類モデルで予測を実行（予測専用・全競馬場対応）
     
     Parameters
     ----------
     test_csv : str
         テストデータCSV（Phase 1の特徴量）
-    model_path : str
-        学習済みモデルパス
+    models_dir : str
+        モデルディレクトリ（例: models/binary/）
     output_path : str
         予測結果の出力先
     
@@ -33,11 +38,22 @@ def predict_binary_classification(test_csv, model_path, output_path):
         予測結果のサマリー
     """
     print(f"\n{'='*80}")
-    print(f"Phase 3 二値分類予測（予測専用モード）")
+    print(f"Phase 3 二値分類予測（予測専用モード・全競馬場対応）")
     print(f"{'='*80}")
     
+    # 競馬場を自動検出
+    try:
+        keibajo_name = extract_keibajo_from_filename(test_csv)
+        model_filename = get_model_filename(keibajo_name, 'binary')
+        model_path = os.path.join(models_dir, model_filename)
+        print(f"[競馬場検出] {keibajo_name} → モデル: {model_filename}")
+    except Exception as e:
+        print(f"❌ エラー: 競馬場の自動検出に失敗しました")
+        print(f"   {e}")
+        sys.exit(1)
+    
     # テストデータ読み込み
-    print(f"[1/5] テストデータ読み込み: {test_csv}")
+    print(f"\n[1/5] テストデータ読み込み: {test_csv}")
     try:
         df = pd.read_csv(test_csv, encoding='shift-jis')
         print("  - エンコーディング: Shift-JIS")
@@ -114,6 +130,7 @@ def predict_binary_classification(test_csv, model_path, output_path):
     
     # 予測結果サマリー
     results = {
+        'Keibajo': keibajo_name,
         'Data Count': len(df),
         'Average Probability': y_pred_proba.mean(),
         'Predicted Positive Count': y_pred.sum(),
@@ -121,6 +138,7 @@ def predict_binary_classification(test_csv, model_path, output_path):
     }
     
     print(f"\n[5/5] 予測結果サマリー")
+    print(f"  - 競馬場: {results['Keibajo']}")
     print(f"  - データ件数: {results['Data Count']:,}件")
     print(f"  - 平均入線確率: {results['Average Probability']:.4f}")
     print(f"  - 入線予測頭数: {results['Predicted Positive Count']}頭")
@@ -147,19 +165,23 @@ def predict_binary_classification(test_csv, model_path, output_path):
 
 if __name__ == "__main__":
     if len(sys.argv) != 4:
-        print("使用法: python predict_phase3.py <test_csv> <model_path> <output_csv>")
+        print("使用法: python predict_phase3_inference.py <test_csv> <models_dir> <output_csv>")
         print("\n例:")
-        print("  python predict_phase3.py data/features/2026/02/川崎_20260205_features.csv \\")
-        print("                           models/binary/kawasaki_2020-2025_v3_model.txt \\")
-        print("                           data/predictions/phase3/川崎_20260205_phase3_binary.csv")
+        print("  python predict_phase3_inference.py \\")
+        print("    data\\features\\2026\\02\\佐賀_20260207_features.csv \\")
+        print("    models\\binary \\")
+        print("    data\\predictions\\phase3\\佐賀_20260207_phase3_binary.csv")
+        print("\n注:")
+        print("  - 競馬場名は入力CSVファイル名から自動検出されます")
+        print("  - 対応競馬場: 門別、盛岡、水沢、浦和、船橋、大井、川崎、金沢、笠松、名古屋、園田、姫路、高知、佐賀")
         sys.exit(1)
     
     test_csv = sys.argv[1]
-    model_path = sys.argv[2]
+    models_dir = sys.argv[2]
     output_path = sys.argv[3]
     
     try:
-        results = predict_binary_classification(test_csv, model_path, output_path)
+        results = predict_binary_classification(test_csv, models_dir, output_path)
         print("\n" + "="*80)
         print("✅ Phase 3 二値分類予測完了")
         print("="*80)
