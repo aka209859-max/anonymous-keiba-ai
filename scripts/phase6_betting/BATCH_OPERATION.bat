@@ -149,6 +149,29 @@ if %SUCCESS_COUNT% gtr 0 (
         )
     )
     echo.
+    echo [Tweet Format]
+    for %%K in (%KEIBA_CODES%) do (
+        if "%%K"=="30" set KNAME=Monbetsu
+        if "%%K"=="35" set KNAME=Morioka
+        if "%%K"=="36" set KNAME=Mizusawa
+        if "%%K"=="42" set KNAME=Urawa
+        if "%%K"=="43" set KNAME=Funabashi
+        if "%%K"=="44" set KNAME=Ooi
+        if "%%K"=="45" set KNAME=Kawasaki
+        if "%%K"=="46" set KNAME=Kanazawa
+        if "%%K"=="47" set KNAME=Kasamatsu
+        if "%%K"=="48" set KNAME=Nagoya
+        if "%%K"=="50" set KNAME=Sonoda
+        if "%%K"=="51" set KNAME=Himeji
+        if "%%K"=="54" set KNAME=Kochi
+        if "%%K"=="55" set KNAME=Saga
+        
+        set CHECK_FILE=predictions\!KNAME!_%DATE_SHORT%_tweet.txt
+        if exist "!CHECK_FILE!" (
+            echo   - !KNAME!_%DATE_SHORT%_tweet.txt
+        )
+    )
+    echo.
     echo Next: Open predictions folder
     echo Command: explorer predictions
     echo.

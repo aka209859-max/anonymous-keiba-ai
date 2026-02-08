@@ -33,6 +33,7 @@ if "%KEIBA_NAME%"=="" (
 set ENSEMBLE_CSV=data\predictions\phase5\%KEIBA_NAME%_%DATE_SHORT%_ensemble.csv
 set NOTE_TXT=predictions\%KEIBA_NAME%_%DATE_SHORT%_note.txt
 set BOOKERS_TXT=predictions\%KEIBA_NAME%_%DATE_SHORT%_bookers.txt
+set TWEET_TXT=predictions\%KEIBA_NAME%_%DATE_SHORT%_tweet.txt
 
 echo ==================================================
 echo Keiba AI Daily Operation
@@ -44,6 +45,7 @@ echo.
 echo Input : %ENSEMBLE_CSV%
 echo Output: %NOTE_TXT%
 echo        %BOOKERS_TXT%
+echo        %TWEET_TXT%
 echo.
 echo ==================================================
 
@@ -58,7 +60,7 @@ if not exist "%ENSEMBLE_CSV%" (
 )
 
 echo.
-echo [1/2] Generating Note format...
+echo [1/3] Generating Note format...
 python scripts\phase6_betting\generate_distribution_note.py "%ENSEMBLE_CSV%" "%NOTE_TXT%"
 
 if errorlevel 1 (
@@ -69,7 +71,7 @@ if errorlevel 1 (
 echo [OK] Note: %NOTE_TXT%
 echo.
 
-echo [2/2] Generating Bookers format...
+echo [2/3] Generating Bookers format...
 python scripts\phase6_betting\generate_distribution_bookers.py "%ENSEMBLE_CSV%" "%BOOKERS_TXT%"
 
 if errorlevel 1 (
@@ -80,6 +82,17 @@ if errorlevel 1 (
 echo [OK] Bookers: %BOOKERS_TXT%
 echo.
 
+echo [3/3] Generating Tweet format...
+python scripts\phase6_betting\generate_distribution_tweet.py "%ENSEMBLE_CSV%" "%TWEET_TXT%"
+
+if errorlevel 1 (
+    echo [ERROR] Tweet generation failed
+    exit /b 1
+)
+
+echo [OK] Tweet: %TWEET_TXT%
+echo.
+
 echo ==================================================
 echo All Complete!
 echo ==================================================
@@ -87,10 +100,12 @@ echo.
 echo Files:
 echo   1. Note    : %NOTE_TXT%
 echo   2. Bookers : %BOOKERS_TXT%
+echo   3. Tweet   : %TWEET_TXT%
 echo.
 echo Commands:
 echo   notepad "%NOTE_TXT%"
 echo   notepad "%BOOKERS_TXT%"
+echo   notepad "%TWEET_TXT%"
 echo.
 echo ==================================================
 goto :EOF
