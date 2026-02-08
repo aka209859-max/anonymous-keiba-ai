@@ -10,20 +10,20 @@ set KEIBA_CODE=%~1
 set TARGET_DATE=%~2
 set DATE_SHORT=%TARGET_DATE:-=%
 
-if "%KEIBA_CODE%"=="30" set KEIBA_NAME=Monbetsu
-if "%KEIBA_CODE%"=="35" set KEIBA_NAME=Morioka
-if "%KEIBA_CODE%"=="36" set KEIBA_NAME=Mizusawa
-if "%KEIBA_CODE%"=="42" set KEIBA_NAME=Urawa
-if "%KEIBA_CODE%"=="43" set KEIBA_NAME=Funabashi
-if "%KEIBA_CODE%"=="44" set KEIBA_NAME=Ooi
-if "%KEIBA_CODE%"=="45" set KEIBA_NAME=Kawasaki
-if "%KEIBA_CODE%"=="46" set KEIBA_NAME=Kanazawa
-if "%KEIBA_CODE%"=="47" set KEIBA_NAME=Kasamatsu
-if "%KEIBA_CODE%"=="48" set KEIBA_NAME=Nagoya
-if "%KEIBA_CODE%"=="50" set KEIBA_NAME=Sonoda
-if "%KEIBA_CODE%"=="51" set KEIBA_NAME=Himeji
-if "%KEIBA_CODE%"=="54" set KEIBA_NAME=Kochi
-if "%KEIBA_CODE%"=="55" set KEIBA_NAME=Saga
+if "%KEIBA_CODE%"=="30" set KEIBA_NAME=門別
+if "%KEIBA_CODE%"=="35" set KEIBA_NAME=盛岡
+if "%KEIBA_CODE%"=="36" set KEIBA_NAME=水沢
+if "%KEIBA_CODE%"=="42" set KEIBA_NAME=浦和
+if "%KEIBA_CODE%"=="43" set KEIBA_NAME=船橋
+if "%KEIBA_CODE%"=="44" set KEIBA_NAME=大井
+if "%KEIBA_CODE%"=="45" set KEIBA_NAME=川崎
+if "%KEIBA_CODE%"=="46" set KEIBA_NAME=金沢
+if "%KEIBA_CODE%"=="47" set KEIBA_NAME=笠松
+if "%KEIBA_CODE%"=="48" set KEIBA_NAME=名古屋
+if "%KEIBA_CODE%"=="50" set KEIBA_NAME=園田
+if "%KEIBA_CODE%"=="51" set KEIBA_NAME=姫路
+if "%KEIBA_CODE%"=="54" set KEIBA_NAME=高知
+if "%KEIBA_CODE%"=="55" set KEIBA_NAME=佐賀
 
 if "%KEIBA_NAME%"=="" (
     echo [ERROR] Invalid venue code: %KEIBA_CODE%

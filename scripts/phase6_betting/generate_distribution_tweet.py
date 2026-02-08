@@ -196,7 +196,7 @@ def generate_distribution_text_tweet(input_csv, output_txt):
     keibajo_date = filename.replace('_ensemble', '')
     parts = keibajo_date.split('_')
     
-    # 競馬場名を日本語に変換
+    # 競馬場名を日本語に変換（既に日本語の場合はそのまま）
     keibajo_code_to_jp = {
         'Saga': '佐賀',
         'Ooi': '大井',
@@ -211,7 +211,22 @@ def generate_distribution_text_tweet(input_csv, output_txt):
         'Nagoya': '名古屋',
         'Sonoda': '園田',
         'Himeji': '姫路',
-        'Kochi': '高知'
+        'Kochi': '高知',
+        # 日本語のままの場合
+        '佐賀': '佐賀',
+        '大井': '大井',
+        '川崎': '川崎',
+        '船橋': '船橋',
+        '浦和': '浦和',
+        '門別': '門別',
+        '盛岡': '盛岡',
+        '水沢': '水沢',
+        '金沢': '金沢',
+        '笠松': '笠松',
+        '名古屋': '名古屋',
+        '園田': '園田',
+        '姫路': '姫路',
+        '高知': '高知'
     }
     
     keibajo_name_raw = parts[0] if len(parts) > 0 else "競馬場"
