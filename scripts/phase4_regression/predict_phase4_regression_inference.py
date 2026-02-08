@@ -25,8 +25,11 @@ def predict_regression(test_csv, models_dir, output_path):
     try:
         keibajo_name = extract_keibajo_from_filename(test_csv)
         model_filename = get_model_filename(keibajo_name, 'regression')
+        # models_dir の末尾の区切り文字を削除
+        models_dir = models_dir.rstrip('/\\')
         model_path = os.path.join(models_dir, model_filename)
         print(f"[競馬場検出] {keibajo_name} → モデル: {model_filename}")
+        print(f"[モデルパス] {model_path}")
     except Exception as e:
         print(f"❌ エラー: 競馬場の自動検出に失敗しました: {e}")
         sys.exit(1)
