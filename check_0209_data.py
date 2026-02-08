@@ -27,8 +27,8 @@ def check_data():
         conn = psycopg2.connect(**DB_CONFIG)
         cur = conn.cursor()
         
-        # 2026-02-09のデータを確認
-        target_date = '20260209'
+        # 2026-02-09のデータを確認（複数パターン対応）
+        target_patterns = ['20260209', '0209']
         
         query = '''
         SELECT 
@@ -37,12 +37,12 @@ def check_data():
             COUNT(*) as horse_count
         FROM nvd_se
         WHERE kaisai_nen = '2026'
-          AND kaisai_tsukihi = %s
+          AND (kaisai_tsukihi = %s OR kaisai_tsukihi LIKE %s)
         GROUP BY keibajo_code
         ORDER BY keibajo_code
         '''
         
-        cur.execute(query, (target_date,))
+        cur.execute(query, ('20260209', '0209%'))
         results = cur.fetchall()
         
         if results:
@@ -88,7 +88,7 @@ def check_data():
                 COUNT(*) as horse_count
             FROM nvd_se
             WHERE kaisai_nen = '2026'
-              AND kaisai_tsukihi >= '20260201'
+              AND (kaisai_tsukihi >= '20260201' OR kaisai_tsukihi LIKE '02%')
             GROUP BY kaisai_nen, kaisai_tsukihi
             ORDER BY kaisai_tsukihi DESC
             LIMIT 10
