@@ -113,6 +113,16 @@ def predict_binary_classification(test_csv, models_dir, output_path):
         X_test = X_test.fillna(0)
         print(f"  - 欠損値を0で補完しました")
     
+    # データ型を数値型に変換（object型を排除）
+    for col in X_test.columns:
+        if X_test[col].dtype == 'object':
+            try:
+                X_test[col] = pd.to_numeric(X_test[col], errors='coerce').fillna(0)
+                print(f"  - {col}: object → numeric に変換")
+            except:
+                X_test[col] = 0
+                print(f"  - {col}: 変換失敗 → 0で補完")
+    
     print(f"  ✅ 特徴量準備完了: {len(model_features)}個")
     
     # 予測
