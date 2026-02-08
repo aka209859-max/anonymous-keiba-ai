@@ -85,9 +85,11 @@ def get_target_races(conn, keibajo_code, target_date):
         kaisai_tsukihi,
         keibajo_code,
         race_bango,
-        hondai,              -- レース名（本題）
+        kyosomei_hondai,         -- レース名（本題）
+        kyosomei_ryakusho_10,    -- レース名（略称10文字）
         kyori,
         track_code,
+        course_kubun,            -- コース区分
         shusso_tosu,
         tenko_code,
         grade_code
