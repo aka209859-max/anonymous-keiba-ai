@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
 """
-Phase 0: PC-KEIBAデータベースからレースデータを取得（完全版・修正済み）
+Phase 0: PC-KEIBAデータベースからレースデータを取得（完全版・実測修正済み）
 学習時（extract_training_data_v2.py）と同じ特徴量を網羅的に取得する
 
 修正履歴:
 - 2026-02-07: race_me → 削除（存在しないカラム）
-- 2026-02-07: course_kubun → 削除（存在しないカラム）
-- 2026-02-07: ばんえい競馬の除外フィルタ追加
+- 2026-02-07: hondai → kyosomei_hondai に修正（実測により判明）
+- 2026-02-08: 実際のデータベース構造に基づき完全修正
 """
 
 import sys
@@ -75,8 +75,8 @@ def get_target_races(conn, keibajo_code, target_date):
     
     修正点:
     - race_me → 削除（存在しないカラム）
-    - course_kubun → 削除（存在しないカラム）
-    - hondai（本題）を追加（レース名として使用可能）
+    - hondai → kyosomei_hondai に修正（実測により判明）
+    - course_kubun → 存在するため維持
     - ばんえい競馬の除外フィルタ追加（track_code != '00'）
     """
     query = """
@@ -85,11 +85,11 @@ def get_target_races(conn, keibajo_code, target_date):
         kaisai_tsukihi,
         keibajo_code,
         race_bango,
-        kyosomei_hondai,         -- レース名（本題）
-        kyosomei_ryakusho_10,    -- レース名（略称10文字）
+        kyosomei_hondai,         -- レース名（本題）※実測により確認
+        kyosomei_ryakusho_10,    -- レース名略称（10文字）
         kyori,
         track_code,
-        course_kubun,            -- コース区分
+        course_kubun,            -- コース区分（存在確認済み）
         shusso_tosu,
         tenko_code,
         grade_code
@@ -119,7 +119,7 @@ def get_horse_entries(conn, df_races):
     出走馬データを取得（過去走データ・馬名含む・完全版）
     
     修正点:
-    - PC-KEIBAの正しいカラム名を使用
+    - PC-KEIBAの実測カラム名を使用
     - extract_training_data_v2.py と完全に同じ構造
     - ばんえい競馬の除外
     """
@@ -289,7 +289,7 @@ def get_horse_entries(conn, df_races):
 
 def main():
     """メイン処理"""
-    parser = argparse.ArgumentParser(description='PC-KEIBAからレースデータを取得（完全版・修正済み）')
+    parser = argparse.ArgumentParser(description='PC-KEIBAからレースデータを取得（完全版・実測修正済み）')
     parser.add_argument('--keibajo', required=True, help='競馬場コード (例: 55)')
     parser.add_argument('--date', required=True, help='開催日 (例: 20260207)')
     
@@ -336,14 +336,9 @@ def main():
         output_dir.mkdir(parents=True, exist_ok=True)
         
         # ファイル名設定
-        keibajo_name_romaji = {
-            '30': 'mombetsu', '33': 'obihiro', '35': 'morioka', '36': 'mizusawa',
-            '42': 'urawa', '43': 'funabashi', '44': 'ooi', '45': 'kawasaki',
-            '46': 'kanazawa', '47': 'kasamatsu', '48': 'nagoya',
-            '50': 'sonoda', '51': 'himeji', '54': 'kochi', '55': 'saga'
-        }.get(args.keibajo, f'venue{args.keibajo}')
+        keibajo_name_jp = KEIBAJO_MAP.get(args.keibajo, f'venue{args.keibajo}')
         
-        output_path = output_dir / f"{keibajo_name_romaji}_{date_short}_raw.csv"
+        output_path = output_dir / f"{keibajo_name_jp}_{date_short}_raw.csv"
         
         # CSV出力（UTF-8）
         df_horses.to_csv(output_path, index=False, encoding='utf-8')
