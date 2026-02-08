@@ -198,35 +198,14 @@ def generate_distribution_text_tweet(input_csv, output_txt):
     
     # 競馬場名を日本語に変換（既に日本語の場合はそのまま）
     keibajo_code_to_jp = {
-        'Saga': '佐賀',
-        'Ooi': '大井',
-        'Kawasaki': '川崎',
-        'Funabashi': '船橋',
-        'Urawa': '浦和',
-        'Monbetsu': '門別',
-        'Morioka': '盛岡',
-        'Mizusawa': '水沢',
-        'Kanazawa': '金沢',
-        'Kasamatsu': '笠松',
-        'Nagoya': '名古屋',
-        'Sonoda': '園田',
-        'Himeji': '姫路',
-        'Kochi': '高知',
+        'Saga': '佐賀', 'Ooi': '大井', 'Kawasaki': '川崎', 'Funabashi': '船橋',
+        'Urawa': '浦和', 'Monbetsu': '門別', 'Morioka': '盛岡', 'Mizusawa': '水沢',
+        'Kanazawa': '金沢', 'Kasamatsu': '笠松', 'Nagoya': '名古屋', 'Sonoda': '園田',
+        'Himeji': '姫路', 'Kochi': '高知',
         # 日本語のままの場合
-        '佐賀': '佐賀',
-        '大井': '大井',
-        '川崎': '川崎',
-        '船橋': '船橋',
-        '浦和': '浦和',
-        '門別': '門別',
-        '盛岡': '盛岡',
-        '水沢': '水沢',
-        '金沢': '金沢',
-        '笠松': '笠松',
-        '名古屋': '名古屋',
-        '園田': '園田',
-        '姫路': '姫路',
-        '高知': '高知'
+        '佐賀': '佐賀', '大井': '大井', '川崎': '川崎', '船橋': '船橋', '浦和': '浦和',
+        '門別': '門別', '盛岡': '盛岡', '水沢': '水沢', '金沢': '金沢', '笠松': '笠松',
+        '名古屋': '名古屋', '園田': '園田', '姫路': '姫路', '高知': '高知'
     }
     
     keibajo_name_raw = parts[0] if len(parts) > 0 else "競馬場"
@@ -281,7 +260,7 @@ def main():
     """メイン処理"""
     if len(sys.argv) != 3:
         safe_print("Usage: python generate_distribution_tweet.py <input_csv> <output_txt>")
-        safe_print("Example: python generate_distribution_tweet.py data\\predictions\\phase5\\Saga_20260208_ensemble.csv predictions\\Saga_20260208_tweet.txt")
+        safe_print("Example: python generate_distribution_tweet.py data\\predictions\\phase5\\佐賀_20260208_ensemble.csv predictions\\佐賀_20260208_tweet.txt")
         sys.exit(1)
     
     input_csv = sys.argv[1]
