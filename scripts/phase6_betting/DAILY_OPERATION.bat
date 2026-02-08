@@ -1,164 +1,123 @@
 @echo off
-REM ==================================================
-REM 地方競馬AI予想システム - 毎日運用バッチ
-REM Note & ブッカーズ用テキスト自動生成
-REM ==================================================
-
 setlocal enabledelayedexpansion
 
-REM ============================================
-REM 基本設定
-REM ============================================
 cd /d E:\anonymous-keiba-ai
 
-REM ============================================
-REM 引数チェック（競馬場コード と 日付）
-REM ============================================
 if "%~1"=="" goto :SHOW_USAGE
 if "%~2"=="" goto :SHOW_USAGE
 
 set KEIBA_CODE=%~1
 set TARGET_DATE=%~2
 
-REM ============================================
-REM 競馬場名マッピング
-REM ============================================
-if "%KEIBA_CODE%"=="30" set KEIBA_NAME=門別
-if "%KEIBA_CODE%"=="35" set KEIBA_NAME=盛岡
-if "%KEIBA_CODE%"=="36" set KEIBA_NAME=水沢
-if "%KEIBA_CODE%"=="42" set KEIBA_NAME=浦和
-if "%KEIBA_CODE%"=="43" set KEIBA_NAME=船橋
-if "%KEIBA_CODE%"=="44" set KEIBA_NAME=大井
-if "%KEIBA_CODE%"=="45" set KEIBA_NAME=川崎
-if "%KEIBA_CODE%"=="46" set KEIBA_NAME=金沢
-if "%KEIBA_CODE%"=="47" set KEIBA_NAME=笠松
-if "%KEIBA_CODE%"=="48" set KEIBA_NAME=名古屋
-if "%KEIBA_CODE%"=="50" set KEIBA_NAME=園田
-if "%KEIBA_CODE%"=="51" set KEIBA_NAME=姫路
-if "%KEIBA_CODE%"=="54" set KEIBA_NAME=高知
-if "%KEIBA_CODE%"=="55" set KEIBA_NAME=佐賀
+if "%KEIBA_CODE%"=="30" set KEIBA_NAME=Monbetsu
+if "%KEIBA_CODE%"=="35" set KEIBA_NAME=Morioka
+if "%KEIBA_CODE%"=="36" set KEIBA_NAME=Mizusawa
+if "%KEIBA_CODE%"=="42" set KEIBA_NAME=Urawa
+if "%KEIBA_CODE%"=="43" set KEIBA_NAME=Funabashi
+if "%KEIBA_CODE%"=="44" set KEIBA_NAME=Ooi
+if "%KEIBA_CODE%"=="45" set KEIBA_NAME=Kawasaki
+if "%KEIBA_CODE%"=="46" set KEIBA_NAME=Kanazawa
+if "%KEIBA_CODE%"=="47" set KEIBA_NAME=Kasamatsu
+if "%KEIBA_CODE%"=="48" set KEIBA_NAME=Nagoya
+if "%KEIBA_CODE%"=="50" set KEIBA_NAME=Sonoda
+if "%KEIBA_CODE%"=="51" set KEIBA_NAME=Himeji
+if "%KEIBA_CODE%"=="54" set KEIBA_NAME=Kochi
+if "%KEIBA_CODE%"=="55" set KEIBA_NAME=Saga
 
 if "%KEIBA_NAME%"=="" (
-    echo [エラー] 無効な競馬場コード: %KEIBA_CODE%
+    echo [ERROR] Invalid venue code: %KEIBA_CODE%
     goto :SHOW_USAGE
 )
 
-REM ============================================
-REM 日付フォーマット変換
-REM ============================================
-REM YYYY-MM-DD → YYYYMMDD
 set DATE_SHORT=%TARGET_DATE:-=%
 
-REM ============================================
-REM ファイルパス設定
-REM ============================================
 set ENSEMBLE_CSV=data\predictions\phase5\%KEIBA_NAME%_%DATE_SHORT%_ensemble.csv
 set NOTE_TXT=predictions\%KEIBA_NAME%_%DATE_SHORT%_note.txt
 set BOOKERS_TXT=predictions\%KEIBA_NAME%_%DATE_SHORT%_bookers.txt
 
 echo ==================================================
-echo 🏇 地方競馬AI予想 - 配信用テキスト生成
+echo Local Keiba AI Prediction - Daily Operation
 echo ==================================================
 echo.
-echo 競馬場: %KEIBA_NAME% (コード: %KEIBA_CODE%)
-echo 対象日: %TARGET_DATE%
+echo Venue: %KEIBA_NAME% (Code: %KEIBA_CODE%)
+echo Date: %TARGET_DATE%
 echo.
-echo 入力CSV: %ENSEMBLE_CSV%
-echo 出力1  : %NOTE_TXT%
-echo 出力2  : %BOOKERS_TXT%
+echo Input CSV: %ENSEMBLE_CSV%
+echo Output 1  : %NOTE_TXT%
+echo Output 2  : %BOOKERS_TXT%
 echo.
 echo ==================================================
 
-REM ============================================
-REM 入力ファイル存在確認
-REM ============================================
 if not exist "%ENSEMBLE_CSV%" (
-    echo [エラー] 入力ファイルが見つかりません
-    echo ファイル: %ENSEMBLE_CSV%
+    echo [ERROR] Input file not found
+    echo File: %ENSEMBLE_CSV%
     echo.
-    echo Phase 5 までの処理が完了しているか確認してください。
+    echo Please complete Phase 0-5 first
     exit /b 1
 )
 
-REM ============================================
-REM Phase 6-1: Note用テキスト生成
-REM ============================================
 echo.
-echo [Phase 6-1] Note用テキスト生成中...
+echo [Phase 6-1] Generating Note format text...
 python scripts\phase6_betting\generate_distribution_note.py "%ENSEMBLE_CSV%" "%NOTE_TXT%"
 
 if errorlevel 1 (
-    echo [エラー] Note用テキスト生成に失敗しました
+    echo [ERROR] Note format generation failed
     exit /b 1
 )
 
-echo [完了] Note用テキスト生成完了: %NOTE_TXT%
+echo [COMPLETE] Note format: %NOTE_TXT%
 echo.
 
-REM ============================================
-REM Phase 6-2: ブッカーズ用テキスト生成
-REM ============================================
-echo [Phase 6-2] ブッカーズ用テキスト生成中...
+echo [Phase 6-2] Generating Bookers format text...
 python scripts\phase6_betting\generate_distribution_bookers.py "%ENSEMBLE_CSV%" "%BOOKERS_TXT%"
 
 if errorlevel 1 (
-    echo [エラー] ブッカーズ用テキスト生成に失敗しました
+    echo [ERROR] Bookers format generation failed
     exit /b 1
 )
 
-echo [完了] ブッカーズ用テキスト生成完了: %BOOKERS_TXT%
+echo [COMPLETE] Bookers format: %BOOKERS_TXT%
 echo.
 
-REM ============================================
-REM 完了メッセージと次のステップ
-REM ============================================
 echo ==================================================
-echo ✅ すべての処理が完了しました！
+echo All processing complete!
 echo ==================================================
 echo.
-echo 📝 生成されたファイル:
-echo   1. Note用    : %NOTE_TXT%
-echo   2. ブッカーズ用: %BOOKERS_TXT%
+echo Generated files:
+echo   1. Note    : %NOTE_TXT%
+echo   2. Bookers : %BOOKERS_TXT%
 echo.
-echo 📋 次のステップ:
-echo   1. 各ファイルをメモ帳で開いて内容を確認
-echo   2. Note に投稿（コピー＆ペースト）
-echo   3. ブッカーズに投稿（コピー＆ペースト）
+echo Next steps:
+echo   1. Review files in notepad
+echo   2. Copy and paste to Note
+echo   3. Copy and paste to Bookers
 echo.
-echo 🚀 確認用コマンド:
+echo Commands:
 echo   notepad "%NOTE_TXT%"
 echo   notepad "%BOOKERS_TXT%"
 echo.
 echo ==================================================
 goto :EOF
 
-REM ============================================
-REM 使用方法表示
-REM ============================================
 :SHOW_USAGE
 echo ==================================================
-echo 🏇 地方競馬AI予想 - 配信用テキスト生成
+echo Local Keiba AI Prediction - Daily Operation
 echo ==================================================
 echo.
-echo 使用方法:
-echo   DAILY_OPERATION.bat [競馬場コード] [対象日付]
+echo Usage:
+echo   DAILY_OPERATION.bat [venue_code] [target_date]
 echo.
-echo 競馬場コード一覧:
-echo   30: 門別    35: 盛岡    36: 水沢    42: 浦和
-echo   43: 船橋    44: 大井    45: 川崎    46: 金沢
-echo   47: 笠松    48: 名古屋  50: 園田    51: 姫路
-echo   54: 高知    55: 佐賀
+echo Venue Codes:
+echo   30: Monbetsu   35: Morioka    36: Mizusawa   42: Urawa
+echo   43: Funabashi  44: Ooi        45: Kawasaki   46: Kanazawa
+echo   47: Kasamatsu  48: Nagoya     50: Sonoda     51: Himeji
+echo   54: Kochi      55: Saga
 echo.
-echo 日付フォーマット: YYYY-MM-DD
+echo Date Format: YYYY-MM-DD
 echo.
-echo 使用例:
-echo   REM 佐賀競馬 2026年2月8日
+echo Examples:
 echo   DAILY_OPERATION.bat 55 2026-02-08
-echo.
-echo   REM 大井競馬 2026年2月10日
 echo   DAILY_OPERATION.bat 44 2026-02-10
-echo.
-echo   REM 川崎競馬 2026年2月10日
 echo   DAILY_OPERATION.bat 45 2026-02-10
 echo.
 echo ==================================================
