@@ -1,161 +1,277 @@
-﻿# Anonymous Keiba AI
+﻿# 🏆 Anonymous Keiba AI - 最高峰の地方競馬予想システム
 
-地方競馬に特化した機械学習予想システム
+地方競馬に特化した**定量的取引エンジン（Quantitative Trading Engine）**
 
-## プロジェクト概要
+## 🎯 プロジェクト概要
 
-PC-KEIBA Database のデータを活用し、LightGBM + Boruta + Optuna による高精度な競馬予想AIを構築します。
+PC-KEIBA Database のデータを活用し、**LightGBM + Greedy Boruta + Optuna + Kelly基準**による、予測精度と投資収益率（ROI）を両立させた最高峰の競馬予想AIシステムです。
 
-## 技術スタック
+### 完成度: **76% → 100%への進化**
 
+- ✅ **Phase 0-6完成**: データ取得→特徴量作成→予測→アンサンブル→配信（76%）
+- 🔴 **Phase 7-10追加**: 特徴量選択→自動最適化→ベッティングエンジン→バックテスト（100%）
+
+## 💡 技術スタック
+
+### 基盤技術
 - **Python**: 3.14
 - **機械学習**: LightGBM
-- **特徴量選択**: Boruta
-- **ハイパーパラメータ最適化**: Optuna
 - **データベース**: PostgreSQL (PC-KEIBA)
 
-## プロジェクト構成
+### Phase 7-10 追加技術
+- **特徴量選択**: Greedy Boruta（高速・高精度）
+- **ハイパーパラメータ最適化**: Optuna 3.x（段階的チューニング）
+- **資金管理**: Kelly基準（Fractional Kelly）
+- **確率計算**: Harvilleの公式（3連単理論値）
 
-\\\
+## 📁 プロジェクト構成
+
+```
 anonymous-keiba-ai/
-├── docs/              # ドキュメント
-├── data/              # データ（.gitignore対象）
-├── src/               # ソースコード
-├── models/            # 学習済みモデル（.gitignore対象）
-└── scripts/           # SQL・補助スクリプト
-\\\
+├── scripts/
+│   ├── phase0_data_acquisition/       # [✅ 完成] データ取得
+│   ├── phase1_feature_engineering/    # [✅ 完成] 特徴量作成
+│   ├── phase3_binary/                 # [✅ 完成] 二値分類予測
+│   ├── phase4_ranking/                # [✅ 完成] ランキング予測
+│   ├── phase4_regression/             # [✅ 完成] 回帰予測
+│   ├── phase5_ensemble/               # [✅ 完成] アンサンブル統合
+│   ├── phase6_betting/                # [✅ 完成] 配信用ファイル生成
+│   ├── phase7_feature_selection/      # [🔴 NEW] Greedy Boruta特徴量選択
+│   ├── phase8_auto_optimization/      # [🔴 NEW] Optuna自動最適化
+│   ├── phase9_betting_engine/         # [🔴 NEW] ベッティングエンジン
+│   └── phase10_backtest/              # [🔴 NEW] バックテスト・ROI検証
+├── models/
+│   ├── binary/                        # Phase 3用モデル
+│   ├── ranking/                       # Phase 4-1用モデル
+│   ├── regression/                    # Phase 4-2用モデル
+│   └── best_params.json               # [🔴 NEW] Optuna最適パラメータ
+├── docs/
+│   ├── ROADMAP_TO_EXCELLENCE.md       # [🔴 NEW] 最高峰への進化ロードマップ
+│   ├── TECHNICAL_SPEC_EXCELLENCE.md   # [🔴 NEW] Phase 7-10技術仕様書
+│   ├── phase3_completion_report.md    # Phase 3完了レポート
+│   └── ...
+└── README.md
+```
 
-## 開発フェーズ
+## 🚀 開発フェーズ
 
-### Phase 1: ✅ 完了
-Development Ver. コード作成（Boruta + Optuna）
-- `train_development.py` - 学習プログラム
+### 現在の完成度: **76% → 100%**
 
-### Phase 2: ✅ 完了
-学習データ抽出SQL作成
-- `extract_training_data.py` - データ抽出スクリプト（基本版）
-- `extract_training_data_v2.py` - データ抽出スクリプト（過去走データ統合版）
-- `inspect_database.py` - DB構造調査ツール
-- `docs/sql_design.md` - SQL設計書
-- `docs/v2_execution_guide.md` - v2実行ガイド
+| Phase | 名称 | 状態 | 完成度 |
+|-------|------|------|--------|
+| **Phase 0** | データ取得 | ✅ 完成 | - |
+| **Phase 1** | 特徴量エンジニアリング | ✅ 完成 | - |
+| **Phase 3** | 二値分類（14競馬場） | ✅ 完成 | - |
+| **Phase 4-1** | ランキング予測 | ✅ 完成 | - |
+| **Phase 4-2** | 回帰予測（タイム） | ✅ 完成 | - |
+| **Phase 5** | アンサンブル統合 | ✅ 完成 | - |
+| **Phase 6** | 配信用ファイル生成 | ✅ 完成 | 76% |
+| **Phase 7** | 🔴 特徴量選択（Greedy Boruta） | 🔴 NEW | 85% |
+| **Phase 8** | 🔴 自動最適化（Optuna） | 🔴 NEW | 92% |
+| **Phase 9** | 🔴 ベッティングエンジン | 🔴 NEW | 100% |
+| **Phase 10** | 🔴 バックテスト | 🔴 NEW | 運用 |
 
-### Phase 2.5: ✅ 完了
-過去走データ統合
-- ROW_NUMBER()を使用した過去走データ取得
-- 前走〜5走前のデータを取得（着順、タイム、馬体重など）
-- 特徴量数: 18個 → 45個 に増加
+### Phase 0-6: ✅ 完成（76%）
 
-### Phase 3: ✅ 完了
-14競馬場のモデル生成完了
+#### Phase 3: 14競馬場モデル生成完了
 - **完了した競馬場**: 14競馬場（門別、姫路、大井、園田、高知、金沢、佐賀、名古屋、船橋、笠松、浦和、川崎、水沢、盛岡）
 - **合計データ件数**: 約68万件
 - **平均AUC**: 約0.77（範囲: 0.7459～0.8275）
-- **除外**: 帯広（ばんえい競馬、データなし）
-- `train_all_venues.py` - 全競馬場一括学習スクリプト
-- `docs/train_all_venues_guide.md` - 実行ガイド
-- `docs/phase3_completion_report.md` - **Phase 3完了レポート**
+- 詳細: `docs/phase3_completion_report.md`
 
-### Phase 4: 予定
-3つの特化モデル生成（二値分類・ランキング・回帰）
+### Phase 7-10: 🔴 最高峰への進化（76% → 100%）
 
-### Phase 5: 予定
-アンサンブル統合
+#### Phase 7: Advanced Feature Selection（高度な特徴量選択）
+**目的**: ノイズ除去・過学習防止
 
-## 使用方法
+- **Greedy Borutaの導入**: 従来のBorutaの5〜40倍高速
+- **ノイズフィルタリング**: 競走中止・失格・降着データの除外
+- **期待効果**: AUC +0.01〜0.03、計算効率向上
 
-### Phase 1: モデル学習
+#### Phase 8: Auto-Optimization（自動最適化）
+**目的**: ハイパーパラメータの極限最適化
+
+- **Optuna 3.x系の統合**: LightGBMTunerCVによる段階的チューニング
+- **クラス不均衡対策**: scale_pos_weightの動的調整
+- **期待効果**: AUC +0.02〜0.05、ロバスト性向上
+
+#### Phase 9: Betting Engine（ベッティングエンジン）
+**目的**: 期待値最大化・資金管理
+
+- **Harvilleの公式**: 3連単確率の理論値計算
+- **Kelly基準**: Fractional Kelly（1/4 Kelly）による資金配分
+- **期待値フィルタリング**: EV > 0の馬券のみ購入
+- **期待効果**: 回収率の最大化、リスク管理
+
+#### Phase 10: Simulation & Backtest（バックテスト）
+**目的**: ROI検証・継続改善
+
+- **バックテストエンジン**: 過去オッズデータでの損益シミュレーション
+- **評価指標**: ROI、的中率、最大ドローダウン、シャープレシオ
+- **PDCAサイクル**: 継続的な改善
+
+---
+
+## 📖 使用方法
+
+### 依存ライブラリのインストール
+
 ```bash
-# 依存ライブラリのインストール
-pip install -r requirements.txt
+# 基本ライブラリ
+pip install pandas numpy scikit-learn lightgbm matplotlib
 
-# CSVから学習
-python train_development.py data/sample.csv
+# Phase 7-10 追加ライブラリ
+pip install greedyboruta optuna
 ```
 
-### Phase 2: データ抽出
+### Phase 7: 特徴量選択
+
 ```bash
-# PC-KEIBA Databaseから学習データを抽出
-
-# === 基本版（過去走データなし）===
-python extract_training_data.py --start-date 2022 --end-date 2024 --output training_data.csv
-
-# === v2版（過去走データ統合版）- 推奨 ===
-# 特定の競馬場（例: 大井=44）、2023-2024年
-python extract_training_data_v2.py --keibajo 44 --start-date 2023 --end-date 2024 --output ooi_2023-2024_v3.csv
-
-# テストモード（1000件制限）
-python extract_training_data_v2.py --limit 1000 --output test_data_v2.csv
-
-# 全地方競馬場
-python extract_training_data_v2.py --start-date 2023 --end-date 2024 --output all_2023-2024_v3.csv
+python scripts/phase7_feature_selection/run_feature_selection.py \
+    data/features/input.csv \
+    data/features/selected.csv
 ```
 
-### Phase 3: 全15競馬場の一括学習
+### Phase 8: 自動最適化
+
 ```bash
-# 全15競馬場を一括学習（完了済みをスキップ）
-python train_all_venues.py
-
-# 完了済み競馬場も含めて全て実行
-python train_all_venues.py --include-completed
-
-# 特定の競馬場のみ実行（例: 名古屋=48）
-python train_all_venues.py --venue 48
-
-# データ抽出のみ実行（学習はスキップ）
-python train_all_venues.py --skip-training
-
-# 学習のみ実行（既存CSVを使用）
-python train_all_venues.py --skip-extraction
+python scripts/phase8_auto_optimization/run_optimization.py \
+    data/features/selected.csv
 ```
 
-詳細は `docs/train_all_venues_guide.md` を参照。
+### Phase 9: ベッティングエンジン
 
-### v2版の特徴
-- **過去走データを含む完全版**（前走〜5走前のデータを取得）
-- **特徴量数**: 18個 → **45個** に増加
-- **期待精度**: AUC 0.60-0.75 → **0.70-0.85**
-- **取得データ**: 前走着順、前走タイム、前走馬体重、コーナー順位など27項目
-
-### データベース構造調査
 ```bash
-# PC-KEIBA Databaseのテーブル構造を確認
-python inspect_database.py
+python scripts/phase9_betting_engine/run_betting_engine.py \
+    data/predictions/phase5/ensemble.csv \
+    data/odds/odds_data.csv
+```
+
+### Phase 10: バックテスト
+
+```bash
+python scripts/phase10_backtest/run_backtest.py \
+    data/betting_recommendations.csv \
+    data/actual_results.csv
 ```
 
 ---
 
-## 📊 Phase 3 学習結果（14競馬場完了）
+## 📊 現在の成績と期待される改善
 
-### 上位5競馬場
+### Phase 3完了時点（76%）
 
-| 順位 | 競馬場 | データ件数 | AUC | Accuracy | Precision | Recall | F1 |
-|------|--------|-----------|-----|----------|-----------|--------|-----|
-| 1 | **🥇 門別** | 57,017件 | **0.8275** | 0.7749 | - | 0.5085 | 0.5829 |
-| 2 | **🥈 姫路** | 18,071件 | **0.8148** | 0.7751 | - | - | - |
-| 3 | **🥉 大井** | 27,219件 | **0.7957** | 0.7906 | 0.6466 | 0.3486 | 0.4530 |
-| 4 | **園田** | 96,474件 | 0.7814 | 0.7620 | 0.6728 | 0.4100 | 0.5095 |
-| 5 | **高知** | 71,984件 | 0.7803 | 0.7614 | - | - | - |
-
-### 全14競馬場サマリー
-
-| 指標 | 値 |
-|------|-----|
-| **合計データ件数** | 約68万件 |
-| **平均AUC** | 約0.77 |
+| 指標 | 現在値 |
+|------|--------|
+| **平均AUC** | 0.77 |
 | **最高AUC** | 0.8275（門別） |
 | **最低AUC** | 0.7459（水沢） |
+| **的中率** | 約20% |
+| **回収率** | 約60% |
 
-**共通の特徴量重要度Top5:**
-1. 騎手コード (kishu_code) - **圧倒的に重要**
-2. 前走着順 (prev1_rank) - 過去走データの効果大
-3. 2走前着順 (prev2_rank)
-4. 開催月日 (kaisai_tsukihi) - 季節性
-5. 出走頭数 (shusso_tosu)
+### Phase 7-10完成後（100%）の期待値
 
-**詳細**: `docs/phase3_completion_report.md` を参照
+| 指標 | Phase 7 | Phase 8 | Phase 9 | 目標 |
+|------|---------|---------|---------|------|
+| **AUC** | 0.78 | 0.82 | - | 0.85 |
+| **的中率** | 25% | 30% | - | 35% |
+| **回収率** | - | - | 100% | 120% |
+| **ROI** | - | - | 10% | 20% |
+
+---
+
+## 📚 重要ドキュメント
+
+| ドキュメント | 説明 |
+|------------|------|
+| **[ROADMAP_TO_EXCELLENCE.md](docs/ROADMAP_TO_EXCELLENCE.md)** | 🔴 最高峰への進化ロードマップ（Phase 7-10の全体像） |
+| **[TECHNICAL_SPEC_EXCELLENCE.md](docs/TECHNICAL_SPEC_EXCELLENCE.md)** | 🔴 Phase 7-10の技術仕様書（実装詳細） |
+| **[phase3_completion_report.md](docs/phase3_completion_report.md)** | Phase 3完了レポート（14競馬場の学習結果） |
+
+---
+
+## 🔬 技術的ハイライト
+
+### 1. Greedy Boruta（Phase 7）
+- **シャドウ特徴量**で真のシグナルを抽出
+- 従来のBorutaの**5〜40倍高速**
+- **過学習防止**と**解釈性向上**
+
+### 2. Optuna段階的チューニング（Phase 8）
+- **LightGBMTunerCV**による自動最適化
+- **scale_pos_weight**の動的調整でクラス不均衡に対応
+- **ベイズ最適化（TPE）**で効率的な探索
+
+### 3. Harvilleの公式 + Kelly基準（Phase 9）
+- **Harville**: 3連単確率の理論値計算
+- **Fractional Kelly**: 破産確率を制御した資金配分
+- **期待値フィルタリング**: EV > 0の馬券のみ購入
+
+### 4. バックテスト（Phase 10）
+- **ROI検証**: 過去オッズデータでのシミュレーション
+- **評価指標**: ROI、的中率、最大ドローダウン、シャープレシオ
+- **PDCAサイクル**: 継続的な改善
+
+---
+
+## 🎓 設計思想
+
+### 「予測機」から「取引エンジン」へ
+
+- **従来のAI**: 着順予測のみ
+- **anonymous競馬AI**: 期待値計算 + 資金管理 + リスク制御
+
+### 数学的根拠の重視
+
+- **統計的有意性**: Greedy Borutaのシャドウ特徴量
+- **確率論**: Harvilleの公式による理論値計算
+- **金融工学**: Kelly基準による対数成長率最大化
+
+### 地方競馬特化の工夫
+
+- **ノイズ対策**: 競走中止・失格・降着データの完全排除
+- **クラス不均衡**: scale_pos_weightの動的調整
+- **過学習防止**: Fractional Kelly（1/4 Kelly）で過信を防ぐ
+
+---
+
+## 🚀 次のステップ
+
+### 開発者向け
+1. **Phase 7の実装**: `pip install greedyboruta` でGreedy Borutaをインストール
+2. **ノイズフィルタリング**: 競走除外データの除外ロジックを実装
+3. **Phase 8の統合**: OptunaとLightGBMの統合
+
+### システム管理者向け
+1. **実行環境の準備**: Python 3.14、必要ライブラリのインストール
+2. **データベースの整備**: 過去オッズデータの収集（Phase 10用）
+3. **バックアップの実施**: 既存モデルの保存
+
+---
+
+## 📝 更新履歴
+
+| 日付 | バージョン | 更新内容 |
+|------|----------|---------|
+| 2026-02-09 | v2.0 | Phase 7-10追加、最高峰への進化ロードマップ策定 |
+| 2025-XX-XX | v1.0 | Phase 0-6完成（76%） |
+
+---
+
+## 📚 参考文献
+
+1. **Greedy Boruta論文**: "GreedyBorutaPy: A faster and more efficient feature selection algorithm" (2024)
+2. **Optuna公式ドキュメント**: https://optuna.readthedocs.io/
+3. **Harvilleの公式**: Harville, D. A. (1973). "Assigning probabilities to the outcomes of multi-entry competitions"
+4. **Kelly基準**: Kelly, J. L. (1956). "A New Interpretation of Information Rate"
+5. **PC-KEIBA標準仕様書**: 本プロジェクト内部ドキュメント
 
 ---
 
 ## ライセンス
 
 MIT License
+
+---
+
+**最高峰の地方競馬AI予想システムへの進化、完成間近！** 🏆🚀
