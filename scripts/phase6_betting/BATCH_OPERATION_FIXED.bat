@@ -1,4 +1,5 @@
 @echo off
+chcp 65001 > nul
 setlocal enabledelayedexpansion
 
 cd /d E:\anonymous-keiba-ai
@@ -13,6 +14,7 @@ echo Keiba AI Batch Processing
 echo ==================================================
 echo.
 echo Target Date: %TARGET_DATE%
+echo Date Short: %DATE_SHORT%
 echo.
 echo ==================================================
 echo.
@@ -23,26 +25,30 @@ set KEIBA_CODES=
 set ALL_CODES=30 35 36 42 43 44 45 46 47 48 50 51 54 55
 
 for %%K in (%ALL_CODES%) do (
-    if "%%K"=="30" set KNAME=Monbetsu
-    if "%%K"=="35" set KNAME=Morioka
-    if "%%K"=="36" set KNAME=Mizusawa
-    if "%%K"=="42" set KNAME=Urawa
-    if "%%K"=="43" set KNAME=Funabashi
-    if "%%K"=="44" set KNAME=Ooi
-    if "%%K"=="45" set KNAME=Kawasaki
-    if "%%K"=="46" set KNAME=Kanazawa
-    if "%%K"=="47" set KNAME=Kasamatsu
-    if "%%K"=="48" set KNAME=Nagoya
-    if "%%K"=="50" set KNAME=Sonoda
-    if "%%K"=="51" set KNAME=Himeji
-    if "%%K"=="54" set KNAME=Kochi
-    if "%%K"=="55" set KNAME=Saga
+    if %%K==30 set KNAME=門別
+    if %%K==35 set KNAME=盛岡
+    if %%K==36 set KNAME=水沢
+    if %%K==42 set KNAME=浦和
+    if %%K==43 set KNAME=船橋
+    if %%K==44 set KNAME=大井
+    if %%K==45 set KNAME=川崎
+    if %%K==46 set KNAME=金沢
+    if %%K==47 set KNAME=笠松
+    if %%K==48 set KNAME=名古屋
+    if %%K==50 set KNAME=園田
+    if %%K==51 set KNAME=姫路
+    if %%K==54 set KNAME=高知
+    if %%K==55 set KNAME=佐賀
     
     set CHECK_FILE=data\predictions\phase5\!KNAME!_%DATE_SHORT%_ensemble.csv
+    
+    echo [CHECK] !KNAME! (%%K): !CHECK_FILE!
     
     if exist "!CHECK_FILE!" (
         echo [FOUND] !KNAME! - Code %%K
         set KEIBA_CODES=!KEIBA_CODES! %%K
+    ) else (
+        echo [SKIP] !KNAME! - File not found
     )
 )
 
@@ -54,6 +60,8 @@ if "%KEIBA_CODES%"=="" (
     echo   - Run Phase 0-5 first
     echo   - Check data\predictions\phase5\ folder
     echo   - Verify date: %TARGET_DATE%
+    echo.
+    echo Current directory: %CD%
     echo.
     exit /b 1
 )
@@ -72,7 +80,8 @@ for %%K in (%KEIBA_CODES%) do (
     echo Processing venue code %%K...
     echo --------------------------------------------------
     
-    call scripts\phase6_betting\DAILY_OPERATION.bat %%K %TARGET_DATE%
+    REM DAILY_OPERATION.bat を正しいパスで呼び出す
+    call DAILY_OPERATION.bat %%K %TARGET_DATE%
     
     if errorlevel 1 (
         echo [FAIL] Venue %%K
@@ -105,20 +114,20 @@ if %SUCCESS_COUNT% gtr 0 (
     echo.
     echo [Note Format]
     for %%K in (%KEIBA_CODES%) do (
-        if "%%K"=="30" set KNAME=Monbetsu
-        if "%%K"=="35" set KNAME=Morioka
-        if "%%K"=="36" set KNAME=Mizusawa
-        if "%%K"=="42" set KNAME=Urawa
-        if "%%K"=="43" set KNAME=Funabashi
-        if "%%K"=="44" set KNAME=Ooi
-        if "%%K"=="45" set KNAME=Kawasaki
-        if "%%K"=="46" set KNAME=Kanazawa
-        if "%%K"=="47" set KNAME=Kasamatsu
-        if "%%K"=="48" set KNAME=Nagoya
-        if "%%K"=="50" set KNAME=Sonoda
-        if "%%K"=="51" set KNAME=Himeji
-        if "%%K"=="54" set KNAME=Kochi
-        if "%%K"=="55" set KNAME=Saga
+        if %%K==30 set KNAME=門別
+        if %%K==35 set KNAME=盛岡
+        if %%K==36 set KNAME=水沢
+        if %%K==42 set KNAME=浦和
+        if %%K==43 set KNAME=船橋
+        if %%K==44 set KNAME=大井
+        if %%K==45 set KNAME=川崎
+        if %%K==46 set KNAME=金沢
+        if %%K==47 set KNAME=笠松
+        if %%K==48 set KNAME=名古屋
+        if %%K==50 set KNAME=園田
+        if %%K==51 set KNAME=姫路
+        if %%K==54 set KNAME=高知
+        if %%K==55 set KNAME=佐賀
         
         set CHECK_FILE=predictions\!KNAME!_%DATE_SHORT%_note.txt
         if exist "!CHECK_FILE!" (
@@ -128,24 +137,47 @@ if %SUCCESS_COUNT% gtr 0 (
     echo.
     echo [Bookers Format]
     for %%K in (%KEIBA_CODES%) do (
-        if "%%K"=="30" set KNAME=Monbetsu
-        if "%%K"=="35" set KNAME=Morioka
-        if "%%K"=="36" set KNAME=Mizusawa
-        if "%%K"=="42" set KNAME=Urawa
-        if "%%K"=="43" set KNAME=Funabashi
-        if "%%K"=="44" set KNAME=Ooi
-        if "%%K"=="45" set KNAME=Kawasaki
-        if "%%K"=="46" set KNAME=Kanazawa
-        if "%%K"=="47" set KNAME=Kasamatsu
-        if "%%K"=="48" set KNAME=Nagoya
-        if "%%K"=="50" set KNAME=Sonoda
-        if "%%K"=="51" set KNAME=Himeji
-        if "%%K"=="54" set KNAME=Kochi
-        if "%%K"=="55" set KNAME=Saga
+        if %%K==30 set KNAME=門別
+        if %%K==35 set KNAME=盛岡
+        if %%K==36 set KNAME=水沢
+        if %%K==42 set KNAME=浦和
+        if %%K==43 set KNAME=船橋
+        if %%K==44 set KNAME=大井
+        if %%K==45 set KNAME=川崎
+        if %%K==46 set KNAME=金沢
+        if %%K==47 set KNAME=笠松
+        if %%K==48 set KNAME=名古屋
+        if %%K==50 set KNAME=園田
+        if %%K==51 set KNAME=姫路
+        if %%K==54 set KNAME=高知
+        if %%K==55 set KNAME=佐賀
         
         set CHECK_FILE=predictions\!KNAME!_%DATE_SHORT%_bookers.txt
         if exist "!CHECK_FILE!" (
             echo   - !KNAME!_%DATE_SHORT%_bookers.txt
+        )
+    )
+    echo.
+    echo [Tweet Format]
+    for %%K in (%KEIBA_CODES%) do (
+        if %%K==30 set KNAME=門別
+        if %%K==35 set KNAME=盛岡
+        if %%K==36 set KNAME=水沢
+        if %%K==42 set KNAME=浦和
+        if %%K==43 set KNAME=船橋
+        if %%K==44 set KNAME=大井
+        if %%K==45 set KNAME=川崎
+        if %%K==46 set KNAME=金沢
+        if %%K==47 set KNAME=笠松
+        if %%K==48 set KNAME=名古屋
+        if %%K==50 set KNAME=園田
+        if %%K==51 set KNAME=姫路
+        if %%K==54 set KNAME=高知
+        if %%K==55 set KNAME=佐賀
+        
+        set CHECK_FILE=predictions\!KNAME!_%DATE_SHORT%_tweet.txt
+        if exist "!CHECK_FILE!" (
+            echo   - !KNAME!_%DATE_SHORT%_tweet.txt
         )
     )
     echo.

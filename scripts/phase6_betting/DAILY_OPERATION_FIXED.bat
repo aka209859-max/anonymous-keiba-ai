@@ -1,4 +1,5 @@
 @echo off
+chcp 65001 > nul
 setlocal enabledelayedexpansion
 
 cd /d E:\anonymous-keiba-ai
@@ -6,78 +7,120 @@ cd /d E:\anonymous-keiba-ai
 if "%~1"=="" goto :SHOW_USAGE
 if "%~2"=="" goto :SHOW_USAGE
 
-set KEIBA_CODE=%~1
-set TARGET_DATE=%~2
-set DATE_SHORT=%TARGET_DATE:-=%
+set "KEIBA_CODE=%~1"
+set "TARGET_DATE=%~2"
+set "DATE_SHORT=%TARGET_DATE:-=%"
 
-if "%KEIBA_CODE%"=="30" set KEIBA_NAME=Monbetsu
-if "%KEIBA_CODE%"=="35" set KEIBA_NAME=Morioka
-if "%KEIBA_CODE%"=="36" set KEIBA_NAME=Mizusawa
-if "%KEIBA_CODE%"=="42" set KEIBA_NAME=Urawa
-if "%KEIBA_CODE%"=="43" set KEIBA_NAME=Funabashi
-if "%KEIBA_CODE%"=="44" set KEIBA_NAME=Ooi
-if "%KEIBA_CODE%"=="45" set KEIBA_NAME=Kawasaki
-if "%KEIBA_CODE%"=="46" set KEIBA_NAME=Kanazawa
-if "%KEIBA_CODE%"=="47" set KEIBA_NAME=Kasamatsu
-if "%KEIBA_CODE%"=="48" set KEIBA_NAME=Nagoya
-if "%KEIBA_CODE%"=="50" set KEIBA_NAME=Sonoda
-if "%KEIBA_CODE%"=="51" set KEIBA_NAME=Himeji
-if "%KEIBA_CODE%"=="54" set KEIBA_NAME=Kochi
-if "%KEIBA_CODE%"=="55" set KEIBA_NAME=Saga
+set "KEIBA_NAME="
 
-if "%KEIBA_NAME%"=="" (
-    echo [ERROR] Invalid venue code: %KEIBA_CODE%
+if "!KEIBA_CODE!"=="30" set "KEIBA_NAME=門別"
+if "!KEIBA_CODE!"=="35" set "KEIBA_NAME=盛岡"
+if "!KEIBA_CODE!"=="36" set "KEIBA_NAME=水沢"
+if "!KEIBA_CODE!"=="42" set "KEIBA_NAME=浦和"
+if "!KEIBA_CODE!"=="43" set "KEIBA_NAME=船橋"
+if "!KEIBA_CODE!"=="44" set "KEIBA_NAME=大井"
+if "!KEIBA_CODE!"=="45" set "KEIBA_NAME=川崎"
+if "!KEIBA_CODE!"=="46" set "KEIBA_NAME=金沢"
+if "!KEIBA_CODE!"=="47" set "KEIBA_NAME=笠松"
+if "!KEIBA_CODE!"=="48" set "KEIBA_NAME=名古屋"
+if "!KEIBA_CODE!"=="50" set "KEIBA_NAME=園田"
+if "!KEIBA_CODE!"=="51" set "KEIBA_NAME=姫路"
+if "!KEIBA_CODE!"=="54" set "KEIBA_NAME=高知"
+if "!KEIBA_CODE!"=="55" set "KEIBA_NAME=佐賀"
+
+if "!KEIBA_NAME!"=="" (
+    echo [ERROR] Invalid venue code: !KEIBA_CODE!
     goto :SHOW_USAGE
 )
 
-set ENSEMBLE_CSV=data\predictions\phase5\%KEIBA_NAME%_%DATE_SHORT%_ensemble.csv
-set NOTE_TXT=predictions\%KEIBA_NAME%_%DATE_SHORT%_note.txt
-set BOOKERS_TXT=predictions\%KEIBA_NAME%_%DATE_SHORT%_bookers.txt
+set "ENSEMBLE_CSV=data\predictions\phase5\!KEIBA_NAME!_!DATE_SHORT!_ensemble.csv"
+set "NOTE_TXT=predictions\!KEIBA_NAME!_!DATE_SHORT!_note.txt"
+set "BOOKERS_TXT=predictions\!KEIBA_NAME!_!DATE_SHORT!_bookers.txt"
+set "TWEET_TXT=predictions\!KEIBA_NAME!_!DATE_SHORT!_tweet.txt"
 
 echo ==================================================
 echo Keiba AI Daily Operation
 echo ==================================================
 echo.
-echo Venue: %KEIBA_NAME% (Code: %KEIBA_CODE%)
-echo Date: %TARGET_DATE%
+echo Venue: !KEIBA_NAME! (Code: !KEIBA_CODE!)
+echo Date: !TARGET_DATE!
+echo Date Short: !DATE_SHORT!
 echo.
-echo Input : %ENSEMBLE_CSV%
-echo Output: %NOTE_TXT%
-echo        %BOOKERS_TXT%
+echo Current Dir: %CD%
+echo.
+echo Input : !ENSEMBLE_CSV!
+echo Output: !NOTE_TXT!
+echo        !BOOKERS_TXT!
+echo        !TWEET_TXT!
 echo.
 echo ==================================================
 
-if not exist "%ENSEMBLE_CSV%" (
+echo.
+echo [CHECK] Verifying input file...
+if not exist "!ENSEMBLE_CSV!" (
     echo.
     echo [ERROR] Input file not found
-    echo File: %ENSEMBLE_CSV%
+    echo File: !ENSEMBLE_CSV!
     echo.
-    echo Please run Phase 0-5 first
+    echo Please run Phase 0-5 first:
+    echo   run_all.bat !KEIBA_CODE! !TARGET_DATE!
     echo.
     exit /b 1
 )
+echo [OK] Input file exists
 
 echo.
-echo [1/2] Generating Note format...
-python scripts\phase6_betting\generate_distribution_note.py "%ENSEMBLE_CSV%" "%NOTE_TXT%"
+echo [CHECK] Creating output directory if needed...
+if not exist "predictions" mkdir predictions
+echo [OK] Output directory ready
+
+echo.
+echo [1/3] Generating Note format...
+python scripts\phase6_betting\generate_distribution_note.py "!ENSEMBLE_CSV!" "!NOTE_TXT!"
 
 if errorlevel 1 (
     echo [ERROR] Note generation failed
     exit /b 1
 )
 
-echo [OK] Note: %NOTE_TXT%
+if not exist "!NOTE_TXT!" (
+    echo [ERROR] Note file was not created
+    exit /b 1
+)
+
+echo [OK] Note: !NOTE_TXT!
 echo.
 
-echo [2/2] Generating Bookers format...
-python scripts\phase6_betting\generate_distribution_bookers.py "%ENSEMBLE_CSV%" "%BOOKERS_TXT%"
+echo [2/3] Generating Bookers format...
+python scripts\phase6_betting\generate_distribution_bookers.py "!ENSEMBLE_CSV!" "!BOOKERS_TXT!"
 
 if errorlevel 1 (
     echo [ERROR] Bookers generation failed
     exit /b 1
 )
 
-echo [OK] Bookers: %BOOKERS_TXT%
+if not exist "!BOOKERS_TXT!" (
+    echo [ERROR] Bookers file was not created
+    exit /b 1
+)
+
+echo [OK] Bookers: !BOOKERS_TXT!
+echo.
+
+echo [3/3] Generating Tweet format...
+python scripts\phase6_betting\generate_distribution_tweet.py "!ENSEMBLE_CSV!" "!TWEET_TXT!"
+
+if errorlevel 1 (
+    echo [ERROR] Tweet generation failed
+    exit /b 1
+)
+
+if not exist "!TWEET_TXT!" (
+    echo [ERROR] Tweet file was not created
+    exit /b 1
+)
+
+echo [OK] Tweet: !TWEET_TXT!
 echo.
 
 echo ==================================================
@@ -85,12 +128,19 @@ echo All Complete!
 echo ==================================================
 echo.
 echo Files:
-echo   1. Note    : %NOTE_TXT%
-echo   2. Bookers : %BOOKERS_TXT%
+echo   1. Note    : !NOTE_TXT!
+echo   2. Bookers : !BOOKERS_TXT!
+echo   3. Tweet   : !TWEET_TXT!
+echo.
+echo Verification:
+dir "!NOTE_TXT!" 2>nul
+dir "!BOOKERS_TXT!" 2>nul
+dir "!TWEET_TXT!" 2>nul
 echo.
 echo Commands:
-echo   notepad "%NOTE_TXT%"
-echo   notepad "%BOOKERS_TXT%"
+echo   notepad "!NOTE_TXT!"
+echo   notepad "!BOOKERS_TXT!"
+echo   notepad "!TWEET_TXT!"
 echo.
 echo ==================================================
 goto :EOF
@@ -112,8 +162,8 @@ echo.
 echo Date Format: YYYY-MM-DD
 echo.
 echo Examples:
-echo   DAILY_OPERATION.bat 55 2026-02-08
-echo   DAILY_OPERATION.bat 44 2026-02-10
+echo   DAILY_OPERATION.bat 43 2026-02-10
+echo   DAILY_OPERATION.bat 48 2026-02-10
 echo.
 echo ==================================================
 exit /b 1
