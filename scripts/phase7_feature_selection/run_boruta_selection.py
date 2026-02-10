@@ -305,13 +305,25 @@ def load_training_data(csv_file):
     exclude_columns = [
         'race_id', 'kaisai_nen', 'kaisai_tsukihi', 'keibajo_code', 'race_bango',
         'ketto_toroku_bango', 'umaban', 'kakutei_chakujun', 'race_result',
-        'binary_target', 'rank_target'
+        'binary_target', 'rank_target', 'target'
     ]
+    
+    # 目的変数カラムを自動検出（'target' または 'binary_target'）
+    target_col = None
+    if 'target' in df.columns:
+        target_col = 'target'
+    elif 'binary_target' in df.columns:
+        target_col = 'binary_target'
+    else:
+        print(f"❌ エラー: 目的変数カラムが見つかりません（'target' または 'binary_target' が必要）")
+        sys.exit(1)
+    
+    print(f"✅ 目的変数カラム検出: {target_col}")
     
     feature_columns = [col for col in df.columns if col not in exclude_columns]
     
     X = df[feature_columns].copy()
-    y = df['binary_target'].copy()
+    y = df[target_col].copy()
     
     # 欠損値を0で埋める
     X.fillna(0, inplace=True)
