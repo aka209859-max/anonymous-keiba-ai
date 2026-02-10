@@ -33,12 +33,10 @@ import numpy as np
 import json
 import argparse
 import matplotlib.pyplot as plt
-import seaborn as sns
 from pathlib import Path
-from sklearn.model_selection import StratifiedKFold
+from sklearn.model_selection import StratifiedKFold, cross_val_score
 import lightgbm as lgb
 import optuna
-from optuna.integration import LightGBMTuner
 
 # プロジェクトルートをパスに追加
 project_root = Path(__file__).parent.parent.parent
@@ -161,7 +159,7 @@ def calculate_scale_pos_weight(y):
 
 def run_optuna_tuning(X, y, n_trials, timeout, cv_folds, scale_pos_weight):
     """
-    Optuna + LightGBM Tunerでハイパーパラメータ最適化
+    Optunaでハイパーパラメータ最適化
     
     Args:
         X: 特徴量DataFrame
@@ -183,37 +181,57 @@ def run_optuna_tuning(X, y, n_trials, timeout, cv_folds, scale_pos_weight):
     print(f"  - cv_folds: {cv_folds}fold")
     print(f"  - scale_pos_weight: {scale_pos_weight:.2f}")
     
-    # LightGBMデータセット作成
-    train_data = lgb.Dataset(X, label=y)
+    # Optuna目的関数
+    def objective(trial):
+        # ハイパーパラメータのサンプリング
+        param = {
+            'objective': 'binary',
+            'metric': 'auc',
+            'boosting_type': 'gbdt',
+            'scale_pos_weight': scale_pos_weight,
+            'verbosity': -1,
+            'seed': 42,
+            'learning_rate': trial.suggest_float('learning_rate', 0.01, 0.3, log=True),
+            'num_leaves': trial.suggest_int('num_leaves', 20, 200),
+            'max_depth': trial.suggest_int('max_depth', 3, 12),
+            'min_child_samples': trial.suggest_int('min_child_samples', 5, 100),
+            'subsample': trial.suggest_float('subsample', 0.5, 1.0),
+            'colsample_bytree': trial.suggest_float('colsample_bytree', 0.5, 1.0),
+            'reg_alpha': trial.suggest_float('reg_alpha', 1e-8, 10.0, log=True),
+            'reg_lambda': trial.suggest_float('reg_lambda', 1e-8, 10.0, log=True),
+        }
+        
+        # Cross-Validation
+        cv_results = lgb.cv(
+            param,
+            lgb.Dataset(X, label=y),
+            num_boost_round=1000,
+            folds=StratifiedKFold(n_splits=cv_folds, shuffle=True, random_state=42),
+            callbacks=[lgb.early_stopping(50), lgb.log_evaluation(0)],
+            return_cvbooster=False
+        )
+        
+        # 最高AUCを返す
+        return cv_results['valid auc-mean'][-1]
     
-    # 固定パラメータ
-    params = {
-        'objective': 'binary',
-        'metric': 'auc',
-        'boosting_type': 'gbdt',
-        'scale_pos_weight': scale_pos_weight,
-        'verbose': -1,
-        'seed': 42
-    }
-    
-    # Optuna Tuner
+    # Optuna Study
     print("\n⏳ 最適化開始...")
     
-    tuner = LightGBMTuner(
-        params=params,
-        train_set=train_data,
-        num_boost_round=1000,
-        folds=StratifiedKFold(n_splits=cv_folds, shuffle=True, random_state=42),
-        callbacks=[lgb.early_stopping(50), lgb.log_evaluation(0)],
-        optuna_seed=42,
+    study = optuna.create_study(
+        direction='maximize',
+        sampler=optuna.samplers.TPESampler(seed=42)
+    )
+    
+    study.optimize(
+        objective,
+        n_trials=n_trials,
+        timeout=timeout,
         show_progress_bar=True
     )
     
-    tuner.run()
-    
     # 最適パラメータ取得
-    best_params = tuner.best_params
-    best_score = tuner.best_score
+    best_params = study.best_params
+    best_score = study.best_value
     
     print(f"\n✅ 最適化完了")
     print(f"  - 最高AUC: {best_score:.4f}")
