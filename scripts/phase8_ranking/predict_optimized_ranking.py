@@ -44,11 +44,13 @@ def predict_optimized_ranking(test_csv, models_dir, output_path, selected_featur
     
     # 競馬場を自動検出
     try:
+        from utils.keibajo_mapping import get_keibajo_romaji
         keibajo_name = extract_keibajo_from_filename(test_csv)
-        model_filename = keibajo_name + '_ranking_tuned_model.txt'
+        keibajo_romaji = get_keibajo_romaji(keibajo_name)
+        model_filename = keibajo_romaji + '_ranking_tuned_model.txt'
         models_dir = models_dir.rstrip('/\\')
         model_path = os.path.join(models_dir, model_filename)
-        print(f"[競馬場検出] {keibajo_name} → モデル: {model_filename}")
+        print(f"[競馬場検出] {keibajo_name} → {keibajo_romaji} → モデル: {model_filename}")
         print(f"[モデルパス] {model_path}")
     except Exception as e:
         print(f"❌ エラー: 競馬場の自動検出に失敗しました: {e}")
@@ -56,7 +58,7 @@ def predict_optimized_ranking(test_csv, models_dir, output_path, selected_featur
     
     # 選択特徴量の読み込み（Phase7の出力）
     if selected_features_path is None:
-        selected_features_path = f"data/features/selected/{keibajo_name}_ranking_selected_features.csv"
+        selected_features_path = f"data/features/selected/{keibajo_romaji}_ranking_selected_features.csv"
     
     print(f"\n[1/6] 選択特徴量読み込み: {selected_features_path}")
     if not os.path.exists(selected_features_path):
