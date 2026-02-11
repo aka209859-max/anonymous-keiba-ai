@@ -80,6 +80,7 @@ def create_query_with_past_races(keibajo_code=None, start_year=None, end_year=No
             se.ketto_toroku_bango,
             se.umaban,
             se.kakutei_chakujun,
+            se.soha_time,  -- 追加: Regression学習用の走破タイム
             
             -- レース情報
             ra.kyori,
@@ -180,6 +181,18 @@ def create_query_with_past_races(keibajo_code=None, start_year=None, end_year=No
             ELSE 0
         END AS target,
         
+        -- Ranking target: 着順 (Phase 7/8 Ranking用)
+        CASE 
+            WHEN tr.kakutei_chakujun ~ '^[0-9]+$' THEN tr.kakutei_chakujun::INTEGER
+            ELSE NULL
+        END AS rank_target,
+        
+        -- Regression target: 走破タイム (Phase 7/8 Regression用)
+        CASE 
+            WHEN tr.soha_time ~ '^[0-9.]+$' THEN tr.soha_time::NUMERIC
+            ELSE NULL
+        END AS time,
+        
         -- Race identifiers
         tr.kaisai_nen,
         tr.kaisai_tsukihi,
@@ -257,6 +270,7 @@ def create_query_with_past_races(keibajo_code=None, start_year=None, end_year=No
         tr.ketto_toroku_bango,
         tr.umaban,
         tr.kakutei_chakujun,
+        tr.soha_time,  -- 追加: GROUP BY に含める
         tr.kyori,
         tr.track_code,
         tr.babajotai_code_shiba,
