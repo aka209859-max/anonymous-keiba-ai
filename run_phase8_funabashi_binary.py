@@ -53,11 +53,11 @@ def main():
     print()
     
     # Build command
+    # Note: run_optuna_tuning.py automatically finds selected features from venue name
     cmd = [
         sys.executable,
         str(script),
         str(input_file),
-        str(selected_features),
         "--n-trials", "100",
         "--timeout", "7200"  # 2 hours
     ]
