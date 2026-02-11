@@ -1,71 +1,70 @@
 @echo off
-chcp 65001 > nul
+REM UTF-8 BOM付きで保存すること
 setlocal EnableDelayedExpansion
 
 echo ============================================================
-echo 🧪 船橋 Phase 7 Ranking 特徴量選択テスト
+echo [Phase 7 Ranking] Funabashi Feature Selection Test
 echo ============================================================
 echo.
-echo 📊 対象データ: funabashi_2020-2026_with_time_PHASE78.csv
-echo 🎯 目的: Ranking学習に最適な特徴量を選定
-echo ⏱️  推定時間: 約10〜20分
+echo Target data: funabashi_2020-2026_with_time_PHASE78.csv
+echo Purpose: Select optimal features for Ranking model
+echo Estimated time: 10-20 minutes
 echo.
 
 REM 出力ディレクトリの作成
 if not exist "data\features\selected" mkdir "data\features\selected"
 if not exist "data\reports\phase7_feature_selection" mkdir "data\reports\phase7_feature_selection"
 
-REM 入力ファイルの確認
+REM Check input file
 set INPUT_FILE=data\training\funabashi_2020-2026_with_time_PHASE78.csv
 if not exist "%INPUT_FILE%" (
-    echo ❌ エラー: 入力ファイルが見つかりません
+    echo [ERROR] Input file not found
     echo    %INPUT_FILE%
     echo.
-    echo 先に GENERATE_ALL_TRAINING_DATA.bat を実行してください。
+    echo Please run GENERATE_ALL_TRAINING_DATA.bat first.
     pause
     exit /b 1
 )
 
-echo ✅ 入力ファイル確認完了
+echo [OK] Input file verified
 echo.
 echo ============================================================
-echo Phase 7 Ranking 特徴量選択を開始します...
+echo Starting Phase 7 Ranking feature selection...
 echo ============================================================
 echo.
 
-REM Phase 7 Ranking 実行
+REM Run Phase 7 Ranking (remove --verbose option)
 python scripts\phase7_feature_selection\run_boruta_ranking.py ^
   "%INPUT_FILE%" ^
-  --max-iter 100 ^
-  --verbose
+  --max-iter 100
 
 if !ERRORLEVEL! EQU 0 (
     echo.
     echo ============================================================
-    echo ✅ 船橋 Phase 7 Ranking 特徴量選択が完了しました！
+    echo [OK] Funabashi Phase 7 Ranking feature selection completed!
     echo ============================================================
     echo.
-    echo 📁 出力ファイル:
+    echo Output files:
     echo   - data\features\selected\funabashi_ranking_selected_features.csv
     echo   - data\reports\phase7_feature_selection\funabashi_ranking_importance.png
     echo   - data\reports\phase7_feature_selection\funabashi_ranking_report.json
     echo.
-    echo 次のステップ:
-    echo   1. 特徴量重要度グラフを確認
-    echo   2. Phase 7 Regression を実行
-    echo   3. Phase 8 Optuna最適化を実行
+    echo Next steps:
+    echo   1. Check feature importance graph
+    echo   2. Run Phase 7 Regression
+    echo   3. Run Phase 8 Optuna optimization
     echo.
 ) else (
     echo.
     echo ============================================================
-    echo ❌ エラーが発生しました
+    echo [ERROR] An error occurred
     echo ============================================================
     echo.
-    echo トラブルシューティング:
-    echo   1. データファイルの構造を確認してください
-    echo   2. 必要なPythonパッケージがインストールされているか確認してください
+    echo Troubleshooting:
+    echo   1. Verify data file structure
+    echo   2. Check if required Python packages are installed:
     echo      pip install boruta scikit-learn pandas numpy matplotlib
-    echo   3. --max-iter を減らしてみてください (100 → 50)
+    echo   3. Try reducing --max-iter (100 to 50)
     echo.
 )
 
