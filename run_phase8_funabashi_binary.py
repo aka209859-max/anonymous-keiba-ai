@@ -17,6 +17,7 @@ def main():
     
     # Paths
     base_dir = Path(__file__).parent
+    input_file = base_dir / "data" / "training" / "funabashi_2020-2026_with_time_PHASE78.csv"
     selected_features = base_dir / "data" / "features" / "selected" / "funabashi_selected_features.csv"
     output_dir = base_dir / "data" / "models" / "tuned"
     report_dir = base_dir / "data" / "reports" / "phase8_tuning"
@@ -24,11 +25,16 @@ def main():
     # Script path
     script = base_dir / "scripts" / "phase8_auto_tuning" / "run_optuna_tuning.py"
     
-    print(f"Target data: funabashi")
+    print(f"Target data: funabashi_2020-2026_with_time_PHASE78.csv")
+    print(f"Input file: {input_file}")
     print(f"Selected features: {selected_features}")
     print()
     
-    # Verify selected features file exists
+    # Verify input files exist
+    if not input_file.exists():
+        print(f"❌ Error: Input file not found: {input_file}")
+        return 1
+    
     if not selected_features.exists():
         print(f"❌ Error: Selected features file not found: {selected_features}")
         print()
@@ -40,6 +46,7 @@ def main():
     output_dir.mkdir(parents=True, exist_ok=True)
     report_dir.mkdir(parents=True, exist_ok=True)
     
+    print("✓ Input file exists")
     print("✓ Selected features file exists")
     print(f"✓ Output directory: {output_dir}")
     print(f"✓ Report directory: {report_dir}")
@@ -49,6 +56,7 @@ def main():
     cmd = [
         sys.executable,
         str(script),
+        str(input_file),
         str(selected_features),
         "--n-trials", "100",
         "--timeout", "7200"  # 2 hours
