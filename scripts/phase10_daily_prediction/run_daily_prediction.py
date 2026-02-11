@@ -107,7 +107,7 @@ def load_selected_features(venue_name):
 
 def load_race_data(venue_code, target_date):
     """
-    当日の出走表データを読み込む（Phase 0-4で生成されたデータ）
+    当日の出走表データを読み込む（Phase 1で生成された特徴量データ）
     
     Args:
         venue_code: 競馬場コード（例: 44）
@@ -118,15 +118,25 @@ def load_race_data(venue_code, target_date):
     """
     date_short = target_date.replace('-', '')  # 20260211形式
     
-    # Phase 4の予測用データを探す
+    # Phase 1の特徴量データのみを探す（50カラムの完全な特徴量データ）
+    # data/features/YYYY/MM/*YYYYMMDD*_features.csv 形式
+    year = target_date.split('-')[0]
+    month = target_date.split('-')[1]
+    
     search_patterns = [
-        project_root / 'data' / 'predictions' / 'phase4' / f'*{date_short}*.csv',
-        project_root / 'data' / 'training' / 'cleaned' / f'*{date_short}*.csv',
-        project_root / 'data' / 'features' / 'engineered' / f'*{date_short}*.csv',
+        project_root / 'data' / 'features' / year / month / f'*{date_short}*features.csv',
+        project_root / 'data' / 'features' / year / month / f'*{date_short}*.csv',
     ]
     
     for pattern in search_patterns:
+        if not pattern.parent.exists():
+            continue
+            
         matches = list(pattern.parent.glob(pattern.name))
+        
+        # ensemble.csv を除外（Phase 5のアンサンブル結果は特徴量が含まれていない）
+        matches = [m for m in matches if 'ensemble' not in m.name.lower()]
+        
         if matches:
             csv_path = matches[0]
             print(f"✅ レースデータ読み込み: {csv_path}")
@@ -138,9 +148,24 @@ def load_race_data(venue_code, target_date):
                 df = pd.read_csv(csv_path, encoding='utf-8')
             
             print(f"  - レコード数: {len(df)}件")
+            print(f"  - カラム数: {len(df.columns)}個")
+            
+            # カラム数チェック（Phase 1のデータは通常40-50カラム）
+            if len(df.columns) < 30:
+                print(f"⚠️ 警告: カラム数が少ない({len(df.columns)}個)。Phase 1のデータではない可能性があります。")
+                continue
+            
             return df
     
-    raise FileNotFoundError(f"❌ レースデータが見つかりません: {venue_code} {target_date}")
+    raise FileNotFoundError(
+        f"❌ Phase 1の特徴量データが見つかりません\n"
+        f"   競馬場コード: {venue_code}\n"
+        f"   対象日: {target_date}\n"
+        f"   探索パス: data/features/{year}/{month}/*{date_short}*features.csv\n"
+        f"   \n"
+        f"   Phase 1のデータを生成してください:\n"
+        f"   > run_all.bat {venue_code} {target_date}"
+    )
 
 
 def predict(model, X, selected_features):
@@ -155,6 +180,27 @@ def predict(model, X, selected_features):
     Returns:
         np.ndarray: 予測確率
     """
+    # デバッグ: 入力データのカラムを表示
+    print(f"  - 入力データのカラム数: {len(X.columns)}個")
+    
+    # 選択された特徴量がデータに存在するか確認
+    missing_features = [f for f in selected_features if f not in X.columns]
+    if missing_features:
+        print(f"⚠️ 警告: 以下の特徴量がデータに存在しません:")
+        for i, feat in enumerate(missing_features[:10], 1):
+            print(f"     {i}. {feat}")
+        if len(missing_features) > 10:
+            print(f"     ... 他 {len(missing_features) - 10}個")
+        
+        # 存在する特徴量のみを使用
+        available_features = [f for f in selected_features if f in X.columns]
+        print(f"  - 使用可能な特徴量: {len(available_features)}/{len(selected_features)}個")
+        
+        if len(available_features) == 0:
+            raise ValueError("❌ 使用可能な特徴量が1つもありません")
+        
+        selected_features = available_features
+    
     # 選択された特徴量のみを使用
     X_selected = X[selected_features].copy()
     
