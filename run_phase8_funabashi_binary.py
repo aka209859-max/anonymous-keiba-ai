@@ -1,0 +1,101 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+Phase 8 Binary: Funabashi Binary Model Hyperparameter Optimization
+"""
+
+import os
+import sys
+import subprocess
+from pathlib import Path
+
+def main():
+    print("=" * 80)
+    print("Phase 8 Binary: Funabashi Hyperparameter Optimization")
+    print("=" * 80)
+    print()
+    
+    # Paths
+    base_dir = Path(__file__).parent
+    selected_features = base_dir / "data" / "features" / "selected" / "funabashi_selected_features.csv"
+    output_dir = base_dir / "data" / "models" / "tuned"
+    report_dir = base_dir / "data" / "reports" / "phase8_tuning"
+    
+    # Script path
+    script = base_dir / "scripts" / "phase8_auto_tuning" / "run_optuna_tuning.py"
+    
+    print(f"Target data: funabashi")
+    print(f"Selected features: {selected_features}")
+    print()
+    
+    # Verify selected features file exists
+    if not selected_features.exists():
+        print(f"❌ Error: Selected features file not found: {selected_features}")
+        print()
+        print("Please run Phase 7 Binary first:")
+        print("  python run_phase7_funabashi_binary.py")
+        return 1
+    
+    # Create output directories
+    output_dir.mkdir(parents=True, exist_ok=True)
+    report_dir.mkdir(parents=True, exist_ok=True)
+    
+    print("✓ Selected features file exists")
+    print(f"✓ Output directory: {output_dir}")
+    print(f"✓ Report directory: {report_dir}")
+    print()
+    
+    # Build command
+    cmd = [
+        sys.executable,
+        str(script),
+        str(selected_features),
+        "--n-trials", "100",
+        "--timeout", "7200"  # 2 hours
+    ]
+    
+    print("Running Phase 8 Binary hyperparameter optimization...")
+    print(f"Command: {' '.join(cmd)}")
+    print()
+    print("⏱️  Estimated time: 30-60 minutes")
+    print("⚙️  Trials: 100")
+    print("⏰ Timeout: 2 hours")
+    print()
+    print("=" * 80)
+    print()
+    
+    # Run the script
+    try:
+        result = subprocess.run(cmd, check=True)
+        print()
+        print("=" * 80)
+        print("✅ Phase 8 Binary optimization completed!")
+        print()
+        print("Output files:")
+        print(f"  - Best parameters: {output_dir / 'funabashi_best_params.csv'}")
+        print(f"  - Tuned model: {output_dir / 'funabashi_tuned_model.txt'}")
+        print(f"  - Optimization history: {report_dir / 'funabashi_tuning_history.png'}")
+        print(f"  - Tuning report: {report_dir / 'funabashi_tuning_report.json'}")
+        print()
+        print("Next steps:")
+        print("  1) Check optimization history graph")
+        print("  2) Run Phase 5 Ensemble integration")
+        print("     Command: python run_phase5_funabashi_ensemble.py")
+        print()
+        return 0
+        
+    except subprocess.CalledProcessError as e:
+        print()
+        print("=" * 80)
+        print(f"❌ Error: Phase 8 Binary failed with exit code {e.returncode}")
+        print()
+        print("Troubleshooting:")
+        print("  1) Verify selected features file")
+        print("  2) Install required packages:")
+        print("     pip install optuna lightgbm scikit-learn pandas numpy matplotlib")
+        print("  3) Check disk space and memory")
+        print()
+        return 1
+
+if __name__ == "__main__":
+    sys.exit(main())
