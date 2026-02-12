@@ -7,9 +7,19 @@ cd /d E:\anonymous-keiba-ai
 if "%~1"=="" goto :SHOW_USAGE
 if "%~2"=="" goto :SHOW_USAGE
 
+REM 引数から余分なスペース・タブ・改行を完全削除
 set "KEIBA_CODE=%~1"
+set "KEIBA_CODE=%KEIBA_CODE: =%"
+set "KEIBA_CODE=%KEIBA_CODE:	=%"
 set "TARGET_DATE=%~2"
+set "TARGET_DATE=%TARGET_DATE: =%"
+set "TARGET_DATE=%TARGET_DATE:	=%"
 set "DATE_SHORT=%TARGET_DATE:-=%"
+
+REM デバッグ出力
+echo [DEBUG] KEIBA_CODE = [!KEIBA_CODE!]
+echo [DEBUG] TARGET_DATE = [!TARGET_DATE!]
+echo [DEBUG] DATE_SHORT = [!DATE_SHORT!]
 
 set "KEIBA_NAME="
 
@@ -30,10 +40,25 @@ if "!KEIBA_CODE!"=="55" set "KEIBA_NAME=佐賀"
 
 if "!KEIBA_NAME!"=="" (
     echo [ERROR] Invalid venue code: !KEIBA_CODE!
+    echo [DEBUG] Venue name could not be determined
     goto :SHOW_USAGE
 )
 
-set "ENSEMBLE_CSV=data\predictions\phase5\!KEIBA_NAME!_!DATE_SHORT!_ensemble.csv"
+echo [DEBUG] KEIBA_NAME = [!KEIBA_NAME!]
+
+REM ============================================================
+REM アンサンブルファイルパス（第3引数で指定可能、指定なしは旧モデル）
+REM ============================================================
+if "%~3"=="" (
+    REM 第3引数がない場合：旧モデル ensemble.csv を使用
+    set "ENSEMBLE_CSV=data\predictions\phase5\!KEIBA_NAME!_!DATE_SHORT!_ensemble.csv"
+    echo [INFO] Using old model: ensemble.csv
+) else (
+    REM 第3引数がある場合：新モデル ensemble_optimized.csv を使用
+    set "ENSEMBLE_CSV=%~3"
+    echo [INFO] Using optimized model: %~3
+)
+
 set "NOTE_TXT=predictions\!KEIBA_NAME!_!DATE_SHORT!_note.txt"
 set "BOOKERS_TXT=predictions\!KEIBA_NAME!_!DATE_SHORT!_bookers.txt"
 set "TWEET_TXT=predictions\!KEIBA_NAME!_!DATE_SHORT!_tweet.txt"
@@ -44,126 +69,99 @@ echo ==================================================
 echo.
 echo Venue: !KEIBA_NAME! (Code: !KEIBA_CODE!)
 echo Date: !TARGET_DATE!
-echo Date Short: !DATE_SHORT!
-echo.
-echo Current Dir: %CD%
 echo.
 echo Input : !ENSEMBLE_CSV!
 echo Output: !NOTE_TXT!
 echo        !BOOKERS_TXT!
 echo        !TWEET_TXT!
-echo.
 echo ==================================================
-
 echo.
-echo [CHECK] Verifying input file...
+
 if not exist "!ENSEMBLE_CSV!" (
-    echo.
-    echo [ERROR] Input file not found
-    echo File: !ENSEMBLE_CSV!
-    echo.
-    echo Please run Phase 0-5 first:
-    echo   run_all.bat !KEIBA_CODE! !TARGET_DATE!
-    echo.
+    echo [ERROR] Ensemble CSV not found: !ENSEMBLE_CSV!
+    echo [INFO] Please run Phase 0-5 (or Phase 0-7-8-5) first.
     exit /b 1
 )
-echo [OK] Input file exists
 
-echo.
-echo [CHECK] Creating output directory if needed...
-if not exist "predictions" mkdir predictions
-echo [OK] Output directory ready
+echo [DEBUG] Ensemble CSV found: !ENSEMBLE_CSV!
 
-echo.
-echo [1/3] Generating Note format...
+REM note.txt 生成
+echo [1/3] Generating note.txt...
 python scripts\phase6_betting\generate_distribution_note.py "!ENSEMBLE_CSV!" "!NOTE_TXT!"
-
-if errorlevel 1 (
-    echo [ERROR] Note generation failed
+if !errorlevel! neq 0 (
+    echo [ERROR] Failed to generate note.txt
     exit /b 1
 )
-
 if not exist "!NOTE_TXT!" (
-    echo [ERROR] Note file was not created
+    echo [ERROR] note.txt was not created
     exit /b 1
 )
+echo [OK] note.txt created
 
-echo [OK] Note: !NOTE_TXT!
-echo.
-
-echo [2/3] Generating Bookers format...
+REM bookers.txt 生成
+echo [2/3] Generating bookers.txt...
 python scripts\phase6_betting\generate_distribution_bookers.py "!ENSEMBLE_CSV!" "!BOOKERS_TXT!"
-
-if errorlevel 1 (
-    echo [ERROR] Bookers generation failed
+if !errorlevel! neq 0 (
+    echo [ERROR] Failed to generate bookers.txt
     exit /b 1
 )
-
 if not exist "!BOOKERS_TXT!" (
-    echo [ERROR] Bookers file was not created
+    echo [ERROR] bookers.txt was not created
     exit /b 1
 )
+echo [OK] bookers.txt created
 
-echo [OK] Bookers: !BOOKERS_TXT!
-echo.
-
-echo [3/3] Generating Tweet format...
+REM tweet.txt 生成
+echo [3/3] Generating tweet.txt...
 python scripts\phase6_betting\generate_distribution_tweet.py "!ENSEMBLE_CSV!" "!TWEET_TXT!"
-
-if errorlevel 1 (
-    echo [ERROR] Tweet generation failed
+if !errorlevel! neq 0 (
+    echo [ERROR] Failed to generate tweet.txt
     exit /b 1
 )
-
 if not exist "!TWEET_TXT!" (
-    echo [ERROR] Tweet file was not created
+    echo [ERROR] tweet.txt was not created
     exit /b 1
 )
+echo [OK] tweet.txt created
 
-echo [OK] Tweet: !TWEET_TXT!
 echo.
-
 echo ==================================================
-echo All Complete!
+echo Daily Operation Completed!
 echo ==================================================
 echo.
-echo Files:
-echo   1. Note    : !NOTE_TXT!
-echo   2. Bookers : !BOOKERS_TXT!
-echo   3. Tweet   : !TWEET_TXT!
+echo Generated files:
+echo   - !NOTE_TXT!
+echo   - !BOOKERS_TXT!
+echo   - !TWEET_TXT!
 echo.
-echo Verification:
-dir "!NOTE_TXT!" 2>nul
-dir "!BOOKERS_TXT!" 2>nul
-dir "!TWEET_TXT!" 2>nul
-echo.
-echo Commands:
+echo To open the files, run:
 echo   notepad "!NOTE_TXT!"
 echo   notepad "!BOOKERS_TXT!"
 echo   notepad "!TWEET_TXT!"
 echo.
-echo ==================================================
-goto :EOF
+exit /b 0
 
 :SHOW_USAGE
 echo ==================================================
 echo Keiba AI Daily Operation
 echo ==================================================
 echo.
-echo Usage:
-echo   DAILY_OPERATION.bat [code] [date]
+echo Usage: DAILY_OPERATION.bat [Venue Code] [Date] [Ensemble CSV (optional)]
 echo.
 echo Venue Codes:
-echo   30=Monbetsu  35=Morioka   36=Mizusawa  42=Urawa
-echo   43=Funabashi 44=Ooi       45=Kawasaki  46=Kanazawa
-echo   47=Kasamatsu 48=Nagoya    50=Sonoda    51=Himeji
-echo   54=Kochi     55=Saga
+echo   30: 門別 (Monbetsu)   35: 盛岡 (Morioka)   36: 水沢 (Mizusawa)
+echo   42: 浦和 (Urawa)      43: 船橋 (Funabashi) 44: 大井 (Ooi)
+echo   45: 川崎 (Kawasaki)   46: 金沢 (Kanazawa)  47: 笠松 (Kasamatsu)
+echo   48: 名古屋 (Nagoya)   50: 園田 (Sonoda)    51: 姫路 (Himeji)
+echo   54: 高知 (Kochi)      55: 佐賀 (Saga)
 echo.
 echo Date Format: YYYY-MM-DD
 echo.
 echo Examples:
-echo   DAILY_OPERATION.bat 43 2026-02-10
-echo   DAILY_OPERATION.bat 48 2026-02-10
+echo   REM Old model (Phase 3-4-5)
+echo   DAILY_OPERATION.bat 55 2026-02-08
 echo.
-echo ==================================================
+echo   REM New model (Phase 7-8-5)
+echo   DAILY_OPERATION.bat 43 2026-02-10 "data\predictions\phase5\船橋_20260210_ensemble_optimized.csv"
+echo.
 exit /b 1
