@@ -46,7 +46,15 @@ if "!KEIBA_NAME!"=="" (
 
 echo [DEBUG] KEIBA_NAME = [!KEIBA_NAME!]
 
-set "ENSEMBLE_CSV=data\predictions\phase5\!KEIBA_NAME!_!DATE_SHORT!_ensemble.csv"
+REM アンサンブルファイルパス（第3引数で指定可能、指定なしは旧モデル）
+if "%~3"=="" (
+    set "ENSEMBLE_CSV=data\predictions\phase5\!KEIBA_NAME!_!DATE_SHORT!_ensemble.csv"
+    echo [INFO] Using old model ensemble file
+) else (
+    set "ENSEMBLE_CSV=%~3"
+    echo [INFO] Using custom ensemble file: %~3
+)
+
 set "NOTE_TXT=predictions\!KEIBA_NAME!_!DATE_SHORT!_note.txt"
 set "BOOKERS_TXT=predictions\!KEIBA_NAME!_!DATE_SHORT!_bookers.txt"
 set "TWEET_TXT=predictions\!KEIBA_NAME!_!DATE_SHORT!_tweet.txt"

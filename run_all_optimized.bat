@@ -179,10 +179,10 @@ if not exist "!OUTPUT_ENSEMBLE!" (
 )
 
 REM ============================================================
-REM Phase 6: 配信用テキスト生成
+REM Phase 6: 配信用テキスト生成（新モデルのアンサンブル結果を使用）
 REM ============================================================
-echo [Phase 6] 配信用テキスト生成中...
-call scripts\phase6_betting\DAILY_OPERATION.bat !KEIBAJO_CODE! !TARGET_DATE!
+echo [Phase 6] 配信用テキスト生成中（新モデル: ensemble_optimized.csv）...
+call scripts\phase6_betting\DAILY_OPERATION.bat !KEIBAJO_CODE! !TARGET_DATE! "!OUTPUT_ENSEMBLE!"
 if errorlevel 1 (
     echo [WARNING] Phase 6 失敗（配信用テキスト生成）
     echo 予測結果は !OUTPUT_ENSEMBLE! にあります
