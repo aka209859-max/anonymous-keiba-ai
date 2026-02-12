@@ -166,8 +166,12 @@ REM ============================================================
 echo [Phase 6] 配信用テキスト生成中...
 call scripts\phase6_betting\DAILY_OPERATION.bat %KEIBAJO_CODE% %TARGET_DATE%
 if errorlevel 1 (
-    echo [WARNING] Phase 6 failed
-    echo Prediction results are in: %OUTPUT_ENSEMBLE%
+    echo [WARNING] Phase 6 でエラーが発生しました
+    echo [INFO] 予測結果は以下に保存されています: %OUTPUT_ENSEMBLE%
+    echo [INFO] 手動でPhase 6を実行する場合:
+    echo   scripts\phase6_betting\DAILY_OPERATION.bat %KEIBAJO_CODE% %TARGET_DATE%
+) else (
+    echo [OK] Phase 6 Complete
 )
 echo.
 
@@ -176,13 +180,44 @@ echo 全フェーズ完了 (Phase 3-4-5)
 echo ============================================================
 echo 実行終了: %DATE% %TIME%
 echo.
-echo 出力ファイル:
-echo   - Phase 3 Binary: %OUTPUT_P3_BINARY%
-echo   - Phase 4 Ranking: %OUTPUT_P4_RANKING%
+echo 【出力ファイル一覧】
+echo.
+echo [予測CSVファイル]
+echo   - Phase 3 Binary  : %OUTPUT_P3_BINARY%
+echo   - Phase 4 Ranking : %OUTPUT_P4_RANKING%
 echo   - Phase 5 Ensemble: %OUTPUT_ENSEMBLE%
-echo   - 配信用テキスト: predictions\%KEIBAJO_NAME%_%DATE_SHORT%_note.txt
-echo   - 配信用テキスト: predictions\%KEIBAJO_NAME%_%DATE_SHORT%_bookers.txt
-echo   - 配信用テキスト: predictions\%KEIBAJO_NAME%_%DATE_SHORT%_tweet.txt
+echo.
+echo [配信用テキストファイル]
+set "NOTE_TXT=predictions\%KEIBAJO_NAME%_%DATE_SHORT%_note.txt"
+set "BOOKERS_TXT=predictions\%KEIBAJO_NAME%_%DATE_SHORT%_bookers.txt"
+set "TWEET_TXT=predictions\%KEIBAJO_NAME%_%DATE_SHORT%_tweet.txt"
+
+if exist "%NOTE_TXT%" (
+    echo   ✓ Note用    : %NOTE_TXT%
+) else (
+    echo   ✗ Note用    : %NOTE_TXT% (未作成)
+)
+
+if exist "%BOOKERS_TXT%" (
+    echo   ✓ ブッカーズ用: %BOOKERS_TXT%
+) else (
+    echo   ✗ ブッカーズ用: %BOOKERS_TXT% (未作成)
+)
+
+if exist "%TWEET_TXT%" (
+    echo   ✓ Twitter用 : %TWEET_TXT%
+) else (
+    echo   ✗ Twitter用 : %TWEET_TXT% (未作成)
+)
+echo.
 echo ============================================================
+echo.
+echo 【ファイルを開く】
+if exist "%NOTE_TXT%" (
+    echo Noteファイルを開きますか？ (Enter で開く / Ctrl+C でスキップ)
+    pause > nul
+    notepad "%NOTE_TXT%"
+)
+echo.
 
 endlocal

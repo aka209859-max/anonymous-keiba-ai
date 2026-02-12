@@ -2,7 +2,8 @@
 chcp 65001 > nul
 setlocal enabledelayedexpansion
 
-cd /d E:\anonymous-keiba-ai
+REM カレントディレクトリをスクリプト実行ディレクトリのルートに設定
+cd /d "%~dp0..\.."
 
 if "%~1"=="" goto :SHOW_USAGE
 if "%~2"=="" goto :SHOW_USAGE
