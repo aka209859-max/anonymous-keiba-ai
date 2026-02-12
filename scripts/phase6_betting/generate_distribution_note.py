@@ -48,8 +48,12 @@ def load_horse_names_from_raw(ensemble_csv_path):
     # data/predictions/phase5/{競馬場名}_{YYYYMMDD}_ensemble.csv
     # → data/raw/{YYYY}/{MM}/{競馬場名}_{YYYYMMDD}_raw.csv
     
-    filename = ensemble_path.stem  # "{競馬場名}_{YYYYMMDD}_ensemble"
-    keibajo_date = filename.replace('_ensemble', '')  # "{競馬場名}_{YYYYMMDD}"
+    filename = ensemble_path.stem  # "{競馬場名}_{YYYYMMDD}_ensemble" or "{競馬場名}_{YYYYMMDD}_ensemble_optimized"
+    # 新モデル（ensemble_optimized）と旧モデル（ensemble）の両方に対応
+    if '_ensemble_optimized' in filename:
+        keibajo_date = filename.replace('_ensemble_optimized', '')
+    else:
+        keibajo_date = filename.replace('_ensemble', '')  # "{競馬場名}_{YYYYMMDD}"
     
     # 日付部分を抽出
     parts = keibajo_date.split('_')

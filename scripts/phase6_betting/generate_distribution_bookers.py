@@ -59,7 +59,11 @@ def load_horse_names_from_raw(ensemble_csv_path):
     """
     ensemble_path = Path(ensemble_csv_path)
     filename = ensemble_path.stem
-    keibajo_date = filename.replace('_ensemble', '')
+    # 新モデル（ensemble_optimized）と旧モデル（ensemble）の両方に対応
+    if '_ensemble_optimized' in filename:
+        keibajo_date = filename.replace('_ensemble_optimized', '')
+    else:
+        keibajo_date = filename.replace('_ensemble', '')
     
     parts = keibajo_date.split('_')
     if len(parts) < 2:
@@ -215,7 +219,11 @@ def generate_distribution_text_bookers(input_csv, output_txt):
     
     # 競馬場名と日付を抽出
     filename = Path(input_csv).stem
-    keibajo_date = filename.replace('_ensemble', '')
+    # 新モデル（ensemble_optimized）と旧モデル（ensemble）の両方に対応
+    if '_ensemble_optimized' in filename:
+        keibajo_date = filename.replace('_ensemble_optimized', '')
+    else:
+        keibajo_date = filename.replace('_ensemble', '')
     parts = keibajo_date.split('_')
     keibajo_name = parts[0] if len(parts) > 0 else "競馬場"
     date_str = parts[1] if len(parts) > 1 else ""

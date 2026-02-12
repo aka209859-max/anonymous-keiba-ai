@@ -31,7 +31,11 @@ def load_horse_names_from_raw(ensemble_csv_path):
     """
     ensemble_path = Path(ensemble_csv_path)
     filename = ensemble_path.stem
-    keibajo_date = filename.replace('_ensemble', '')
+    # 新モデル（ensemble_optimized）と旧モデル（ensemble）の両方に対応
+    if '_ensemble_optimized' in filename:
+        keibajo_date = filename.replace('_ensemble_optimized', '')
+    else:
+        keibajo_date = filename.replace('_ensemble', '')
     
     parts = keibajo_date.split('_')
     if len(parts) < 2:
@@ -193,7 +197,11 @@ def generate_distribution_text_tweet(input_csv, output_txt):
     
     # 競馬場名と日付を抽出
     filename = Path(input_csv).stem
-    keibajo_date = filename.replace('_ensemble', '')
+    # 新モデル（ensemble_optimized）と旧モデル（ensemble）の両方に対応
+    if '_ensemble_optimized' in filename:
+        keibajo_date = filename.replace('_ensemble_optimized', '')
+    else:
+        keibajo_date = filename.replace('_ensemble', '')
     parts = keibajo_date.split('_')
     
     # 競馬場名を日本語に変換（既に日本語の場合はそのまま）
