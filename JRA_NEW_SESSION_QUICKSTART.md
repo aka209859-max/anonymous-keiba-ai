@@ -125,10 +125,13 @@ Phase 7-10: 高度化
 - ブランチ: `phase0_complete_fix_2026_02_07`
 
 ### 完全リファレンスドキュメント
-以下の3つのMDファイルを添付しています:
-1. **JRA_NEW_SESSION_QUICKSTART.md** - このファイル（クイックスタート）
-2. **JRA_VERSION_COMPLETE_REFERENCE.md** - 完全リファレンス（31 KB、コード例込み）
-3. **JRA_VERSION_INSTRUCTIONS.md** - 実装指示書（14 KB）
+以下の4つのMDファイルを添付しています:
+1. **JRA_NEW_SESSION_QUICKSTART.md** - クイックスタート（5分で全体像把握）
+2. **JRA_VERSION_COMPLETE_REFERENCE.md** - 完全リファレンス（47 KB、コード例込み）
+3. **JRA_VERSION_INSTRUCTIONS.md** - 実装指示書（23 KB）
+4. **docs/jra_context_protocol.md** - コンテキスト維持プロトコル（必読）
+
+⚠️ **重要**: 特に `jra_context_protocol.md` は必ず読んでください。長時間セッションでのコンテキスト喪失を防ぐための運用ルールが記載されています。
 
 ## 🎯 新規開発目標
 
