@@ -1,4 +1,5 @@
 @echo off
+chcp 65001 > nul
 setlocal enabledelayedexpansion
 
 set PYTHONUTF8=1
@@ -6,7 +7,6 @@ set PYTHONIOENCODING=utf-8
 
 if "%~1"=="" (
     echo [ERROR] Usage: run_all_optimized.bat [KEIBAJO_CODE] [DATE]
-    echo Example: run_all_optimized.bat 43 2026-02-13
     exit /b 1
 )
 
@@ -26,20 +26,20 @@ for /f "tokens=1,2,3 delims=-" %%a in ("%TARGET_DATE%") do (
 set "DATE_SHORT=%YEAR%%MONTH%%DAY%"
 
 set "KEIBAJO_NAME="
-if "%KEIBAJO_CODE%"=="30" set "KEIBAJO_NAME=ñÂï "
-if "%KEIBAJO_CODE%"=="35" set "KEIBAJO_NAME=ê∑â™"
-if "%KEIBAJO_CODE%"=="36" set "KEIBAJO_NAME=êÖëÚ"
-if "%KEIBAJO_CODE%"=="42" set "KEIBAJO_NAME=âYòa"
-if "%KEIBAJO_CODE%"=="43" set "KEIBAJO_NAME=ëDã¥"
-if "%KEIBAJO_CODE%"=="44" set "KEIBAJO_NAME=ëÂà‰"
-if "%KEIBAJO_CODE%"=="45" set "KEIBAJO_NAME=êÏçË"
-if "%KEIBAJO_CODE%"=="46" set "KEIBAJO_NAME=ã‡ëÚ"
-if "%KEIBAJO_CODE%"=="47" set "KEIBAJO_NAME=ä}èº"
-if "%KEIBAJO_CODE%"=="48" set "KEIBAJO_NAME=ñºå√âÆ"
-if "%KEIBAJO_CODE%"=="50" set "KEIBAJO_NAME=âÄìc"
-if "%KEIBAJO_CODE%"=="51" set "KEIBAJO_NAME=ïPòH"
-if "%KEIBAJO_CODE%"=="54" set "KEIBAJO_NAME=çÇím"
-if "%KEIBAJO_CODE%"=="55" set "KEIBAJO_NAME=ç≤âÍ"
+if "%KEIBAJO_CODE%"=="30" set "KEIBAJO_NAME=ÈñÄÂà•"
+if "%KEIBAJO_CODE%"=="35" set "KEIBAJO_NAME=ÁõõÂ≤°"
+if "%KEIBAJO_CODE%"=="36" set "KEIBAJO_NAME=Ê∞¥Ê≤¢"
+if "%KEIBAJO_CODE%"=="42" set "KEIBAJO_NAME=Êµ¶Âíå"
+if "%KEIBAJO_CODE%"=="43" set "KEIBAJO_NAME=ËàπÊ©ã"
+if "%KEIBAJO_CODE%"=="44" set "KEIBAJO_NAME=Â§ß‰∫ï"
+if "%KEIBAJO_CODE%"=="45" set "KEIBAJO_NAME=Â∑ùÂ¥é"
+if "%KEIBAJO_CODE%"=="46" set "KEIBAJO_NAME=ÈáëÊ≤¢"
+if "%KEIBAJO_CODE%"=="47" set "KEIBAJO_NAME=Á¨†Êùæ"
+if "%KEIBAJO_CODE%"=="48" set "KEIBAJO_NAME=ÂêçÂè§Â±ã"
+if "%KEIBAJO_CODE%"=="50" set "KEIBAJO_NAME=ÂúíÁî∞"
+if "%KEIBAJO_CODE%"=="51" set "KEIBAJO_NAME=Âß´Ë∑Ø"
+if "%KEIBAJO_CODE%"=="54" set "KEIBAJO_NAME=È´òÁü•"
+if "%KEIBAJO_CODE%"=="55" set "KEIBAJO_NAME=‰ΩêË≥Ä"
 
 if "%KEIBAJO_NAME%"=="" (
     echo [ERROR] Invalid venue code: %KEIBAJO_CODE%
@@ -50,15 +50,15 @@ set LOG_DIR=logs
 if not exist "%LOG_DIR%" mkdir "%LOG_DIR%"
 
 echo ============================================================
-echo ínï˚ã£înAIó\ëzÉVÉXÉeÉÄ Phase 7-8-5
+echo AI Prediction System Phase 7-8-5
 echo ============================================================
-echo é¿çsäJén: %DATE% %TIME%
-echo ã£înèÍ: %KEIBAJO_NAME% (ÉRÅ[Éh: %KEIBAJO_CODE%)
-echo ëŒè€ì˙ït: %TARGET_DATE%
+echo Start: %DATE% %TIME%
+echo Venue: %KEIBAJO_NAME% Code: %KEIBAJO_CODE%
+echo Date: %TARGET_DATE%
 echo ============================================================
 echo.
 
-echo [Phase 0] ÉfÅ[É^éÊìæíÜ...
+echo [Phase 0] Data Acquisition...
 python scripts\phase0_data_acquisition\extract_race_data.py --keibajo %KEIBAJO_CODE% --date %DATE_SHORT%
 if errorlevel 1 (
     echo [ERROR] Phase 0 failed
@@ -70,7 +70,7 @@ echo.
 set "INPUT_CSV=data\raw\%YEAR%\%MONTH%\%KEIBAJO_NAME%_%DATE_SHORT%_raw.csv"
 set "OUTPUT_CSV=data\features\%YEAR%\%MONTH%\%KEIBAJO_NAME%_%DATE_SHORT%_features.csv"
 
-echo [Phase 1] ì¡í•ó ê∂ê¨íÜ...
+echo [Phase 1] Feature Engineering...
 python scripts\phase1_feature_engineering\prepare_features.py "%INPUT_CSV%" --output "%OUTPUT_CSV%"
 if errorlevel 1 (
     echo [ERROR] Phase 1 failed
@@ -82,7 +82,7 @@ echo.
 set "FEATURES_CSV=%OUTPUT_CSV%"
 set "OUTPUT_P7_BINARY=data\predictions\phase7_binary\%KEIBAJO_NAME%_%DATE_SHORT%_phase7_binary.csv"
 
-echo [Phase 7 Binary] ó\ë™é¿çsíÜ...
+echo [Phase 7 Binary] Prediction...
 python scripts\phase7_binary\predict_optimized_binary.py "%FEATURES_CSV%" "data\models\tuned" "%OUTPUT_P7_BINARY%"
 if errorlevel 1 (
     echo [ERROR] Phase 7 Binary failed
@@ -93,7 +93,7 @@ echo.
 
 set "OUTPUT_P8_RANKING=data\predictions\phase8_ranking\%KEIBAJO_NAME%_%DATE_SHORT%_phase8_ranking.csv"
 
-echo [Phase 8 Ranking] ó\ë™é¿çsíÜ...
+echo [Phase 8 Ranking] Prediction...
 python scripts\phase8_ranking\predict_optimized_ranking.py "%FEATURES_CSV%" "data\models\tuned" "%OUTPUT_P8_RANKING%"
 if errorlevel 1 (
     echo [ERROR] Phase 8 Ranking failed
@@ -104,7 +104,7 @@ echo.
 
 set "OUTPUT_P8_REGRESSION=data\predictions\phase8_regression\%KEIBAJO_NAME%_%DATE_SHORT%_phase8_regression.csv"
 
-echo [Phase 8 Regression] ó\ë™é¿çsíÜ...
+echo [Phase 8 Regression] Prediction...
 python scripts\phase8_regression\predict_optimized_regression.py "%FEATURES_CSV%" "data\models\tuned" "%OUTPUT_P8_REGRESSION%"
 if errorlevel 1 (
     echo [ERROR] Phase 8 Regression failed
@@ -115,7 +115,7 @@ echo.
 
 set "OUTPUT_ENSEMBLE=data\predictions\phase5\%KEIBAJO_NAME%_%DATE_SHORT%_ensemble_optimized.csv"
 
-echo [Phase 5 Ensemble] ìùçáé¿çsíÜ...
+echo [Phase 5 Ensemble] Integration...
 python scripts\phase5_ensemble\ensemble_optimized.py "%OUTPUT_P7_BINARY%" "%OUTPUT_P8_RANKING%" "%OUTPUT_P8_REGRESSION%" "%OUTPUT_ENSEMBLE%"
 if errorlevel 1 (
     echo [ERROR] Phase 5 Ensemble failed
@@ -129,7 +129,7 @@ if not exist "%OUTPUT_ENSEMBLE%" (
     exit /b 1
 )
 
-echo [Phase 6] îzêMópÉeÉLÉXÉgê∂ê¨íÜ...
+echo [Phase 6] Distribution Text Generation...
 call scripts\phase6_betting\DAILY_OPERATION.bat %KEIBAJO_CODE% %TARGET_DATE% "%OUTPUT_ENSEMBLE%"
 if errorlevel 1 (
     echo [WARNING] Phase 6 ERROR
@@ -139,34 +139,9 @@ if errorlevel 1 (
 echo.
 
 echo ============================================================
-echo ëSÉtÉFÅ[ÉYäÆóπ
+echo All Phases Complete
 echo ============================================================
-echo é¿çsèIóπ: %DATE% %TIME%
+echo End: %DATE% %TIME%
 echo.
-
-set "NOTE_TXT=predictions\%KEIBAJO_NAME%_%DATE_SHORT%_note.txt"
-set "BOOKERS_TXT=predictions\%KEIBAJO_NAME%_%DATE_SHORT%_bookers.txt"
-set "TWEET_TXT=predictions\%KEIBAJO_NAME%_%DATE_SHORT%_tweet.txt"
-
-echo [îzêMópÉeÉLÉXÉgÉtÉ@ÉCÉã]
-if exist "%NOTE_TXT%" (
-    echo   [OK] Noteóp: %NOTE_TXT%
-) else (
-    echo   [NG] Noteóp: %NOTE_TXT%
-)
-
-if exist "%BOOKERS_TXT%" (
-    echo   [OK] ÉuÉbÉJÅ[ÉYóp: %BOOKERS_TXT%
-) else (
-    echo   [NG] ÉuÉbÉJÅ[ÉYóp: %BOOKERS_TXT%
-)
-
-if exist "%TWEET_TXT%" (
-    echo   [OK] Twitteróp: %TWEET_TXT%
-) else (
-    echo   [NG] Twitteróp: %TWEET_TXT%
-)
-echo.
-echo ============================================================
 
 endlocal

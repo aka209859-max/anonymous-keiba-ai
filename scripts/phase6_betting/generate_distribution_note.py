@@ -55,14 +55,44 @@ def load_horse_names_from_raw(ensemble_csv_path):
     else:
         keibajo_date = filename.replace('_ensemble', '')  # "{競馬場名}_{YYYYMMDD}"
     
+    # temp_ プレフィックスを除去
+    if keibajo_date.startswith('temp_'):
+        keibajo_date = keibajo_date[5:]  # "temp_" を削除
+    
     # 日付部分を抽出
     parts = keibajo_date.split('_')
     if len(parts) < 2:
-        return {}
+        # temp_YYYYMMDD のような形式の場合、ensemble CSV から競馬場コードを取得
+        date_short = parts[0] if parts else keibajo_date
+    else:
+        date_short = parts[1]  # "YYYYMMDD"
     
-    date_short = parts[1]  # "YYYYMMDD"
     year = date_short[:4]
     month = date_short[4:6]
+    
+    # ensemble CSV から競馬場名を取得する試み
+    try:
+        df_ensemble = pd.read_csv(ensemble_csv_path, encoding='shift-jis', nrows=1)
+    except:
+        try:
+            df_ensemble = pd.read_csv(ensemble_csv_path, encoding='utf-8', nrows=1)
+        except:
+            safe_print(f"[ERROR] ensemble CSV を読み込めません: {ensemble_csv_path}")
+            return {}
+    
+    # keibajo_code から競馬場名を取得
+    keibajo_code_map = {
+        '30': '門別', '35': '盛岡', '36': '水沢',
+        '42': '浦和', '43': '船橋', '44': '大井', '45': '川崎',
+        '46': '金沢', '47': '笠松', '48': '名古屋',
+        '50': '園田', '51': '姫路', '54': '高知', '55': '佐賀'
+    }
+    
+    if 'keibajo_code' in df_ensemble.columns:
+        keibajo_code = str(int(df_ensemble['keibajo_code'].iloc[0]))
+        keibajo_name = keibajo_code_map.get(keibajo_code, '')
+        if keibajo_name:
+            keibajo_date = f"{keibajo_name}_{date_short}"
     
     raw_csv_path = ensemble_path.parent.parent.parent / 'raw' / year / month / f"{keibajo_date}_raw.csv"
     
@@ -171,6 +201,10 @@ def generate_betting_recommendations_note(df_race):
         umatan_parts.extend([f"{h1}→{h3}", f"{h3}→{h1}"])
     umatan_text = "、".join(umatan_parts) if umatan_parts else f"{h1}→?"
     
+    # 三連複の新フォーマット: 1・2位 - 2・3・4位 - 2・3・4・5・6・7位
+    first_positions = [h1, h2] if h2 else [h1]
+    sanrenpuku_text = f"{'.'.join(map(str, first_positions))} - {'.'.join(map(str, second_place))} - {'.'.join(map(str, third_place))}"
+    
     recommendations = [
         "",
         "### 💰 購入推奨",
@@ -181,8 +215,7 @@ def generate_betting_recommendations_note(df_race):
         "",
         f"**🔄 相手候補**",
         f"- 馬単: {umatan_text}",
-        f"- 三連複: {'-'.join(map(str, top5))} BOX",
-        f"- 三連単: **{h1}** → {'-'.join(map(str, second_place))} → {'-'.join(map(str, third_place))}",
+        f"- 三連複: {sanrenpuku_text}",
         ""
     ]
     

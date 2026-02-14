@@ -37,13 +37,43 @@ def load_horse_names_from_raw(ensemble_csv_path):
     else:
         keibajo_date = filename.replace('_ensemble', '')
     
+    # temp_ プレフィックスを除去
+    if keibajo_date.startswith('temp_'):
+        keibajo_date = keibajo_date[5:]  # "temp_" を削除
+    
     parts = keibajo_date.split('_')
     if len(parts) < 2:
-        return {}
+        # temp_YYYYMMDD のような形式の場合、ensemble CSV から競馬場コードを取得
+        date_short = parts[0] if parts else keibajo_date
+    else:
+        date_short = parts[1]
     
-    date_short = parts[1]
     year = date_short[:4]
     month = date_short[4:6]
+    
+    # ensemble CSV から競馬場名を取得する試み
+    try:
+        df_ensemble = pd.read_csv(ensemble_csv_path, encoding='shift-jis', nrows=1)
+    except:
+        try:
+            df_ensemble = pd.read_csv(ensemble_csv_path, encoding='utf-8', nrows=1)
+        except:
+            safe_print(f"[ERROR] ensemble CSV を読み込めません: {ensemble_csv_path}")
+            return {}
+    
+    # keibajo_code から競馬場名を取得
+    keibajo_code_map = {
+        '30': '門別', '35': '盛岡', '36': '水沢',
+        '42': '浦和', '43': '船橋', '44': '大井', '45': '川崎',
+        '46': '金沢', '47': '笠松', '48': '名古屋',
+        '50': '園田', '51': '姫路', '54': '高知', '55': '佐賀'
+    }
+    
+    if 'keibajo_code' in df_ensemble.columns:
+        keibajo_code = str(int(df_ensemble['keibajo_code'].iloc[0]))
+        keibajo_name = keibajo_code_map.get(keibajo_code, '')
+        if keibajo_name:
+            keibajo_date = f"{keibajo_name}_{date_short}"
     
     raw_csv_path = ensemble_path.parent.parent.parent / 'raw' / year / month / f"{keibajo_date}_raw.csv"
     
@@ -143,24 +173,16 @@ def generate_tweet_format(df_race):
     
     umatan_str = "、".join(umatan_parts) if umatan_parts else f"{h1}軸"
     
-    # 三連複BOX
-    sanrenpuku_str = f"{'.'.join(map(str, top5))} BOX" if len(top5) >= 3 else ""
-    
-    # 三連単フォーマット
-    if second_place and third_place:
-        second_str = '.'.join(map(str, second_place))
-        third_str = '.'.join(map(str, third_place))
-        sanrentan_str = f"{h1}→{second_str}→{third_str}"
-    else:
-        sanrentan_str = f"{h1}軸"
+    # 三連複の新フォーマット: 1・2位 - 2・3・4位 - 2・3・4・5・6・7位
+    first_positions = [h1, h2] if h2 else [h1]
+    sanrenpuku_str = f"{'.'.join(map(str, first_positions))} - {'.'.join(map(str, second_place))} - {'.'.join(map(str, third_place))}" if second_place and third_place else ""
     
     tweet = [
         "📊 購入推奨",
         f"・単勝: {h1}番",
         f"・複勝: {h1}番、{h2}番" if h2 else f"・複勝: {h1}番",
         f"・馬単: {umatan_str}",
-        f"・三連複: {sanrenpuku_str}" if sanrenpuku_str else "",
-        f"・三連単: {sanrentan_str}"
+        f"・三連複: {sanrenpuku_str}" if sanrenpuku_str else ""
     ]
     
     return "\n".join([line for line in tweet if line])

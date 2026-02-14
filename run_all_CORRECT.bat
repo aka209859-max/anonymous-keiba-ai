@@ -1,15 +1,20 @@
 @echo off
-chcp 65001 > nul
+REM ============================================================
+REM 競馬予想AIシステム Phase 3-4-5用（旧版モデル）
+REM 使用方法: run_all.bat [KEIBAJO_CODE] [DATE]
+REM 例: run_all.bat 43 2026-02-13
+REM ============================================================
+
 setlocal enabledelayedexpansion
 
-REM UTF-8環境変数設定
+REM UTF-8環境設定
 set PYTHONUTF8=1
 set PYTHONIOENCODING=utf-8
 
 REM 引数チェック
 if "%~1"=="" (
-    echo [ERROR] Usage: run_all_optimized.bat [KEIBAJO_CODE] [DATE]
-    echo [ERROR] Example: run_all_optimized.bat 43 2026-02-13
+    echo [ERROR] Usage: run_all.bat [KEIBAJO_CODE] [DATE]
+    echo [ERROR] Example: run_all.bat 43 2026-02-13
     echo.
     echo Venue Codes:
     echo   30=門別  35=盛岡  36=水沢  42=浦和  43=船橋  44=大井  45=川崎
@@ -18,16 +23,16 @@ if "%~1"=="" (
 )
 
 if "%~2"=="" (
-    echo [ERROR] Usage: run_all_optimized.bat [KEIBAJO_CODE] [DATE]
-    echo [ERROR] Example: run_all_optimized.bat 43 2026-02-13
+    echo [ERROR] Usage: run_all.bat [KEIBAJO_CODE] [DATE]
+    echo [ERROR] Example: run_all.bat 43 2026-02-13
     exit /b 1
 )
 
-REM 引数を変数に設定
+REM パラメータ設定
 set "KEIBAJO_CODE=%~1"
 set "TARGET_DATE=%~2"
 
-REM 日付をYYYY-MM-DD形式からYYYYMMDDに変換
+REM 日付をYYYY-MM-DD形式からYYYYMMDD形式に
 for /f "tokens=1,2,3 delims=-" %%a in ("%TARGET_DATE%") do (
     set YEAR=%%a
     set MONTH=%%b
@@ -62,12 +67,11 @@ set LOG_DIR=logs
 if not exist "%LOG_DIR%" mkdir "%LOG_DIR%"
 
 echo ============================================================
-echo 地方競馬AI予想システム Phase 7-8-5統合版
+echo 競馬予想AIシステム Phase 3-4-5用 (旧版モデル)
 echo ============================================================
 echo 実行開始: %DATE% %TIME%
-echo 競馬場: %KEIBAJO_NAME% コード: %KEIBAJO_CODE%
+echo 競馬場: %KEIBAJO_NAME% (コード: %KEIBAJO_CODE%)
 echo 対象日付: %TARGET_DATE%
-echo 新モデル: Phase 7 Boruta + Phase 8 Optuna
 echo ============================================================
 echo.
 
@@ -84,12 +88,12 @@ echo [OK] Phase 0 Complete
 echo.
 
 REM ============================================================
-REM Phase 1: 特徴量生成
+REM Phase 1: 特徴量作成
 REM ============================================================
 set "INPUT_CSV=data\raw\%YEAR%\%MONTH%\%KEIBAJO_NAME%_%DATE_SHORT%_raw.csv"
 set "OUTPUT_CSV=data\features\%YEAR%\%MONTH%\%KEIBAJO_NAME%_%DATE_SHORT%_features.csv"
 
-echo [Phase 1] 特徴量生成中...
+echo [Phase 1] 特徴量作成中...
 echo   Input: %INPUT_CSV%
 echo   Output: %OUTPUT_CSV%
 python scripts\phase1_feature_engineering\prepare_features.py "%INPUT_CSV%" --output "%OUTPUT_CSV%"
@@ -103,64 +107,67 @@ echo.
 set "FEATURES_CSV=%OUTPUT_CSV%"
 
 REM ============================================================
-REM Phase 7: Binary予測
+REM Phase 3: Binary予測 (旧版モデル 34特徴量)
 REM ============================================================
-set "OUTPUT_P7_BINARY=data\predictions\phase7_binary\%KEIBAJO_NAME%_%DATE_SHORT%_phase7_binary.csv"
+set "OUTPUT_P3_BINARY=data\predictions\phase3\%KEIBAJO_NAME%_%DATE_SHORT%_phase3_binary.csv"
 
-echo [Phase 7 Binary] 予測実行中...
+echo [Phase 3 Binary] 予測実行中...
 echo   Input: %FEATURES_CSV%
-echo   Output: %OUTPUT_P7_BINARY%
-python scripts\phase7_binary\predict_optimized_binary.py "%FEATURES_CSV%" "data\models\tuned" "%OUTPUT_P7_BINARY%"
+echo   Model: models\binary
+echo   Output: %OUTPUT_P3_BINARY%
+python scripts\phase3_binary\predict_phase3_inference.py "%FEATURES_CSV%" models\binary "%OUTPUT_P3_BINARY%"
 if errorlevel 1 (
-    echo [ERROR] Phase 7 Binary failed
+    echo [ERROR] Phase 3 Binary failed
     exit /b 1
 )
-echo [OK] Phase 7 Binary Complete
+echo [OK] Phase 3 Binary Complete
 echo.
 
 REM ============================================================
-REM Phase 8: Ranking予測
+REM Phase 4-1: Ranking予測 (旧版モデル 48特徴量)
 REM ============================================================
-set "OUTPUT_P8_RANKING=data\predictions\phase8_ranking\%KEIBAJO_NAME%_%DATE_SHORT%_phase8_ranking.csv"
+set "OUTPUT_P4_RANKING=data\predictions\phase4_ranking\%KEIBAJO_NAME%_%DATE_SHORT%_phase4_ranking.csv"
 
-echo [Phase 8 Ranking] 予測実行中...
+echo [Phase 4-1 Ranking] 予測実行中...
 echo   Input: %FEATURES_CSV%
-echo   Output: %OUTPUT_P8_RANKING%
-python scripts\phase8_ranking\predict_optimized_ranking.py "%FEATURES_CSV%" "data\models\tuned" "%OUTPUT_P8_RANKING%"
+echo   Model: models\ranking
+echo   Output: %OUTPUT_P4_RANKING%
+python scripts\phase4_ranking\predict_phase4_ranking_inference.py "%FEATURES_CSV%" models\ranking "%OUTPUT_P4_RANKING%"
 if errorlevel 1 (
-    echo [ERROR] Phase 8 Ranking failed
+    echo [ERROR] Phase 4-1 Ranking failed
     exit /b 1
 )
-echo [OK] Phase 8 Ranking Complete
+echo [OK] Phase 4-1 Ranking Complete
 echo.
 
 REM ============================================================
-REM Phase 8: Regression予測
+REM Phase 4-2: Regression予測 (旧版モデル 48特徴量)
 REM ============================================================
-set "OUTPUT_P8_REGRESSION=data\predictions\phase8_regression\%KEIBAJO_NAME%_%DATE_SHORT%_phase8_regression.csv"
+set "OUTPUT_P4_REGRESSION=data\predictions\phase4_regression\%KEIBAJO_NAME%_%DATE_SHORT%_phase4_regression.csv"
 
-echo [Phase 8 Regression] 予測実行中...
+echo [Phase 4-2 Regression] 予測実行中...
 echo   Input: %FEATURES_CSV%
-echo   Output: %OUTPUT_P8_REGRESSION%
-python scripts\phase8_regression\predict_optimized_regression.py "%FEATURES_CSV%" "data\models\tuned" "%OUTPUT_P8_REGRESSION%"
+echo   Model: models\regression
+echo   Output: %OUTPUT_P4_REGRESSION%
+python scripts\phase4_regression\predict_phase4_regression_inference.py "%FEATURES_CSV%" models\regression "%OUTPUT_P4_REGRESSION%"
 if errorlevel 1 (
-    echo [ERROR] Phase 8 Regression failed
+    echo [ERROR] Phase 4-2 Regression failed
     exit /b 1
 )
-echo [OK] Phase 8 Regression Complete
+echo [OK] Phase 4-2 Regression Complete
 echo.
 
 REM ============================================================
-REM Phase 5: アンサンブル統合
+REM Phase 5: アンサンブル統合 (Binary + Ranking + Regression)
 REM ============================================================
-set "OUTPUT_ENSEMBLE=data\predictions\phase5\%KEIBAJO_NAME%_%DATE_SHORT%_ensemble_optimized.csv"
+set "OUTPUT_ENSEMBLE=data\predictions\phase5\%KEIBAJO_NAME%_%DATE_SHORT%_ensemble.csv"
 
 echo [Phase 5 Ensemble] 統合実行中...
-echo   Binary Input: %OUTPUT_P7_BINARY%
-echo   Ranking Input: %OUTPUT_P8_RANKING%
-echo   Regression Input: %OUTPUT_P8_REGRESSION%
+echo   Binary Input: %OUTPUT_P3_BINARY%
+echo   Ranking Input: %OUTPUT_P4_RANKING%
+echo   Regression Input: %OUTPUT_P4_REGRESSION%
 echo   Output: %OUTPUT_ENSEMBLE%
-python scripts\phase5_ensemble\ensemble_optimized.py "%OUTPUT_P7_BINARY%" "%OUTPUT_P8_RANKING%" "%OUTPUT_P8_REGRESSION%" "%OUTPUT_ENSEMBLE%"
+python scripts\phase5_ensemble\ensemble_predictions.py "%OUTPUT_P3_BINARY%" "%OUTPUT_P4_RANKING%" "%OUTPUT_P4_REGRESSION%" "%OUTPUT_ENSEMBLE%"
 if errorlevel 1 (
     echo [ERROR] Phase 5 Ensemble failed
     exit /b 1
@@ -177,29 +184,29 @@ REM ============================================================
 REM Phase 6: 配信用テキスト生成
 REM ============================================================
 echo [Phase 6] 配信用テキスト生成中...
-call scripts\phase6_betting\DAILY_OPERATION.bat %KEIBAJO_CODE% %TARGET_DATE% "%OUTPUT_ENSEMBLE%"
+call scripts\phase6_betting\DAILY_OPERATION.bat %KEIBAJO_CODE% %TARGET_DATE%
 if errorlevel 1 (
-    echo [WARNING] Phase 6 ERROR
-    echo [INFO] Prediction saved: %OUTPUT_ENSEMBLE%
-    echo [INFO] Manual execution:
-    echo   scripts\phase6_betting\DAILY_OPERATION.bat %KEIBAJO_CODE% %TARGET_DATE% "%OUTPUT_ENSEMBLE%"
+    echo [WARNING] Phase 6 でエラーが発生しました
+    echo [INFO] 予測結果は正常に生成されています: %OUTPUT_ENSEMBLE%
+    echo [INFO] 手動でPhase 6を再実行する場合:
+    echo   scripts\phase6_betting\DAILY_OPERATION.bat %KEIBAJO_CODE% %TARGET_DATE%
 ) else (
     echo [OK] Phase 6 Complete
 )
 echo.
 
 echo ============================================================
-echo 全フェーズ完了 (Phase 7-8-5)
+echo 全フェーズ完了 (Phase 3-4-5)
 echo ============================================================
 echo 実行終了: %DATE% %TIME%
 echo.
 echo 【出力ファイル一覧】
 echo.
 echo [予測CSVファイル]
-echo   - Phase 7 Binary    : %OUTPUT_P7_BINARY%
-echo   - Phase 8 Ranking   : %OUTPUT_P8_RANKING%
-echo   - Phase 8 Regression: %OUTPUT_P8_REGRESSION%
-echo   - Phase 5 Ensemble  : %OUTPUT_ENSEMBLE%
+echo   - Phase 3 Binary   : %OUTPUT_P3_BINARY%
+echo   - Phase 4-1 Ranking: %OUTPUT_P4_RANKING%
+echo   - Phase 4-2 Regression: %OUTPUT_P4_REGRESSION%
+echo   - Phase 5 Ensemble : %OUTPUT_ENSEMBLE%
 echo.
 echo [配信用テキストファイル]
 set "NOTE_TXT=predictions\%KEIBAJO_NAME%_%DATE_SHORT%_note.txt"
@@ -207,31 +214,24 @@ set "BOOKERS_TXT=predictions\%KEIBAJO_NAME%_%DATE_SHORT%_bookers.txt"
 set "TWEET_TXT=predictions\%KEIBAJO_NAME%_%DATE_SHORT%_tweet.txt"
 
 if exist "%NOTE_TXT%" (
-    echo   ✓ Note用    : %NOTE_TXT%
+    echo   [OK] Note用    : %NOTE_TXT%
 ) else (
-    echo   ✗ Note用    : %NOTE_TXT% (未作成)
+    echo   [NG] Note用    : %NOTE_TXT% (未生成)
 )
 
 if exist "%BOOKERS_TXT%" (
-    echo   ✓ ブッカーズ用: %BOOKERS_TXT%
+    echo   [OK] ブッカーズ用: %BOOKERS_TXT%
 ) else (
-    echo   ✗ ブッカーズ用: %BOOKERS_TXT% (未作成)
+    echo   [NG] ブッカーズ用: %BOOKERS_TXT% (未生成)
 )
 
 if exist "%TWEET_TXT%" (
-    echo   ✓ Twitter用 : %TWEET_TXT%
+    echo   [OK] Twitter用 : %TWEET_TXT%
 ) else (
-    echo   ✗ Twitter用 : %TWEET_TXT% (未作成)
+    echo   [NG] Twitter用 : %TWEET_TXT% (未生成)
 )
 echo.
 echo ============================================================
-echo.
-echo 【ファイルを開く】
-if exist "%NOTE_TXT%" (
-    echo Noteファイルを開きますか？ (Enter で開く / Ctrl+C でスキップ)
-    pause > nul
-    notepad "%NOTE_TXT%"
-)
 echo.
 
 endlocal

@@ -2,7 +2,8 @@
 chcp 65001 > nul
 setlocal enabledelayedexpansion
 
-cd /d E:\anonymous-keiba-ai
+REM カレントディレクトリをスクリプト実行ディレクトリのルートに設定
+cd /d "%~dp0..\.."
 
 if "%~1"=="" goto :SHOW_USAGE
 if "%~2"=="" goto :SHOW_USAGE
@@ -10,16 +11,9 @@ if "%~2"=="" goto :SHOW_USAGE
 REM 引数から余分なスペース・タブ・改行を完全削除
 set "KEIBA_CODE=%~1"
 set "KEIBA_CODE=%KEIBA_CODE: =%"
-set "KEIBA_CODE=%KEIBA_CODE:	=%"
 set "TARGET_DATE=%~2"
 set "TARGET_DATE=%TARGET_DATE: =%"
-set "TARGET_DATE=%TARGET_DATE:	=%"
 set "DATE_SHORT=%TARGET_DATE:-=%"
-
-REM デバッグ出力
-echo [DEBUG] KEIBA_CODE = [!KEIBA_CODE!]
-echo [DEBUG] TARGET_DATE = [!TARGET_DATE!]
-echo [DEBUG] DATE_SHORT = [!DATE_SHORT!]
 
 set "KEIBA_NAME="
 
@@ -40,23 +34,16 @@ if "!KEIBA_CODE!"=="55" set "KEIBA_NAME=佐賀"
 
 if "!KEIBA_NAME!"=="" (
     echo [ERROR] Invalid venue code: !KEIBA_CODE!
-    echo [DEBUG] Venue name could not be determined
     goto :SHOW_USAGE
 )
 
-echo [DEBUG] KEIBA_NAME = [!KEIBA_NAME!]
-
-REM ============================================================
 REM アンサンブルファイルパス（第3引数で指定可能、指定なしは旧モデル）
-REM ============================================================
 if "%~3"=="" (
-    REM 第3引数がない場合：旧モデル ensemble.csv を使用
     set "ENSEMBLE_CSV=data\predictions\phase5\!KEIBA_NAME!_!DATE_SHORT!_ensemble.csv"
-    echo [INFO] Using old model: ensemble.csv
+    echo [INFO] Using old model ensemble file
 ) else (
-    REM 第3引数がある場合：新モデル ensemble_optimized.csv を使用
     set "ENSEMBLE_CSV=%~3"
-    echo [INFO] Using optimized model: %~3
+    echo [INFO] Using custom ensemble file
 )
 
 set "NOTE_TXT=predictions\!KEIBA_NAME!_!DATE_SHORT!_note.txt"
@@ -79,7 +66,7 @@ echo.
 
 if not exist "!ENSEMBLE_CSV!" (
     echo [ERROR] Ensemble CSV not found: !ENSEMBLE_CSV!
-    echo [INFO] Please run Phase 0-5 (or Phase 0-7-8-5) first.
+    echo [INFO] Please run Phase 0-5 first.
     exit /b 1
 )
 
@@ -146,7 +133,7 @@ echo ==================================================
 echo Keiba AI Daily Operation
 echo ==================================================
 echo.
-echo Usage: DAILY_OPERATION.bat [Venue Code] [Date] [Ensemble CSV (optional)]
+echo Usage: DAILY_OPERATION.bat [Venue Code] [Date]
 echo.
 echo Venue Codes:
 echo   30: 門別 (Monbetsu)   35: 盛岡 (Morioka)   36: 水沢 (Mizusawa)
@@ -157,11 +144,8 @@ echo   54: 高知 (Kochi)      55: 佐賀 (Saga)
 echo.
 echo Date Format: YYYY-MM-DD
 echo.
-echo Examples:
-echo   REM Old model (Phase 3-4-5)
+echo Example:
 echo   DAILY_OPERATION.bat 55 2026-02-08
-echo.
-echo   REM New model (Phase 7-8-5)
-echo   DAILY_OPERATION.bat 43 2026-02-10 "data\predictions\phase5\船橋_20260210_ensemble_optimized.csv"
+echo   DAILY_OPERATION.bat 43 2026-02-10
 echo.
 exit /b 1

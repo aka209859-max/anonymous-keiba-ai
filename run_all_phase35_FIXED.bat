@@ -1,4 +1,4 @@
-﻿@echo off
+@echo off
 REM 旧版 run_all.bat（Phase 3-5を使用）
 
 chcp 65001 >nul

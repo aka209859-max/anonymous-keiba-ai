@@ -1,3 +1,7 @@
+# PowerShell script to create run_all_optimized.bat with Shift-JIS encoding
+# This script should be run on E:\anonymous-keiba-ai directory
+
+$batchContent = @'
 @echo off
 chcp 65001 > nul
 setlocal enabledelayedexpansion
@@ -75,7 +79,7 @@ REM ============================================================
 REM Phase 0: データ取得
 REM ============================================================
 echo [Phase 0] データ取得中...
-python scripts\phase0_data_acquisition\extract_race_data.py --keibajo %KEIBAJO_CODE% --date %TARGET_DATE%
+python scripts\phase0_data_acquisition\extract_race_data.py --keibajo %KEIBAJO_CODE% --date %DATE_SHORT%
 if errorlevel 1 (
     echo [ERROR] Phase 0 failed
     exit /b 1
@@ -235,3 +239,23 @@ if exist "%NOTE_TXT%" (
 echo.
 
 endlocal
+'@
+
+# Save with Shift-JIS encoding
+$sjisEncoding = [System.Text.Encoding]::GetEncoding("shift_jis")
+$outputPath = "E:\anonymous-keiba-ai\run_all_optimized.bat"
+
+Write-Host "Creating batch file at: $outputPath"
+Write-Host "Encoding: Shift-JIS"
+
+try {
+    [System.IO.File]::WriteAllText($outputPath, $batchContent, $sjisEncoding)
+    Write-Host "✅ Successfully created run_all_optimized.bat with Shift-JIS encoding"
+    Write-Host ""
+    Write-Host "To use the batch file:"
+    Write-Host "  cd E:\anonymous-keiba-ai"
+    Write-Host "  run_all_optimized.bat 43 2026-02-13"
+} catch {
+    Write-Host "❌ Error creating batch file: $_"
+    exit 1
+}

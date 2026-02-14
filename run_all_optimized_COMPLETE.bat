@@ -1,5 +1,10 @@
 @echo off
-chcp 65001 > nul
+REM ============================================================
+REM 地方競馬AI予想システム Phase 7-8-5統合版（新モデル）
+REM 使用方法: run_all_optimized.bat [KEIBAJO_CODE] [DATE]
+REM 例: run_all_optimized.bat 43 2026-02-13
+REM ============================================================
+
 setlocal enabledelayedexpansion
 
 REM UTF-8環境変数設定
@@ -65,9 +70,10 @@ echo ============================================================
 echo 地方競馬AI予想システム Phase 7-8-5統合版
 echo ============================================================
 echo 実行開始: %DATE% %TIME%
-echo 競馬場: %KEIBAJO_NAME% コード: %KEIBAJO_CODE%
+echo 競馬場: %KEIBAJO_NAME% (コード: %KEIBAJO_CODE%)
 echo 対象日付: %TARGET_DATE%
-echo 新モデル: Phase 7 Boruta + Phase 8 Optuna
+echo 新モデル: Phase 7 Boruta特徴量選択 + Phase 8 Optuna最適化
+echo Binary: 31特徴量 / Ranking: 25特徴量 / Regression: 24特徴量
 echo ============================================================
 echo.
 
@@ -179,12 +185,8 @@ REM ============================================================
 echo [Phase 6] 配信用テキスト生成中...
 call scripts\phase6_betting\DAILY_OPERATION.bat %KEIBAJO_CODE% %TARGET_DATE% "%OUTPUT_ENSEMBLE%"
 if errorlevel 1 (
-    echo [WARNING] Phase 6 ERROR
-    echo [INFO] Prediction saved: %OUTPUT_ENSEMBLE%
-    echo [INFO] Manual execution:
-    echo   scripts\phase6_betting\DAILY_OPERATION.bat %KEIBAJO_CODE% %TARGET_DATE% "%OUTPUT_ENSEMBLE%"
-) else (
-    echo [OK] Phase 6 Complete
+    echo [WARNING] Phase 6 failed
+    echo Prediction results are in: %OUTPUT_ENSEMBLE%
 )
 echo.
 
@@ -193,45 +195,14 @@ echo 全フェーズ完了 (Phase 7-8-5)
 echo ============================================================
 echo 実行終了: %DATE% %TIME%
 echo.
-echo 【出力ファイル一覧】
-echo.
-echo [予測CSVファイル]
-echo   - Phase 7 Binary    : %OUTPUT_P7_BINARY%
-echo   - Phase 8 Ranking   : %OUTPUT_P8_RANKING%
+echo 出力ファイル:
+echo   - Phase 7 Binary: %OUTPUT_P7_BINARY%
+echo   - Phase 8 Ranking: %OUTPUT_P8_RANKING%
 echo   - Phase 8 Regression: %OUTPUT_P8_REGRESSION%
-echo   - Phase 5 Ensemble  : %OUTPUT_ENSEMBLE%
-echo.
-echo [配信用テキストファイル]
-set "NOTE_TXT=predictions\%KEIBAJO_NAME%_%DATE_SHORT%_note.txt"
-set "BOOKERS_TXT=predictions\%KEIBAJO_NAME%_%DATE_SHORT%_bookers.txt"
-set "TWEET_TXT=predictions\%KEIBAJO_NAME%_%DATE_SHORT%_tweet.txt"
-
-if exist "%NOTE_TXT%" (
-    echo   ✓ Note用    : %NOTE_TXT%
-) else (
-    echo   ✗ Note用    : %NOTE_TXT% (未作成)
-)
-
-if exist "%BOOKERS_TXT%" (
-    echo   ✓ ブッカーズ用: %BOOKERS_TXT%
-) else (
-    echo   ✗ ブッカーズ用: %BOOKERS_TXT% (未作成)
-)
-
-if exist "%TWEET_TXT%" (
-    echo   ✓ Twitter用 : %TWEET_TXT%
-) else (
-    echo   ✗ Twitter用 : %TWEET_TXT% (未作成)
-)
-echo.
+echo   - Phase 5 Ensemble: %OUTPUT_ENSEMBLE%
+echo   - 配信用テキスト: predictions\%KEIBAJO_NAME%_%DATE_SHORT%_note.txt
+echo   - 配信用テキスト: predictions\%KEIBAJO_NAME%_%DATE_SHORT%_bookers.txt
+echo   - 配信用テキスト: predictions\%KEIBAJO_NAME%_%DATE_SHORT%_tweet.txt
 echo ============================================================
-echo.
-echo 【ファイルを開く】
-if exist "%NOTE_TXT%" (
-    echo Noteファイルを開きますか？ (Enter で開く / Ctrl+C でスキップ)
-    pause > nul
-    notepad "%NOTE_TXT%"
-)
-echo.
 
 endlocal
