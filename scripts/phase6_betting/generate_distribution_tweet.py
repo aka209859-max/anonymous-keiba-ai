@@ -5,13 +5,11 @@
 全14競馬場対応
 
 フォーマット:
-【4/9 川崎競馬 AI予想結果】
-予想：1R ①③⑤ → 結果：
-予想：2R ②④⑦ → 結果：
-予想：3R ①②⑥ → 結果：
+【4/9 地方競馬AI予想 本日の結果】
 
-本日：0/0的中（的中率-%）
-今週累計：0/0的中（的中率-%）
+川崎
+1R 本命③複勝③⑦ → ③1着✅ ⑦2着✅
+2R 本命①複勝①⑤ →
 """
 
 import sys
@@ -74,14 +72,14 @@ def get_keibajo_name_from_df(df):
 
 def generate_tweet_format(df_race, race_num):
     """
-    ツイート用フォーマット生成（予想結果版）
+    ツイート用フォーマット生成（本命・複勝版）
     
     Args:
         df_race: レースデータ（DataFrameの1レース分）
         race_num: レース番号
     
     Returns:
-        str: ツイート用フォーマット文字列（例: "予想：1R ①③⑤ → 結果："）
+        str: ツイート用フォーマット文字列（例: "1R 本命③複勝③⑦ →"）
     """
     # 上位3頭を取得
     top_horses = df_race.nsmallest(3, 'final_rank')['umaban'].tolist()
@@ -89,10 +87,14 @@ def generate_tweet_format(df_race, race_num):
     if len(top_horses) < 1:
         return ""
     
-    # 丸数字に変換
-    circled_horses = ''.join([number_to_circled(int(h)) for h in top_horses])
+    # 本命（1位）
+    honmei = number_to_circled(int(top_horses[0]))
     
-    return f"予想：{race_num}R {circled_horses} → 結果："
+    # 複勝（1位と2位）
+    fukusho_list = [number_to_circled(int(h)) for h in top_horses[:2]]
+    fukusho = ''.join(fukusho_list)
+    
+    return f"{race_num}R 本命{honmei}複勝{fukusho} →"
 
 
 def generate_distribution_text_tweet(input_csv, output_txt):
@@ -151,7 +153,11 @@ def generate_distribution_text_tweet(input_csv, output_txt):
     lines = []
     
     # ヘッダー
-    lines.append(f"【{formatted_date} {keibajo_name}競馬 AI予想結果】")
+    lines.append(f"【{formatted_date} 地方競馬AI予想 本日の結果】")
+    lines.append("")
+    
+    # 競馬場名
+    lines.append(keibajo_name)
     
     # レースごとに処理
     race_count = 0
@@ -165,13 +171,6 @@ def generate_distribution_text_tweet(input_csv, output_txt):
         tweet_format = generate_tweet_format(df_race, race_num)
         if tweet_format:
             lines.append(tweet_format)
-    
-    # 空行
-    lines.append("")
-    
-    # 的中率（プレースホルダー）
-    lines.append("本日：0/0的中（的中率-%）")
-    lines.append("今週累計：0/0的中（的中率-%）")
     
     # ファイルに書き込み
     with open(output_txt, 'w', encoding='utf-8') as f:
