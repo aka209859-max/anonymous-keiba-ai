@@ -72,10 +72,11 @@ def train_ranking_model(input_dir, output_dir):
     safe_print(f"  - 平均出走頭数: {df_combined.groupby('race_id').size().mean():.1f}頭")
     safe_print(f"  - 順位範囲: {df_combined['rank_target'].min():.0f}位 ～ {df_combined['rank_target'].max():.0f}位")
     
-    # 特徴量の準備
+    # 特徴量の準備（データリーク防止）
     exclude_cols = ['target', 'rank_target', 'race_id', 'group',
                     'kaisai_nen', 'kaisai_tsukihi', 'keibajo_code', 
-                    'race_bango', 'ketto_toroku_bango', 'umaban']
+                    'race_bango', 'ketto_toroku_bango', 'umaban',
+                    'finish_position', 'kakutei_chakujun']  # データリーク防止
     feature_cols = [col for col in df_combined.columns if col not in exclude_cols]
     
     safe_print(f"\n🔧 特徴量:")
