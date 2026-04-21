@@ -184,13 +184,14 @@ def train_ranking_model(input_dir, output_dir):
     val_df['predicted_rank'] = val_df.groupby('race_id')['predicted_score'].rank(ascending=False, method='min')
     val_df['actual_rank'] = val_df['rank_target']
     
-    # Top-K精度計算
+    # Top-K精度計算（インデックスベース）
     def calc_topk_accuracy(df, k):
         correct = 0
         total = df['race_id'].nunique()
         for race_id, group in df.groupby('race_id'):
-            top_k_predicted = set(group.nsmallest(k, 'predicted_rank')['umaban'])
-            top_k_actual = set(group.nsmallest(k, 'actual_rank')['umaban'])
+            # インデックスを使って比較
+            top_k_predicted = set(group.nsmallest(k, 'predicted_rank').index)
+            top_k_actual = set(group.nsmallest(k, 'actual_rank').index)
             if len(top_k_predicted & top_k_actual) >= 1:
                 correct += 1
         return correct / total
