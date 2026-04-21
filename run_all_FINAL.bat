@@ -61,8 +61,6 @@ if not exist "%FEATURES_CSV%" (
     dir /b data\features\%YEAR%\%MONTH%\*%DATE_SHORT%_features.csv 2>nul
     exit /b 1
 )
-    exit /b 1
-)
 
 echo Found: %FEATURES_CSV%
 
