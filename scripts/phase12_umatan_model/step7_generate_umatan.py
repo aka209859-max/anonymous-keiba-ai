@@ -36,13 +36,25 @@ def generate_umatan_tickets(ensemble_csv, output_txt, top_n=5, max_combinations=
     # 1着確率・2着確率の計算
     print(f"\n[2/4] 1着確率・2着確率の計算")
     
-    # ランキングスコアから1着確率を推定（スコアが高いほど1着の可能性が高い）
-    df['win_proba'] = df.groupby('race_id')['ranking_score'].transform(
+    # アンサンブルスコアから1着確率を推定（レースごとに正規化）
+    # スコアが高いほど1着の可能性が高い
+    df['win_proba_raw'] = df.groupby('race_id')['ensemble_score'].transform(
         lambda x: (x - x.min()) / (x.max() - x.min() + 1e-10)
     )
     
-    # 2着確率 = 2着以内確率 - 1着確率
-    df['place_proba'] = (df['binary_proba'] - df['win_proba']).clip(0, 1)
+    # 1着確率をソフトマックス風に変換（合計が100%に近づく）
+    df['win_proba_exp'] = df.groupby('race_id')['win_proba_raw'].transform(
+        lambda x: (x ** 2)  # 2乗して差を広げる
+    )
+    df['win_proba'] = df.groupby('race_id')['win_proba_exp'].transform(
+        lambda x: x / (x.sum() + 1e-10)
+    )
+    
+    # 2着確率は2着以内確率からより控えめに計算
+    # binary_proba（2着以内確率）とwin_probaの関係を考慮
+    df['place_proba'] = df.groupby('race_id').apply(
+        lambda g: (g['binary_proba'] * (1 - g['win_proba'])).clip(0, 1)
+    ).reset_index(level=0, drop=True)
     
     print(f"  ✅ 確率計算完了")
     
