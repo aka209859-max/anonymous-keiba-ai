@@ -10,8 +10,15 @@ import pandas as pd
 import warnings
 warnings.filterwarnings('ignore')
 
-def generate_umatan_tickets(ensemble_csv, output_txt, top_n=5, max_combinations=10):
-    """Phase 12 馬単買い目生成"""
+def generate_umatan_tickets(ensemble_csv, output_txt, top_n=5, max_combinations=4):
+    """Phase 12 馬単買い目生成
+    
+    Args:
+        ensemble_csv: アンサンブル結果CSV
+        output_txt: 買い目ファイル出力先
+        top_n: 上位候補数（デフォルト: 5）
+        max_combinations: 最大買い目数（デフォルト: 4、推奨: 4～5）
+    """
     print(f"\n{'='*80}")
     print(f"Phase 12: Step 7 - 馬単買い目生成（トリプル馬単）")
     print(f"{'='*80}")
@@ -109,10 +116,15 @@ def generate_umatan_tickets(ensemble_csv, output_txt, top_n=5, max_combinations=
             )
         output_lines.append("")
         
-        # 馬単の組合せ生成
+        # 馬単の組合せ生成（スマート戦略）
         output_lines.append("  推奨馬単:")
         combinations = []
-        for i, row1 in top_horses.iterrows():
+        
+        # 上位3頭を中心に組合せを生成
+        # 戦略: 本命軸流し（本命→2,3,4着候補）+ 2番人気軸（2番人気→本命, 3着候補）
+        top_3 = top_horses.head(3)
+        
+        for i, row1 in top_3.iterrows():
             for j, row2 in top_horses.iterrows():
                 if row1['umaban'] != row2['umaban']:
                     uma1 = int(row1['umaban'])
@@ -121,16 +133,27 @@ def generate_umatan_tickets(ensemble_csv, output_txt, top_n=5, max_combinations=
                     place_proba2 = row2['place_proba']
                     # 馬単確率 = 1着候補の1着確率 × 2着候補の2着確率
                     umatan_proba = win_proba1 * place_proba2
-                    combinations.append((uma1, uma2, umatan_proba, win_proba1, place_proba2))
+                    
+                    # スコア補正: 人気薄を含む組合せにボーナス
+                    rank1 = int(row1['ensemble_rank'])
+                    rank2 = int(row2['ensemble_rank'])
+                    score_bonus = 1.0
+                    if rank1 == 1 and rank2 <= 5:  # 本命軸流し
+                        score_bonus = 1.05
+                    elif rank1 == 2 and rank2 in [1, 3, 4]:  # 2番人気軸
+                        score_bonus = 1.02
+                    
+                    umatan_proba_adj = umatan_proba * score_bonus
+                    combinations.append((uma1, uma2, umatan_proba_adj, win_proba1, place_proba2, umatan_proba))
         
         # 確率順にソート
         combinations.sort(key=lambda x: x[2], reverse=True)
         
-        # 上位組合せを表示
-        for idx, (uma1, uma2, umatan_proba, win1, place2) in enumerate(combinations[:max_combinations], 1):
+        # 上位組合せを表示（max_combinations通り、デフォルト4通り）
+        for idx, (uma1, uma2, umatan_proba_adj, win1, place2, umatan_original) in enumerate(combinations[:max_combinations], 1):
             output_lines.append(
                 f"    {idx:2d}. {uma1}番 → {uma2}番 "
-                f"(馬単確率: {umatan_proba:.2%}, {uma1}番1着: {win1:.1%}, {uma2}番2着: {place2:.1%})"
+                f"(馬単確率: {umatan_original:.2%}, {uma1}番1着: {win1:.1%}, {uma2}番2着: {place2:.1%})"
             )
         
         output_lines.append("")
@@ -163,14 +186,18 @@ if __name__ == "__main__":
         print("\n例: python step7_generate_umatan.py \\")
         print("      data/phase12_umatan/predictions/ensemble/船橋_20260422_ensemble.csv \\")
         print("      data/phase12_umatan/predictions/tickets/船橋_20260422_umatan.txt \\")
-        print("      5 10  # オプション: top_n（デフォルト: 5）, max_combinations（デフォルト: 10）")
+        print("      5 4  # オプション: top_n（デフォルト: 5）, max_combinations（デフォルト: 4）")
+        print("\n推奨設定:")
+        print("  - max_combinations=4: 各レース4通り（資金節約型）")
+        print("  - max_combinations=5: 各レース5通り（バランス型）")
+        print("  - max_combinations=6: 各レース6通り（網羅型）")
         sys.exit(1)
     
     try:
         ensemble_csv = sys.argv[1]
         output_txt = sys.argv[2]
         top_n = int(sys.argv[3]) if len(sys.argv) > 3 else 5
-        max_combinations = int(sys.argv[4]) if len(sys.argv) > 4 else 10
+        max_combinations = int(sys.argv[4]) if len(sys.argv) > 4 else 5
         
         generate_umatan_tickets(ensemble_csv, output_txt, top_n, max_combinations)
     except Exception as e:
