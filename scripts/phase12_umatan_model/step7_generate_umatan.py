@@ -16,8 +16,13 @@ def generate_umatan_tickets(ensemble_csv, output_txt, top_n=5, max_combinations=
     print(f"Phase 12: Step 7 - 馬単買い目生成（トリプル馬単）")
     print(f"{'='*80}")
     
+    # 競馬場名マッピング
+    keibajo_map = {
+        '30': '門別', '42': '浦和', '43': '船橋', '44': '大井', '45': '川崎'
+    }
+    
     # データ読み込み
-    print(f"\n[1/3] アンサンブル結果読み込み: {ensemble_csv}")
+    print(f"\n[1/4] アンサンブル結果読み込み: {ensemble_csv}")
     try:
         df = pd.read_csv(ensemble_csv, encoding='shift-jis')
         print("  - エンコーディング: Shift-JIS")
@@ -28,8 +33,21 @@ def generate_umatan_tickets(ensemble_csv, output_txt, top_n=5, max_combinations=
     print(f"  - データ件数: {len(df):,}")
     print(f"  - レース数: {df['race_id'].nunique()}件")
     
+    # 1着確率・2着確率の計算
+    print(f"\n[2/4] 1着確率・2着確率の計算")
+    
+    # ランキングスコアから1着確率を推定（スコアが高いほど1着の可能性が高い）
+    df['win_proba'] = df.groupby('race_id')['ranking_score'].transform(
+        lambda x: (x - x.min()) / (x.max() - x.min() + 1e-10)
+    )
+    
+    # 2着確率 = 2着以内確率 - 1着確率
+    df['place_proba'] = (df['binary_proba'] - df['win_proba']).clip(0, 1)
+    
+    print(f"  ✅ 確率計算完了")
+    
     # 買い目生成
-    print(f"\n[2/3] 馬単買い目生成")
+    print(f"\n[3/4] 馬単買い目生成")
     print(f"  - 上位候補数: {top_n}頭")
     print(f"  - 最大組合せ数: {max_combinations}通り")
     
@@ -40,10 +58,17 @@ def generate_umatan_tickets(ensemble_csv, output_txt, top_n=5, max_combinations=
     output_lines.append("")
     
     for race_id, group in df.groupby('race_id'):
+        # race_idから競馬場とレース番号を抽出
+        # 例: 202604224212 → 2026年04月22日 競馬場42(浦和) 12R
+        race_id_str = str(race_id)
+        keibajo_code = race_id_str[8:10]
+        race_num = int(race_id_str[10:12])
+        keibajo_name = keibajo_map.get(keibajo_code, f"競馬場{keibajo_code}")
+        
         # アンサンブルスコア上位N頭を取得
         top_horses = group.nsmallest(top_n, 'ensemble_rank').sort_values('ensemble_rank')
         
-        output_lines.append(f"【レース: {race_id}】")
+        output_lines.append(f"【{keibajo_name} {race_num}R】")
         output_lines.append("")
         
         # 上位候補の情報
@@ -51,8 +76,8 @@ def generate_umatan_tickets(ensemble_csv, output_txt, top_n=5, max_combinations=
         for idx, row in top_horses.iterrows():
             output_lines.append(
                 f"    {int(row['ensemble_rank'])}位: {int(row['umaban'])}番 "
-                f"(スコア: {row['ensemble_score']:.4f}, "
-                f"2着以内確率: {row['binary_proba']:.2f})"
+                f"(1着確率: {row['win_proba']:.2%}, 2着確率: {row['place_proba']:.2%}, "
+                f"アンサンブル: {row['ensemble_score']:.3f})"
             )
         output_lines.append("")
         
@@ -64,25 +89,28 @@ def generate_umatan_tickets(ensemble_csv, output_txt, top_n=5, max_combinations=
                 if row1['umaban'] != row2['umaban']:
                     uma1 = int(row1['umaban'])
                     uma2 = int(row2['umaban'])
-                    score1 = row1['ensemble_score']
-                    score2 = row2['ensemble_score']
-                    # 組合せスコア = 1着候補スコア * 2 + 2着候補スコア
-                    combo_score = score1 * 2 + score2
-                    combinations.append((uma1, uma2, combo_score))
+                    win_proba1 = row1['win_proba']
+                    place_proba2 = row2['place_proba']
+                    # 馬単確率 = 1着候補の1着確率 × 2着候補の2着確率
+                    umatan_proba = win_proba1 * place_proba2
+                    combinations.append((uma1, uma2, umatan_proba, win_proba1, place_proba2))
         
-        # スコア順にソート
+        # 確率順にソート
         combinations.sort(key=lambda x: x[2], reverse=True)
         
         # 上位組合せを表示
-        for idx, (uma1, uma2, score) in enumerate(combinations[:max_combinations], 1):
-            output_lines.append(f"    {idx:2d}. {uma1}番 → {uma2}番 (スコア: {score:.4f})")
+        for idx, (uma1, uma2, umatan_proba, win1, place2) in enumerate(combinations[:max_combinations], 1):
+            output_lines.append(
+                f"    {idx:2d}. {uma1}番 → {uma2}番 "
+                f"(馬単確率: {umatan_proba:.3%}, {uma1}番1着: {win1:.2%}, {uma2}番2着: {place2:.2%})"
+            )
         
         output_lines.append("")
         output_lines.append("-" * 80)
         output_lines.append("")
     
     # 保存
-    print(f"\n[3/3] 買い目ファイル保存")
+    print(f"\n[4/4] 買い目ファイル保存")
     output_dir = os.path.dirname(output_txt)
     if output_dir and not os.path.exists(output_dir):
         os.makedirs(output_dir, exist_ok=True)
