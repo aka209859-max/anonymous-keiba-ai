@@ -59,21 +59,21 @@ def train_regression_model(input_dir, output_dir):
     if 'race_id' not in df_combined.columns:
         raise ValueError("race_id列が見つかりません")
     
-    # ターゲットの準備（タイム → 1/10秒単位に変換）
+    # ターゲットの準備（time列は既に1/10秒単位）
     df_combined['time'] = pd.to_numeric(df_combined['time'], errors='coerce')
     # 欠損値や異常値を除外
     df_combined = df_combined[df_combined['time'].notna()].copy()
     df_combined = df_combined[df_combined['time'] > 0].copy()
     
-    # タイムを1/10秒単位に変換（例: 65.3秒 → 653）
-    df_combined['time_target'] = (df_combined['time'] * 10).astype(int)
+    # time列は既に1/10秒単位なのでそのまま使用
+    df_combined['time_target'] = df_combined['time'].astype(int)
     
-    # データの統計情報
+    # データの統計情報（秒単位で表示）
     safe_print(f"\n📊 データセットの統計情報:")
     safe_print(f"  - レース数: {df_combined['race_id'].nunique():,}件")
     safe_print(f"  - 総馬数: {len(df_combined):,}頭")
-    safe_print(f"  - 平均タイム: {df_combined['time'].mean():.2f}秒")
-    safe_print(f"  - タイム範囲: {df_combined['time'].min():.2f}秒 ～ {df_combined['time'].max():.2f}秒")
+    safe_print(f"  - 平均タイム: {df_combined['time'].mean() / 10.0:.2f}秒")
+    safe_print(f"  - タイム範囲: {df_combined['time'].min() / 10.0:.2f}秒 ～ {df_combined['time'].max() / 10.0:.2f}秒")
     
     # 特徴量の準備（データリーク防止）
     exclude_cols = ['target', 'rank_target', 'time', 'time_target', 'race_id',
