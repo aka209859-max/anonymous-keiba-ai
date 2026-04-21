@@ -33,9 +33,11 @@ echo [Phase 1] Starting...
 python scripts\phase1_feature_engineering\prepare_features_safe.py %KEIBAJO_CODE% %YEAR% %MONTH% %DATE_SHORT%
 if errorlevel 1 exit /b 1
 
-REM Phase 1 Complete - auto-detect feature file
+REM Phase 1 Complete - auto-detect feature file (日付のみで検索)
 echo Phase 1 Complete - Auto-detecting feature file...
-for /f "delims=" %%F in ('dir /b data\features\%YEAR%\%MONTH%\*%DATE_SHORT%_features.csv 2^>nul ^| findstr /C:"%KEIBAJO_CODE%"') do set "FEATURES_FILENAME=%%F"
+for /f "delims=" %%F in ('dir /b data\features\%YEAR%\%MONTH%\*%DATE_SHORT%_features.csv 2^>nul') do (
+    if not defined FEATURES_FILENAME set "FEATURES_FILENAME=%%F"
+)
 
 if not defined FEATURES_FILENAME (
     echo ERROR: Feature file not found for code %KEIBAJO_CODE% and date %DATE_SHORT%
