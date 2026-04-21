@@ -35,9 +35,9 @@ if __name__ == '__main__':
         print(f"❌ エラー: 無効な競馬場コード {keibajo_code}")
         sys.exit(1)
     
-    # ファイルパスを生成（競馬場コードも含める）
+    # ファイルパスを生成
     input_csv = f"data/raw/{year}/{month}/{keibajo_name}_{date_short}_raw.csv"
-    output_csv = f"data/features/{year}/{month}/{keibajo_code}_{keibajo_name}_{date_short}_features.csv"
+    output_csv = f"data/features/{year}/{month}/{keibajo_name}_{date_short}_features.csv"
     
     # 既存の prepare_features.py を呼び出し
     import subprocess
