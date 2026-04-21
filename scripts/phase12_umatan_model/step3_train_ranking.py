@@ -184,17 +184,24 @@ def train_ranking_model(input_dir, output_dir):
     val_df['predicted_rank'] = val_df.groupby('race_id')['predicted_score'].rank(ascending=False, method='min')
     val_df['actual_rank'] = val_df['rank_target']
     
-    # Top-K精度計算（インデックスベース）
+    # Top-K精度計算（正しい実装）
     def calc_topk_accuracy(df, k):
-        correct = 0
-        total = df['race_id'].nunique()
+        """
+        Top-K的中率：予測上位K頭の中に、実際の上位K頭が何頭含まれているか
+        """
+        total_matches = 0
+        total_races = df['race_id'].nunique()
         for race_id, group in df.groupby('race_id'):
-            # インデックスを使って比較
+            # 予測上位K頭（predicted_rankが小さい方から）
             top_k_predicted = set(group.nsmallest(k, 'predicted_rank').index)
+            # 実際の上位K頭（actual_rankが小さい方から）
             top_k_actual = set(group.nsmallest(k, 'actual_rank').index)
-            if len(top_k_predicted & top_k_actual) >= 1:
-                correct += 1
-        return correct / total
+            # 一致数をカウント
+            matches = len(top_k_predicted & top_k_actual)
+            if matches > 0:
+                total_matches += matches
+        # 的中率 = 一致した馬の総数 / (レース数 × K)
+        return total_matches / (total_races * k)
     
     top1_acc = calc_topk_accuracy(val_df, 1)
     top3_acc = calc_topk_accuracy(val_df, 3)
