@@ -1,5 +1,5 @@
 @echo off
-chcp 65001 >nul
+chcp 932 >nul
 setlocal enabledelayedexpansion
 
 set PYTHONUTF8=1
@@ -18,23 +18,6 @@ if "%~2"=="" (
 set "KEIBAJO_CODE=%~1"
 set "TARGET_DATE=%~2"
 
-REM 競馬場コードから日本語名に変換
-set "KEIBA_NAME="
-if "%KEIBAJO_CODE%"=="30" set "KEIBA_NAME=門別"
-if "%KEIBAJO_CODE%"=="35" set "KEIBA_NAME=盛岡"
-if "%KEIBAJO_CODE%"=="36" set "KEIBA_NAME=水沢"
-if "%KEIBAJO_CODE%"=="42" set "KEIBA_NAME=浦和"
-if "%KEIBAJO_CODE%"=="43" set "KEIBA_NAME=船橋"
-if "%KEIBAJO_CODE%"=="44" set "KEIBA_NAME=大井"
-if "%KEIBAJO_CODE%"=="45" set "KEIBA_NAME=川崎"
-if "%KEIBAJO_CODE%"=="46" set "KEIBA_NAME=金沢"
-if "%KEIBAJO_CODE%"=="47" set "KEIBA_NAME=笠松"
-if "%KEIBAJO_CODE%"=="48" set "KEIBA_NAME=名古屋"
-if "%KEIBAJO_CODE%"=="50" set "KEIBA_NAME=園田"
-if "%KEIBAJO_CODE%"=="51" set "KEIBA_NAME=姫路"
-if "%KEIBAJO_CODE%"=="54" set "KEIBA_NAME=高知"
-if "%KEIBAJO_CODE%"=="55" set "KEIBA_NAME=佐賀"
-
 for /f "tokens=1,2,3 delims=-" %%a in ("%TARGET_DATE%") do (
     set YEAR=%%a
     set MONTH=%%b
@@ -50,15 +33,21 @@ echo [Phase 1] Starting...
 python scripts\phase1_feature_engineering\prepare_features_safe.py %KEIBAJO_CODE% %YEAR% %MONTH% %DATE_SHORT%
 if errorlevel 1 exit /b 1
 
-REM Phase 1 Complete - auto-detect feature file (競馬場名で検索)
+REM Phase 1 Complete - auto-detect feature file
 echo Phase 1 Complete - Auto-detecting feature file...
-set "FEATURES_FILENAME=%KEIBA_NAME%_%DATE_SHORT%_features.csv"
+for /f "delims=" %%F in ('dir /b data\features\%YEAR%\%MONTH%\*%DATE_SHORT%_features.csv 2^>nul ^| findstr /C:"%KEIBAJO_CODE%"') do set "FEATURES_FILENAME=%%F"
+
+if not defined FEATURES_FILENAME (
+    echo ERROR: Feature file not found for code %KEIBAJO_CODE% and date %DATE_SHORT%
+    echo Available files:
+    dir /b data\features\%YEAR%\%MONTH%\*%DATE_SHORT%_features.csv 2>nul
+    exit /b 1
+)
+
 set "FEATURES_CSV=data\features\%YEAR%\%MONTH%\%FEATURES_FILENAME%"
 
 if not exist "%FEATURES_CSV%" (
     echo ERROR: Feature file not found: %FEATURES_CSV%
-    echo Available files:
-    dir /b data\features\%YEAR%\%MONTH%\*%DATE_SHORT%_features.csv 2>nul
     exit /b 1
 )
 

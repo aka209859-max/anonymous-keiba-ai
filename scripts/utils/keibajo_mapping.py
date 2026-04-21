@@ -124,31 +124,26 @@ def extract_keibajo_from_filename(filename):
     ファイル名から競馬場名を抽出
     
     Args:
-        filename: ファイル名（例: '佐賀_20260207_features.csv' または '30_門別_20260422_features.csv'）
+        filename: ファイル名（例: '佐賀_20260207_features.csv'）
     
     Returns:
-        str: 競馬場の日本語名（例: '佐賀'、'門別'）
+        str: 競馬場の日本語名（例: '佐賀'）
     
     Example:
         >>> extract_keibajo_from_filename('佐賀_20260207_features.csv')
         '佐賀'
-        >>> extract_keibajo_from_filename('30_門別_20260422_features.csv')
-        '門別'
+        >>> extract_keibajo_from_filename('川崎_20260205_raw.csv')
+        '川崎'
     """
     import os
     basename = os.path.basename(filename)
-    parts = basename.split('_')
+    keibajo = basename.split('_')[0]
     
-    # パターン1: コード_競馬場名_日付_... の形式
-    if len(parts) >= 3 and parts[0] in KEIBAJO_CODE_TO_NAME:
-        return parts[1]  # 2番目の要素が競馬場名
+    # 有効な競馬場名か確認
+    if keibajo not in KEIBAJO_NAME_TO_ROMAJI:
+        raise ValueError(f"ファイル名から競馬場名を抽出できません: {filename}")
     
-    # パターン2: 競馬場名_日付_... の形式（旧形式）
-    keibajo = parts[0]
-    if keibajo in KEIBAJO_NAME_TO_ROMAJI:
-        return keibajo
-    
-    raise ValueError(f"ファイル名から競馬場名を抽出できません: {filename}")
+    return keibajo
 
 
 if __name__ == "__main__":

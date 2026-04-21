@@ -41,13 +41,20 @@ def add_top2_features(df: pd.DataFrame) -> pd.DataFrame:
     """
     safe_print("🔄 2着以内特化の追加特徴量を生成中...")
     
-    # ターゲット列の確認
-    if 'target' not in df.columns:
-        safe_print("⚠️ 'target' カラムが見つかりません")
-        df['target'] = 0
-    
-    # 着順をintに変換
-    df['finish_position'] = df['target'].astype(int)
+    # ターゲット列の確認（rank_targetを優先使用）
+    if 'rank_target' in df.columns:
+        safe_print("✅ 'rank_target' カラムを使用（実際の着順）")
+        df['finish_position'] = df['rank_target'].astype(float).fillna(99).astype(int)
+    elif 'kakutei_chakujun' in df.columns:
+        safe_print("✅ 'kakutei_chakujun' カラムを使用（実際の着順）")
+        df['finish_position'] = df['kakutei_chakujun'].astype(float).fillna(99).astype(int)
+    elif 'target' in df.columns:
+        safe_print("⚠️ 'target' カラムは3着以内フラグのため使用不可")
+        safe_print("❌ エラー: 着順データが見つかりません")
+        return None
+    else:
+        safe_print("❌ エラー: 着順データが見つかりません")
+        return None
     
     # 1着/2着/2着以内フラグ
     df['is_1st'] = (df['finish_position'] == 1).astype(int)
