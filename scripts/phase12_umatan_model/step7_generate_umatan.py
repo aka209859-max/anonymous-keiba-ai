@@ -56,6 +56,22 @@ def generate_umatan_tickets(ensemble_csv, output_txt, top_n=5, max_combinations=
     output_lines.append("Phase 12: トリプル馬単 買い目")
     output_lines.append("=" * 80)
     output_lines.append("")
+    output_lines.append("【スコア・確率の見方】")
+    output_lines.append("  - スコア: 総合評価（0.0～1.0、高いほど有力）")
+    output_lines.append("  - 1着確率: この馬が1着になる確率（0%～100%）")
+    output_lines.append("  - 2着確率: この馬が2着になる確率（0%～100%）")
+    output_lines.append("  - 馬単確率: 指定された組合せが的中する確率（0%～100%）")
+    output_lines.append("")
+    output_lines.append("【確率の目安】")
+    output_lines.append("  - 1着確率 30%以上: 本命級")
+    output_lines.append("  - 1着確率 20～30%: 対抗～有力")
+    output_lines.append("  - 1着確率 10～20%: 穴候補")
+    output_lines.append("  - 馬単確率 5%以上: 高期待値")
+    output_lines.append("  - 馬単確率 3～5%: 中期待値")
+    output_lines.append("  - 馬単確率 1～3%: 低期待値")
+    output_lines.append("")
+    output_lines.append("=" * 80)
+    output_lines.append("")
     
     for race_id, group in df.groupby('race_id'):
         # race_idから競馬場とレース番号を抽出
@@ -76,8 +92,8 @@ def generate_umatan_tickets(ensemble_csv, output_txt, top_n=5, max_combinations=
         for idx, row in top_horses.iterrows():
             output_lines.append(
                 f"    {int(row['ensemble_rank'])}位: {int(row['umaban'])}番 "
-                f"(1着確率: {row['win_proba']:.2%}, 2着確率: {row['place_proba']:.2%}, "
-                f"アンサンブル: {row['ensemble_score']:.3f})"
+                f"(スコア: {row['ensemble_score']:.3f}, "
+                f"1着確率: {row['win_proba']:.1%}, 2着確率: {row['place_proba']:.1%})"
             )
         output_lines.append("")
         
@@ -102,7 +118,7 @@ def generate_umatan_tickets(ensemble_csv, output_txt, top_n=5, max_combinations=
         for idx, (uma1, uma2, umatan_proba, win1, place2) in enumerate(combinations[:max_combinations], 1):
             output_lines.append(
                 f"    {idx:2d}. {uma1}番 → {uma2}番 "
-                f"(馬単確率: {umatan_proba:.3%}, {uma1}番1着: {win1:.2%}, {uma2}番2着: {place2:.2%})"
+                f"(馬単確率: {umatan_proba:.2%}, {uma1}番1着: {win1:.1%}, {uma2}番2着: {place2:.1%})"
             )
         
         output_lines.append("")
