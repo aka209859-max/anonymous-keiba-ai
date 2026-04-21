@@ -6,44 +6,44 @@ set PYTHONUTF8=1
 set PYTHONIOENCODING=utf-8
 
 REM =========================================================================
-REM Phase 12: ãƒˆãƒªãƒ—ãƒ«é¦¬å˜å°‚ç”¨äºˆæ¸¬ãƒ‘ã‚¤ãƒ—ãƒ©ã‚¤ãƒ³
-REM å¯¾è±¡: å—é–¢æ±4å ´ï¼ˆå¤§äº•ãƒ»æµ¦å’Œãƒ»èˆ¹æ©‹ãƒ»å·å´ï¼‰+ é–€åˆ¥
+REM Phase 12: ƒgƒŠƒvƒ‹”n’Pê—p—\‘ªƒpƒCƒvƒ‰ƒCƒ“
+REM ‘ÎÛ: “ìŠÖ“Œ4êi‘åˆäE‰Y˜aE‘D‹´Eìèj+ –å•Ê
 REM =========================================================================
 
 if "%~1"=="" (
-    echo ä½¿ç”¨æ³•: run_phase12.bat [KEIBAJO_CODE] [DATE]
+    echo g—p–@: run_phase12.bat [KEIBAJO_CODE] [DATE]
     echo.
-    echo ä¾‹: run_phase12.bat 43 2026-04-22  ^(èˆ¹æ©‹^)
-    echo ä¾‹: run_phase12.bat 44 2026-04-22  ^(å¤§äº•^)
-    echo ä¾‹: run_phase12.bat 42 2026-04-22  ^(æµ¦å’Œ^)
-    echo ä¾‹: run_phase12.bat 45 2026-04-22  ^(å·å´^)
-    echo ä¾‹: run_phase12.bat 30 2026-04-22  ^(é–€åˆ¥^)
+    echo —á: run_phase12.bat 43 2026-04-22  ^(‘D‹´^)
+    echo —á: run_phase12.bat 44 2026-04-22  ^(‘åˆä^)
+    echo —á: run_phase12.bat 42 2026-04-22  ^(‰Y˜a^)
+    echo —á: run_phase12.bat 45 2026-04-22  ^(ìè^)
+    echo —á: run_phase12.bat 30 2026-04-22  ^(–å•Ê^)
     exit /b 1
 )
 
 if "%~2"=="" (
-    echo ä½¿ç”¨æ³•: run_phase12.bat [KEIBAJO_CODE] [DATE]
+    echo g—p–@: run_phase12.bat [KEIBAJO_CODE] [DATE]
     exit /b 1
 )
 
 set "KEIBAJO_CODE=%~1"
 set "TARGET_DATE=%~2"
 
-REM ç«¶é¦¬å ´ã‚³ãƒ¼ãƒ‰ã‹ã‚‰æ—¥æœ¬èªåã«å¤‰æ›
+REM ‹£”nêƒR[ƒh‚©‚ç“ú–{Œê–¼‚É•ÏŠ·
 set "KEIBA_NAME="
-if "%KEIBAJO_CODE%"=="30" set "KEIBA_NAME=é–€åˆ¥"
-if "%KEIBAJO_CODE%"=="42" set "KEIBA_NAME=æµ¦å’Œ"
-if "%KEIBAJO_CODE%"=="43" set "KEIBA_NAME=èˆ¹æ©‹"
-if "%KEIBAJO_CODE%"=="44" set "KEIBA_NAME=å¤§äº•"
-if "%KEIBAJO_CODE%"=="45" set "KEIBA_NAME=å·å´"
+if "%KEIBAJO_CODE%"=="30" set "KEIBA_NAME=–å•Ê"
+if "%KEIBAJO_CODE%"=="42" set "KEIBA_NAME=‰Y˜a"
+if "%KEIBAJO_CODE%"=="43" set "KEIBA_NAME=‘D‹´"
+if "%KEIBAJO_CODE%"=="44" set "KEIBA_NAME=‘åˆä"
+if "%KEIBAJO_CODE%"=="45" set "KEIBA_NAME=ìè"
 
 if "%KEIBA_NAME%"=="" (
-    echo ã‚¨ãƒ©ãƒ¼: å¯¾å¿œã—ã¦ã„ãªã„ç«¶é¦¬å ´ã‚³ãƒ¼ãƒ‰ã§ã™: %KEIBAJO_CODE%
-    echo Phase 12å¯¾è±¡: 30^(é–€åˆ¥^), 42^(æµ¦å’Œ^), 43^(èˆ¹æ©‹^), 44^(å¤§äº•^), 45^(å·å´^)
+    echo ƒGƒ‰[: ‘Î‰‚µ‚Ä‚¢‚È‚¢‹£”nêƒR[ƒh‚Å‚·: %KEIBAJO_CODE%
+    echo Phase 12‘ÎÛ: 30^(–å•Ê^), 42^(‰Y˜a^), 43^(‘D‹´^), 44^(‘åˆä^), 45^(ìè^)
     exit /b 1
 )
 
-REM æ—¥ä»˜ã‚’ãƒ‘ãƒ¼ã‚¹
+REM “ú•t‚ğƒp[ƒX
 for /f "tokens=1,2,3 delims=-" %%a in ("%TARGET_DATE%") do (
     set YEAR=%%a
     set MONTH=%%b
@@ -52,116 +52,116 @@ for /f "tokens=1,2,3 delims=-" %%a in ("%TARGET_DATE%") do (
 set "DATE_SHORT=%YEAR%%MONTH%%DAY%"
 
 echo =========================================================================
-echo Phase 12: ãƒˆãƒªãƒ—ãƒ«é¦¬å˜äºˆæ¸¬ãƒ‘ã‚¤ãƒ—ãƒ©ã‚¤ãƒ³
+echo Phase 12: ƒgƒŠƒvƒ‹”n’P—\‘ªƒpƒCƒvƒ‰ƒCƒ“
 echo =========================================================================
-echo ç«¶é¦¬å ´: %KEIBA_NAME% ^(ã‚³ãƒ¼ãƒ‰: %KEIBAJO_CODE%^)
-echo æ—¥ä»˜: %TARGET_DATE%
+echo ‹£”nê: %KEIBA_NAME% ^(ƒR[ƒh: %KEIBAJO_CODE%^)
+echo “ú•t: %TARGET_DATE%
 echo =========================================================================
 echo.
 
 REM =========================================================================
-REM Phase 0: ãƒ‡ãƒ¼ã‚¿å–å¾—
+REM Phase 0: ƒf[ƒ^æ“¾
 REM =========================================================================
-echo [Phase 0] ãƒ‡ãƒ¼ã‚¿å–å¾—é–‹å§‹...
+echo [Phase 0] ƒf[ƒ^æ“¾ŠJn...
 python scripts\phase0_data_acquisition\extract_race_data.py --keibajo %KEIBAJO_CODE% --date %TARGET_DATE%
 if errorlevel 1 (
-    echo ã‚¨ãƒ©ãƒ¼: Phase 0 ãƒ‡ãƒ¼ã‚¿å–å¾—å¤±æ•—
+    echo ƒGƒ‰[: Phase 0 ƒf[ƒ^æ“¾¸”s
     exit /b 1
 )
 echo.
 
 REM =========================================================================
-REM Phase 1: ç‰¹å¾´é‡ç”Ÿæˆ
+REM Phase 1: “Á’¥—Ê¶¬
 REM =========================================================================
-echo [Phase 1] ç‰¹å¾´é‡ç”Ÿæˆé–‹å§‹...
+echo [Phase 1] “Á’¥—Ê¶¬ŠJn...
 python scripts\phase1_feature_engineering\prepare_features_safe.py %KEIBAJO_CODE% %YEAR% %MONTH% %DATE_SHORT%
 if errorlevel 1 (
-    echo ã‚¨ãƒ©ãƒ¼: Phase 1 ç‰¹å¾´é‡ç”Ÿæˆå¤±æ•—
+    echo ƒGƒ‰[: Phase 1 “Á’¥—Ê¶¬¸”s
     exit /b 1
 )
 echo.
 
-REM ç‰¹å¾´é‡ãƒ•ã‚¡ã‚¤ãƒ«ã®ãƒ‘ã‚¹ã‚’è¨­å®š
+REM “Á’¥—Êƒtƒ@ƒCƒ‹‚ÌƒpƒX‚ğİ’è
 set "FEATURES_FILENAME=%KEIBA_NAME%_%DATE_SHORT%_features.csv"
 set "FEATURES_CSV=data\features\%YEAR%\%MONTH%\%FEATURES_FILENAME%"
 
 if not exist "%FEATURES_CSV%" (
-    echo ã‚¨ãƒ©ãƒ¼: ç‰¹å¾´é‡ãƒ•ã‚¡ã‚¤ãƒ«ãŒè¦‹ã¤ã‹ã‚Šã¾ã›ã‚“: %FEATURES_CSV%
+    echo ƒGƒ‰[: “Á’¥—Êƒtƒ@ƒCƒ‹‚ªŒ©‚Â‚©‚è‚Ü‚¹‚ñ: %FEATURES_CSV%
     exit /b 1
 )
 
-echo ç‰¹å¾´é‡ãƒ•ã‚¡ã‚¤ãƒ«: %FEATURES_CSV%
+echo “Á’¥—Êƒtƒ@ƒCƒ‹: %FEATURES_CSV%
 echo.
 
 REM =========================================================================
-REM Phase 12: Step 5-1 - ãƒã‚¤ãƒŠãƒªåˆ†é¡äºˆæ¸¬
+REM Phase 12: Step 5-1 - ƒoƒCƒiƒŠ•ª—Ş—\‘ª
 REM =========================================================================
-echo [Phase 12 Step 5-1] ãƒã‚¤ãƒŠãƒªåˆ†é¡äºˆæ¸¬ï¼ˆ2ç€ä»¥å†…ï¼‰...
+echo [Phase 12 Step 5-1] ƒoƒCƒiƒŠ•ª—Ş—\‘ªi2’…ˆÈ“àj...
 set "BINARY_OUTPUT=data\phase12_umatan\predictions\binary\%KEIBA_NAME%_%DATE_SHORT%_binary.csv"
 python scripts\phase12_umatan_model\step5_1_predict_binary.py "%FEATURES_CSV%" data\phase12_umatan\models\binary\phase12_binary_top2_model.txt "%BINARY_OUTPUT%"
 if errorlevel 1 (
-    echo ã‚¨ãƒ©ãƒ¼: Phase 12 Step 5-1 ãƒã‚¤ãƒŠãƒªåˆ†é¡äºˆæ¸¬å¤±æ•—
+    echo ƒGƒ‰[: Phase 12 Step 5-1 ƒoƒCƒiƒŠ•ª—Ş—\‘ª¸”s
     exit /b 1
 )
 echo.
 
 REM =========================================================================
-REM Phase 12: Step 5-2 - ãƒ©ãƒ³ã‚­ãƒ³ã‚°äºˆæ¸¬
+REM Phase 12: Step 5-2 - ƒ‰ƒ“ƒLƒ“ƒO—\‘ª
 REM =========================================================================
-echo [Phase 12 Step 5-2] ãƒ©ãƒ³ã‚­ãƒ³ã‚°äºˆæ¸¬...
+echo [Phase 12 Step 5-2] ƒ‰ƒ“ƒLƒ“ƒO—\‘ª...
 set "RANKING_OUTPUT=data\phase12_umatan\predictions\ranking\%KEIBA_NAME%_%DATE_SHORT%_ranking.csv"
 python scripts\phase12_umatan_model\step5_2_predict_ranking.py "%FEATURES_CSV%" data\phase12_umatan\models\ranking\phase12_ranking_model.txt "%RANKING_OUTPUT%"
 if errorlevel 1 (
-    echo ã‚¨ãƒ©ãƒ¼: Phase 12 Step 5-2 ãƒ©ãƒ³ã‚­ãƒ³ã‚°äºˆæ¸¬å¤±æ•—
+    echo ƒGƒ‰[: Phase 12 Step 5-2 ƒ‰ƒ“ƒLƒ“ƒO—\‘ª¸”s
     exit /b 1
 )
 echo.
 
 REM =========================================================================
-REM Phase 12: Step 5-3 - å›å¸°äºˆæ¸¬
+REM Phase 12: Step 5-3 - ‰ñ‹A—\‘ª
 REM =========================================================================
-echo [Phase 12 Step 5-3] å›å¸°äºˆæ¸¬ï¼ˆã‚¿ã‚¤ãƒ äºˆæ¸¬ï¼‰...
+echo [Phase 12 Step 5-3] ‰ñ‹A—\‘ªiƒ^ƒCƒ€—\‘ªj...
 set "REGRESSION_OUTPUT=data\phase12_umatan\predictions\regression\%KEIBA_NAME%_%DATE_SHORT%_regression.csv"
 python scripts\phase12_umatan_model\step5_3_predict_regression.py "%FEATURES_CSV%" data\phase12_umatan\models\regression\phase12_regression_model.txt "%REGRESSION_OUTPUT%"
 if errorlevel 1 (
-    echo ã‚¨ãƒ©ãƒ¼: Phase 12 Step 5-3 å›å¸°äºˆæ¸¬å¤±æ•—
+    echo ƒGƒ‰[: Phase 12 Step 5-3 ‰ñ‹A—\‘ª¸”s
     exit /b 1
 )
 echo.
 
 REM =========================================================================
-REM Phase 12: Step 6 - ã‚¢ãƒ³ã‚µãƒ³ãƒ–ãƒ«äºˆæ¸¬
+REM Phase 12: Step 6 - ƒAƒ“ƒTƒ“ƒuƒ‹—\‘ª
 REM =========================================================================
-echo [Phase 12 Step 6] ã‚¢ãƒ³ã‚µãƒ³ãƒ–ãƒ«äºˆæ¸¬...
+echo [Phase 12 Step 6] ƒAƒ“ƒTƒ“ƒuƒ‹—\‘ª...
 set "ENSEMBLE_OUTPUT=data\phase12_umatan\predictions\ensemble\%KEIBA_NAME%_%DATE_SHORT%_ensemble.csv"
 python scripts\phase12_umatan_model\step6_ensemble.py "%BINARY_OUTPUT%" "%RANKING_OUTPUT%" "%REGRESSION_OUTPUT%" "%ENSEMBLE_OUTPUT%"
 if errorlevel 1 (
-    echo ã‚¨ãƒ©ãƒ¼: Phase 12 Step 6 ã‚¢ãƒ³ã‚µãƒ³ãƒ–ãƒ«äºˆæ¸¬å¤±æ•—
+    echo ƒGƒ‰[: Phase 12 Step 6 ƒAƒ“ƒTƒ“ƒuƒ‹—\‘ª¸”s
     exit /b 1
 )
 echo.
 
 REM =========================================================================
-REM Phase 12: Step 7 - é¦¬å˜è²·ã„ç›®ç”Ÿæˆ
+REM Phase 12: Step 7 - ”n’P”ƒ‚¢–Ú¶¬
 REM =========================================================================
-echo [Phase 12 Step 7] é¦¬å˜è²·ã„ç›®ç”Ÿæˆ...
+echo [Phase 12 Step 7] ”n’P”ƒ‚¢–Ú¶¬...
 set "UMATAN_OUTPUT=data\phase12_umatan\predictions\tickets\%KEIBA_NAME%_%DATE_SHORT%_umatan.txt"
 python scripts\phase12_umatan_model\step7_generate_umatan.py "%ENSEMBLE_OUTPUT%" "%UMATAN_OUTPUT%"
 if errorlevel 1 (
-    echo ã‚¨ãƒ©ãƒ¼: Phase 12 Step 7 é¦¬å˜è²·ã„ç›®ç”Ÿæˆå¤±æ•—
+    echo ƒGƒ‰[: Phase 12 Step 7 ”n’P”ƒ‚¢–Ú¶¬¸”s
     exit /b 1
 )
 echo.
 
 REM =========================================================================
-REM å®Œäº†
+REM Š®—¹
 REM =========================================================================
 echo =========================================================================
-echo Phase 12: ãƒˆãƒªãƒ—ãƒ«é¦¬å˜äºˆæ¸¬ãƒ‘ã‚¤ãƒ—ãƒ©ã‚¤ãƒ³å®Œäº†ï¼
+echo Phase 12: ƒgƒŠƒvƒ‹”n’P—\‘ªƒpƒCƒvƒ‰ƒCƒ“Š®—¹I
 echo =========================================================================
-echo é¦¬å˜è²·ã„ç›®ãƒ•ã‚¡ã‚¤ãƒ«: %UMATAN_OUTPUT%
+echo ”n’P”ƒ‚¢–Úƒtƒ@ƒCƒ‹: %UMATAN_OUTPUT%
 echo.
-echo è²·ã„ç›®ã‚’ç¢ºèªã™ã‚‹ã«ã¯:
+echo ”ƒ‚¢–Ú‚ğŠm”F‚·‚é‚É‚Í:
 echo   notepad "%UMATAN_OUTPUT%"
 echo =========================================================================
 
