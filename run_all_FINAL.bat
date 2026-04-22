@@ -35,10 +35,20 @@ if errorlevel 1 exit /b 1
 
 REM Phase 1 Complete - auto-detect feature file
 echo Phase 1 Complete - Auto-detecting feature file...
-for /f "delims=" %%F in ('dir /b data\features\%YEAR%\%MONTH%\*%DATE_SHORT%_features.csv 2^>nul ^| findstr /C:"%KEIBAJO_CODE%"') do set "FEATURES_FILENAME=%%F"
+echo [DEBUG] Looking for: data\features\%YEAR%\%MONTH%\*%KEIBAJO_CODE%*%DATE_SHORT%_features.csv
 
+REM FIXED: Search by filename pattern instead of findstr
+set "FEATURES_FILENAME="
+for /f "delims=" %%F in ('dir /b data\features\%YEAR%\%MONTH%\*%KEIBAJO_CODE%*%DATE_SHORT%_features.csv 2^>nul') do (
+    set "FEATURES_FILENAME=%%F"
+    echo [DEBUG] Found candidate: %%F
+    goto :found_file
+)
+
+:found_file
 if not defined FEATURES_FILENAME (
     echo ERROR: Feature file not found for code %KEIBAJO_CODE% and date %DATE_SHORT%
+    echo Expected pattern: *%KEIBAJO_CODE%*%DATE_SHORT%_features.csv
     echo Available files:
     dir /b data\features\%YEAR%\%MONTH%\*%DATE_SHORT%_features.csv 2>nul
     exit /b 1
