@@ -197,6 +197,20 @@ def train_ranking_model(input_dir, output_dir):
         val_df['predicted_rank'] = val_df.groupby('race_id')['predicted_score'].rank(ascending=False, method='min')
         val_df['actual_rank'] = val_df['rank_target']
         
+        # デバッグ：actual_rankの統計情報
+        safe_print(f"\n📊 actual_rank統計:")
+        safe_print(f"  - 最小値: {val_df['actual_rank'].min()}")
+        safe_print(f"  - 最大値: {val_df['actual_rank'].max()}")
+        safe_print(f"  - 欠損値: {val_df['actual_rank'].isna().sum()}件")
+        safe_print(f"  - ユニーク値: {val_df['actual_rank'].nunique()}種類")
+        
+        # 最初のレースの全馬のactual_rankとumabanを表示
+        first_race = val_df.groupby('race_id').first().index[0]
+        first_race_df = val_df[val_df['race_id'] == first_race][['umaban', 'actual_rank', 'predicted_score']].sort_values('actual_rank')
+        safe_print(f"\n📊 最初のレース({first_race})の全馬:")
+        for idx, row in first_race_df.head(10).iterrows():
+            safe_print(f"  馬番{int(row['umaban'])}番: actual_rank={row['actual_rank']}, predicted_score={row['predicted_score']:.4f}")
+        
         # Top-K精度計算（デバッグ付き）
         def calc_topk_accuracy(df, k):
             """
