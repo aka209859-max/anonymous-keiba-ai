@@ -91,7 +91,8 @@ def train_ranking_model(input_dir, output_dir):
         exclude_cols = ['target', 'rank_target', 'race_id', 'group',
                         'kaisai_nen', 'kaisai_tsukihi', 'keibajo_code', 
                         'race_bango', 'ketto_toroku_bango', 'umaban',
-                        'finish_position', 'kakutei_chakujun']  # データリーク防止
+                        'finish_position', 'kakutei_chakujun',
+                        'time', 'bamei']  # データリーク防止（time=着順タイム、bamei=馬名）
         feature_cols = [col for col in df_combined.columns if col not in exclude_cols]
         
         safe_print(f"\n🔧 特徴量:")
