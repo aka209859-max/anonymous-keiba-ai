@@ -67,25 +67,25 @@ def train_ranking_model(input_dir, output_dir):
             df_combined = pd.read_csv(csv_file, encoding='utf-8')
         
         safe_print(f"✅ データ読み込み完了: {len(df_combined):,}行 × {len(df_combined.columns)}列")
-    
-    # 必須列の確認
-    if 'rank_target' not in df_combined.columns:
-        raise ValueError("rank_target列が見つかりません")
-    if 'race_id' not in df_combined.columns:
-        raise ValueError("race_id列が見つかりません")
-    
-    # ターゲットの準備（順位を数値化）
-    df_combined['rank_target'] = pd.to_numeric(df_combined['rank_target'], errors='coerce')
-    
-    # レースIDでグループ化するための準備
-    df_combined['group'] = df_combined.groupby('race_id').ngroup()
-    
-    # データの統計情報
-    safe_print(f"\n📊 データセットの統計情報:")
-    safe_print(f"  - レース数: {df_combined['race_id'].nunique():,}件")
-    safe_print(f"  - 総馬数: {len(df_combined):,}頭")
-    safe_print(f"  - 平均出走頭数: {df_combined.groupby('race_id').size().mean():.1f}頭")
-    safe_print(f"  - 順位範囲: {df_combined['rank_target'].min():.0f}位 ～ {df_combined['rank_target'].max():.0f}位")
+        
+        # 必須列の確認
+        if 'rank_target' not in df_combined.columns:
+            raise ValueError("rank_target列が見つかりません")
+        if 'race_id' not in df_combined.columns:
+            raise ValueError("race_id列が見つかりません")
+        
+        # ターゲットの準備（順位を数値化）
+        df_combined['rank_target'] = pd.to_numeric(df_combined['rank_target'], errors='coerce')
+        
+        # レースIDでグループ化するための準備
+        df_combined['group'] = df_combined.groupby('race_id').ngroup()
+        
+        # データの統計情報
+        safe_print(f"\n📊 データセットの統計情報:")
+        safe_print(f"  - レース数: {df_combined['race_id'].nunique():,}件")
+        safe_print(f"  - 総馬数: {len(df_combined):,}頭")
+        safe_print(f"  - 平均出走頭数: {df_combined.groupby('race_id').size().mean():.1f}頭")
+        safe_print(f"  - 順位範囲: {df_combined['rank_target'].min():.0f}位 ～ {df_combined['rank_target'].max():.0f}位")
     
         # 特徴量の準備（データリーク防止）
         exclude_cols = ['target', 'rank_target', 'race_id', 'group',
