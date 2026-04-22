@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Phase 12: Step 5-1 - バイナリ分類予測（2着以内）
+Phase 12: Step 5-1 - バイナリ分類予測（2着以内）- 競馬場別モデル対応
 """
 
 import sys
@@ -11,14 +11,58 @@ import lightgbm as lgb
 import warnings
 warnings.filterwarnings('ignore')
 
-def predict_binary_top2(test_csv, model_path, output_csv):
-    """Phase 12 バイナリ分類予測（2着以内）"""
+# 競馬場マッピング
+VENUE_MAP = {
+    30: "monbetsu",
+    42: "urawa",
+    43: "funabashi",
+    44: "ooi",
+    45: "kawasaki"
+}
+
+VENUE_NAME_JP = {
+    30: "門別",
+    42: "浦和",
+    43: "船橋",
+    44: "大井",
+    45: "川崎"
+}
+
+def detect_venue_from_csv(test_csv):
+    """CSVファイルから競馬場を自動判定"""
+    try:
+        df = pd.read_csv(test_csv, encoding='shift-jis', nrows=1)
+    except:
+        df = pd.read_csv(test_csv, encoding='utf-8', nrows=1)
+    
+    if 'keibajo_code' in df.columns:
+        venue_code = int(df['keibajo_code'].iloc[0])
+        if venue_code in VENUE_MAP:
+            return venue_code, VENUE_MAP[venue_code], VENUE_NAME_JP[venue_code]
+    
+    raise ValueError("競馬場コード（keibajo_code）が見つかりません")
+
+def predict_binary_top2(test_csv, model_dir, output_csv):
+    """Phase 12 バイナリ分類予測（2着以内）- 競馬場別モデル"""
     print(f"\n{'='*80}")
     print(f"Phase 12: Step 5-1 - バイナリ分類予測（2着以内）")
     print(f"{'='*80}")
     
+    # 競馬場自動判定
+    print(f"\n[0/5] 競馬場判定中...")
+    venue_code, venue_en, venue_jp = detect_venue_from_csv(test_csv)
+    print(f"  ✅ 競馬場: {venue_jp} ({venue_code})")
+    
+    # モデルパス構築
+    model_filename = f"phase12_{venue_en}_binary_top2_model.txt"
+    model_path = os.path.join(model_dir, model_filename)
+    print(f"  - モデルファイル: {model_filename}")
+    
+    if not os.path.exists(model_path):
+        raise FileNotFoundError(f"モデルファイルが見つかりません: {model_path}")
+    
     # データ読み込み
-    print(f"\n[1/4] テストデータ読み込み: {test_csv}")
+    print(f"\n[1/5] テストデータ読み込み: {test_csv}")
     try:
         df = pd.read_csv(test_csv, encoding='shift-jis')
         print("  - エンコーディング: Shift-JIS")
@@ -52,7 +96,7 @@ def predict_binary_top2(test_csv, model_path, output_csv):
     id_data = df[id_cols_with_bamei].copy()
     
     # モデル読み込み
-    print(f"\n[2/4] モデル読み込み: {model_path}")
+    print(f"\n[2/5] モデル読み込み: {model_path}")
     if not os.path.exists(model_path):
         raise FileNotFoundError(f"モデルファイルが見つかりません: {model_path}")
     
@@ -61,7 +105,7 @@ def predict_binary_top2(test_csv, model_path, output_csv):
     print(f"  - モデルの特徴量数: {len(model_features)}")
     
     # 特徴量の準備
-    print(f"\n[3/4] 特徴量の準備")
+    print(f"\n[3/5] 特徴量の準備")
     exclude_cols = ['target', 'rank_target', 'time', 'race_id', 
                     'finish_position', 'kakutei_chakujun'] + id_cols
     available_features = [col for col in df.columns if col not in exclude_cols]
@@ -83,7 +127,7 @@ def predict_binary_top2(test_csv, model_path, output_csv):
     print(f"  ✅ 特徴量準備完了: {len(model_features)}個")
     
     # 予測
-    print(f"\n[4/4] 予測実行中...")
+    print(f"\n[4/5] 予測実行中...")
     binary_proba = model.predict(X_test, num_iteration=model.best_iteration)
     binary_pred = (binary_proba >= 0.5).astype(int)
     
@@ -99,6 +143,7 @@ def predict_binary_top2(test_csv, model_path, output_csv):
     print(f"  - 2着以内予測数: {binary_pred.sum()}頭 / {len(binary_pred)}頭 ({binary_pred.sum()/len(binary_pred)*100:.1f}%)")
     
     # 保存
+    print(f"\n[5/5] 結果保存中...")
     output_dir = os.path.dirname(output_csv)
     if output_dir and not os.path.exists(output_dir):
         os.makedirs(output_dir, exist_ok=True)
@@ -117,11 +162,12 @@ def predict_binary_top2(test_csv, model_path, output_csv):
 
 if __name__ == "__main__":
     if len(sys.argv) != 4:
-        print("使用法: python step5_1_predict_binary.py <test_csv> <model_path> <output_csv>")
+        print("使用法: python step5_1_predict_binary.py <test_csv> <model_dir> <output_csv>")
         print("\n例: python step5_1_predict_binary.py \\")
         print("      data/features/2026/04/船橋_20260422_features.csv \\")
-        print("      data/phase12_umatan/models/binary/phase12_binary_top2_model.txt \\")
+        print("      data/phase12_umatan/models/binary \\")
         print("      data/phase12_umatan/predictions/binary/船橋_20260422_binary.csv")
+        print("\n競馬場は自動判定されます（keibajo_code列から）")
         sys.exit(1)
     
     try:
