@@ -134,7 +134,8 @@ REM Step 7: 馬単買い目生成
 echo.
 echo [Step 7] 馬単買い目生成中...
 set "UMATAN_OUT=predictions\phase12_umatan\%KEIBA_NAME%_%DATE_SHORT%_umatan.txt"
-REM 人気薄を減らすために min_binary_proba を 0.30 (30%) に設定
+REM 動的閾値モード: min_binary_proba=0.30 で自動的にレースごとに最適閾値を設定
+REM （本命明確→40%, 中本命→35%, 混戦→30%, 大混戦→25%）
 python scripts\phase12_umatan_model\step7_generate_umatan.py "%ENSEMBLE_OUT%" "%UMATAN_OUT%" 5 4 0.30
 if errorlevel 1 (
     echo ERROR: Step 7 failed

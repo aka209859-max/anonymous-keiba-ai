@@ -56,11 +56,53 @@ def generate_umatan_tickets(ensemble_csv, output_txt, top_n=5, max_combinations=
     # 1着確率・2着確率の計算（馬単的中特化版）
     print(f"\n[2/4] 1着確率・2着確率の計算（馬単的中特化）")
     
-    # 人気薄フィルタリング（2着以内確率が低い馬を除外）
-    df_filtered = df[df['binary_proba'] >= min_binary_proba].copy()
+    # 動的閾値の計算（レースごとに最適な閾値を設定）
+    print(f"\n  🎯 動的閾値モード: レースごとに最適な閾値を自動設定")
+    
+    # レースごとの最大確率を計算
+    race_max_proba = df.groupby('race_id')['binary_proba'].max()
+    
+    # 動的閾値マッピング
+    def get_dynamic_threshold(max_proba):
+        """レースの本命度に応じて閾値を調整"""
+        if max_proba >= 0.60:
+            return 0.40, "本命明確"
+        elif max_proba >= 0.45:
+            return 0.35, "中本命"
+        elif max_proba >= 0.35:
+            return 0.30, "混戦"
+        else:
+            return 0.25, "大混戦"
+    
+    # レースごとに動的閾値を適用
+    df['dynamic_threshold'] = df['race_id'].map(race_max_proba).apply(
+        lambda x: get_dynamic_threshold(x)[0]
+    )
+    
+    # 固定閾値か動的閾値かを選択（min_binary_probaが0.30の場合は動的モード）
+    use_dynamic = (min_binary_proba == 0.30)
+    
+    if use_dynamic:
+        print(f"  ✅ 動的閾値モード有効")
+        # 動的閾値でフィルタリング
+        df_filtered = df[df['binary_proba'] >= df['dynamic_threshold']].copy()
+        
+        # レースごとの閾値を表示
+        for race_id, max_proba in race_max_proba.items():
+            threshold, status = get_dynamic_threshold(max_proba)
+            race_id_str = str(race_id)
+            keibajo_code = race_id_str[8:10]
+            race_num = int(race_id_str[10:12])
+            keibajo_name = keibajo_map.get(keibajo_code, f"競馬場{keibajo_code}")
+            print(f"    {keibajo_name} {race_num}R: 最大確率{max_proba:.1%} → 閾値{threshold:.0%} ({status})")
+    else:
+        print(f"  ✅ 固定閾値モード: {min_binary_proba:.0%}")
+        # 固定閾値でフィルタリング
+        df_filtered = df[df['binary_proba'] >= min_binary_proba].copy()
+    
     excluded_count = len(df) - len(df_filtered)
     if excluded_count > 0:
-        print(f"  ⚠️  2着以内確率{min_binary_proba:.0%}未満の馬を除外: {excluded_count}頭")
+        print(f"  ⚠️  閾値未満の馬を除外: {excluded_count}頭")
     df = df_filtered
     
     # 1着確率の計算（ランキング順位ベース + binary_proba補正）
