@@ -221,8 +221,8 @@ def train_ranking_model(input_dir, output_dir):
             debug_count = 0
             hit_races = 0  # 的中レース数
             for race_id, group in df.groupby('race_id'):
-                # 予測上位K頭（predicted_scoreが大きい方から）
-                top_k_predicted = set(group.nlargest(k, 'predicted_score')['umaban'].values)
+                # 予測上位K頭（predicted_scoreが小さい方から）← LambdaRankは小さいほど上位
+                top_k_predicted = set(group.nsmallest(k, 'predicted_score')['umaban'].values)
                 # 実際の上位K頭（actual_rankが小さい方から、つまり1位、2位、3位...）
                 top_k_actual = set(group.nsmallest(k, 'actual_rank')['umaban'].values)
                 # 一致数をカウント
