@@ -134,7 +134,8 @@ REM Step 7: 馬単買い目生成
 echo.
 echo [Step 7] 馬単買い目生成中...
 set "UMATAN_OUT=predictions\phase12_umatan\%KEIBA_NAME%_%DATE_SHORT%_umatan.txt"
-python scripts\phase12_umatan_model\step7_generate_umatan.py "%ENSEMBLE_OUT%" "%UMATAN_OUT%"
+REM 人気薄を減らすために min_binary_proba を 0.30 (30%) に設定
+python scripts\phase12_umatan_model\step7_generate_umatan.py "%ENSEMBLE_OUT%" "%UMATAN_OUT%" 5 4 0.30
 if errorlevel 1 (
     echo ERROR: Step 7 failed
     exit /b 1
