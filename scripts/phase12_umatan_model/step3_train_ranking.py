@@ -207,9 +207,9 @@ def train_ranking_model(input_dir, output_dir):
             debug_count = 0
             for race_id, group in df.groupby('race_id'):
                 # 予測上位K頭（predicted_rankが小さい方から）
-                top_k_predicted = set(group.nsmallest(k, 'predicted_rank').index)
+                top_k_predicted = set(group.nsmallest(k, 'predicted_rank')['umaban'].values)
                 # 実際の上位K頭（actual_rankが小さい方から）
-                top_k_actual = set(group.nsmallest(k, 'actual_rank').index)
+                top_k_actual = set(group.nsmallest(k, 'actual_rank')['umaban'].values)
                 # 一致数をカウント
                 matches = len(top_k_predicted & top_k_actual)
                 if matches > 0:
