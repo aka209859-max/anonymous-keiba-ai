@@ -137,23 +137,23 @@ def train_binary_model(input_dir: str, output_dir: str):
         y_pred = (y_pred_proba >= 0.5).astype(int)
         
         acc = accuracy_score(y_val, y_pred)
-    prec = precision_score(y_val, y_pred)
-    rec = recall_score(y_val, y_pred)
-    f1 = f1_score(y_val, y_pred)
+        prec = precision_score(y_val, y_pred)
+        rec = recall_score(y_val, y_pred)
+        f1 = f1_score(y_val, y_pred)
         auc = roc_auc_score(y_val, y_pred_proba)
         
         safe_print(f"\n📊 Validation 評価結果:")
-    safe_print(f"  - Accuracy:  {acc:.4f}")
-    safe_print(f"  - Precision: {prec:.4f}")
-    safe_print(f"  - Recall:    {rec:.4f}")
-    safe_print(f"  - F1-Score:  {f1:.4f}")
+        safe_print(f"  - Accuracy:  {acc:.4f}")
+        safe_print(f"  - Precision: {prec:.4f}")
+        safe_print(f"  - Recall:    {rec:.4f}")
+        safe_print(f"  - F1-Score:  {f1:.4f}")
         safe_print(f"  - ROC-AUC:   {auc:.4f}")
         
         # 特徴量重要度Top20
         importance = model.feature_importance(importance_type='gain')
-    feature_importance = pd.DataFrame({
-        'feature': feature_cols,
-        'importance': importance
+        feature_importance = pd.DataFrame({
+            'feature': feature_cols,
+            'importance': importance
         }).sort_values('importance', ascending=False)
         
         safe_print(f"\n📊 特徴量重要度 Top 20:")
@@ -167,17 +167,17 @@ def train_binary_model(input_dir: str, output_dir: str):
         
         # メタデータ保存
         metadata = {
-        'model_type': 'binary_top2',
-        'target': 'is_top2',
-        'n_samples': len(df_all),
-        'n_features': len(feature_cols),
-        'features': feature_cols,
-        'best_iteration': model.best_iteration,
-        'metrics': {
-            'accuracy': float(acc),
-            'precision': float(prec),
-            'recall': float(rec),
-            'f1_score': float(f1),
+            'model_type': 'binary_top2',
+            'target': 'is_top2',
+            'n_samples': len(df_all),
+            'n_features': len(feature_cols),
+            'features': feature_cols,
+            'best_iteration': model.best_iteration,
+            'metrics': {
+                'accuracy': float(acc),
+                'precision': float(prec),
+                'recall': float(rec),
+                'f1_score': float(f1),
                 'roc_auc': float(auc)
             },
             'keibajo': keibajo_name
