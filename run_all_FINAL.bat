@@ -35,33 +35,46 @@ if errorlevel 1 exit /b 1
 
 REM Phase 1 Complete - auto-detect feature file
 echo Phase 1 Complete - Auto-detecting feature file...
-echo [DEBUG] Looking for: data\features\%YEAR%\%MONTH%\*%KEIBAJO_CODE%*%DATE_SHORT%_features.csv
 
-REM FIXED: Search by filename pattern instead of findstr
-set "FEATURES_FILENAME="
-for /f "delims=" %%F in ('dir /b data\features\%YEAR%\%MONTH%\*%KEIBAJO_CODE%*%DATE_SHORT%_features.csv 2^>nul') do (
-    set "FEATURES_FILENAME=%%F"
-    echo [DEBUG] Found candidate: %%F
-    goto :found_file
+REM Map KEIBAJO_CODE to Japanese name
+set "KEIBA_NAME="
+if "%KEIBAJO_CODE%"=="30" set "KEIBA_NAME=門別"
+if "%KEIBAJO_CODE%"=="35" set "KEIBA_NAME=盛岡"
+if "%KEIBAJO_CODE%"=="36" set "KEIBA_NAME=水沢"
+if "%KEIBAJO_CODE%"=="42" set "KEIBA_NAME=浦和"
+if "%KEIBAJO_CODE%"=="43" set "KEIBA_NAME=船橋"
+if "%KEIBAJO_CODE%"=="44" set "KEIBA_NAME=大井"
+if "%KEIBAJO_CODE%"=="45" set "KEIBA_NAME=川崎"
+if "%KEIBAJO_CODE%"=="46" set "KEIBA_NAME=金沢"
+if "%KEIBAJO_CODE%"=="47" set "KEIBA_NAME=笠松"
+if "%KEIBAJO_CODE%"=="48" set "KEIBA_NAME=名古屋"
+if "%KEIBAJO_CODE%"=="50" set "KEIBA_NAME=園田"
+if "%KEIBAJO_CODE%"=="51" set "KEIBA_NAME=姫路"
+if "%KEIBAJO_CODE%"=="54" set "KEIBA_NAME=高知"
+if "%KEIBAJO_CODE%"=="55" set "KEIBA_NAME=佐賀"
+
+if not defined KEIBA_NAME (
+    echo ERROR: Invalid venue code: %KEIBAJO_CODE%
+    exit /b 1
 )
 
-:found_file
-if not defined FEATURES_FILENAME (
-    echo ERROR: Feature file not found for code %KEIBAJO_CODE% and date %DATE_SHORT%
-    echo Expected pattern: *%KEIBAJO_CODE%*%DATE_SHORT%_features.csv
+echo [DEBUG] Venue name: %KEIBA_NAME%
+echo [DEBUG] Looking for: data\features\%YEAR%\%MONTH%\%KEIBA_NAME%_%DATE_SHORT%_features.csv
+
+REM FIXED: Search by exact venue name pattern
+set "FEATURES_FILENAME=%KEIBA_NAME%_%DATE_SHORT%_features.csv"
+set "FEATURES_CSV=data\features\%YEAR%\%MONTH%\%FEATURES_FILENAME%"
+
+if not exist "%FEATURES_CSV%" (
+    echo ERROR: Feature file not found: %FEATURES_CSV%
     echo Available files:
     dir /b data\features\%YEAR%\%MONTH%\*%DATE_SHORT%_features.csv 2>nul
     exit /b 1
 )
 
-set "FEATURES_CSV=data\features\%YEAR%\%MONTH%\%FEATURES_FILENAME%"
-
-if not exist "%FEATURES_CSV%" (
-    echo ERROR: Feature file not found: %FEATURES_CSV%
-    exit /b 1
-)
-
+echo [DEBUG] Feature file exists: %FEATURES_CSV%
 echo Found: %FEATURES_CSV%
+
 
 echo [Phase 3] Starting...
 python scripts\phase3_binary\predict_phase3_inference.py "%FEATURES_CSV%" models\binary data\predictions\phase3\temp_%DATE_SHORT%_phase3_binary.csv
