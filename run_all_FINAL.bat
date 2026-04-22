@@ -1,5 +1,5 @@
 @echo off
-chcp 932 >nul
+chcp 65001 >nul
 setlocal enabledelayedexpansion
 
 set PYTHONUTF8=1
