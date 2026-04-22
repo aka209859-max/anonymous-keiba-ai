@@ -12,8 +12,14 @@ import warnings
 warnings.filterwarnings('ignore')
 
 def ensemble_predictions(binary_csv, ranking_csv, regression_csv, output_csv, 
-                        weight_binary=0.3, weight_ranking=0.5, weight_regression=0.2):
-    """Phase 12 アンサンブル予測"""
+                        weight_binary=0.6, weight_ranking=0.3, weight_regression=0.1):
+    """Phase 12 アンサンブル予測（馬単的中特化版）
+    
+    重み設定（馬単的中率最適化）:
+        - binary（2着以内確率）: 0.6（高重視）
+        - ranking（順位予測）: 0.3（中重視）
+        - regression（タイム予測）: 0.1（低重視）
+    """
     print(f"\n{'='*80}")
     print(f"Phase 12: Step 6 - アンサンブル予測")
     print(f"{'='*80}")
@@ -142,7 +148,11 @@ if __name__ == "__main__":
         print("      data/phase12_umatan/predictions/ranking/船橋_20260422_ranking.csv \\")
         print("      data/phase12_umatan/predictions/regression/船橋_20260422_regression.csv \\")
         print("      data/phase12_umatan/predictions/ensemble/船橋_20260422_ensemble.csv \\")
-        print("      0.3 0.5 0.2  # オプション: 重み（デフォルト: 0.3, 0.5, 0.2）")
+        print("      0.6 0.3 0.1  # オプション: 重み（デフォルト: 0.6, 0.3, 0.1）【馬単的中特化版】")
+        print("\n重み設定の目安:")
+        print("  - デフォルト（馬単的中特化）: binary=0.6, ranking=0.3, regression=0.1")
+        print("  - バランス型: binary=0.5, ranking=0.4, regression=0.1")
+        print("  - 穴狙い型: binary=0.4, ranking=0.4, regression=0.2")
         sys.exit(1)
     
     try:
@@ -151,10 +161,10 @@ if __name__ == "__main__":
         regression_csv = sys.argv[3]
         output_csv = sys.argv[4]
         
-        # オプション: 重み
-        weight_binary = float(sys.argv[5]) if len(sys.argv) > 5 else 0.3
-        weight_ranking = float(sys.argv[6]) if len(sys.argv) > 6 else 0.5
-        weight_regression = float(sys.argv[7]) if len(sys.argv) > 7 else 0.2
+        # オプション: 重み（馬単的中特化版）
+        weight_binary = float(sys.argv[5]) if len(sys.argv) > 5 else 0.6
+        weight_ranking = float(sys.argv[6]) if len(sys.argv) > 6 else 0.3
+        weight_regression = float(sys.argv[7]) if len(sys.argv) > 7 else 0.1
         
         ensemble_predictions(binary_csv, ranking_csv, regression_csv, output_csv,
                            weight_binary, weight_ranking, weight_regression)

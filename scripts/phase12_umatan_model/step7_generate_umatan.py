@@ -10,17 +10,18 @@ import pandas as pd
 import warnings
 warnings.filterwarnings('ignore')
 
-def generate_umatan_tickets(ensemble_csv, output_txt, top_n=5, max_combinations=4):
-    """Phase 12 馬単買い目生成
+def generate_umatan_tickets(ensemble_csv, output_txt, top_n=5, max_combinations=4, min_binary_proba=0.25):
+    """Phase 12 馬単買い目生成（馬単的中特化版）
     
     Args:
         ensemble_csv: アンサンブル結果CSV
         output_txt: 買い目ファイル出力先
         top_n: 上位候補数（デフォルト: 5）
         max_combinations: 最大買い目数（デフォルト: 4、推奨: 4～5）
+        min_binary_proba: 最小2着以内確率（デフォルト: 0.25、25%未満は除外）
     """
     print(f"\n{'='*80}")
-    print(f"Phase 12: Step 7 - 馬単買い目生成（トリプル馬単）")
+    print(f"Phase 12: Step 7 - 馬単買い目生成（トリプル馬単）【馬単的中特化版】")
     print(f"{'='*80}")
     
     # 競馬場名マッピング
@@ -52,30 +53,36 @@ def generate_umatan_tickets(ensemble_csv, output_txt, top_n=5, max_combinations=
     else:
         print(f"  ⚠️  馬名列が見つかりません（馬番のみ表示されます）")
     
-    # 1着確率・2着確率の計算
-    print(f"\n[2/4] 1着確率・2着確率の計算")
+    # 1着確率・2着確率の計算（馬単的中特化版）
+    print(f"\n[2/4] 1着確率・2着確率の計算（馬単的中特化）")
     
-    # アンサンブルスコアから1着確率を推定（レースごとに正規化）
-    # スコアが高いほど1着の可能性が高い
-    df['win_proba_raw'] = df.groupby('race_id')['ensemble_score'].transform(
-        lambda x: (x - x.min()) / (x.max() - x.min() + 1e-10)
+    # 人気薄フィルタリング（2着以内確率が低い馬を除外）
+    df_filtered = df[df['binary_proba'] >= min_binary_proba].copy()
+    excluded_count = len(df) - len(df_filtered)
+    if excluded_count > 0:
+        print(f"  ⚠️  2着以内確率{min_binary_proba:.0%}未満の馬を除外: {excluded_count}頭")
+    df = df_filtered
+    
+    # 1着確率の計算（ランキング順位ベース + binary_proba補正）
+    # ensemble_rankが小さいほど1着確率が高い
+    df['rank_score'] = df.groupby('race_id')['ensemble_rank'].transform(
+        lambda x: 1 / (x + 1)  # 1位=1.0, 2位=0.5, 3位=0.33, ...
     )
     
-    # 1着確率をソフトマックス風に変換（合計が100%に近づく）
-    df['win_proba_exp'] = df.groupby('race_id')['win_proba_raw'].transform(
-        lambda x: (x ** 2)  # 2乗して差を広げる
-    )
-    df['win_proba'] = df.groupby('race_id')['win_proba_exp'].transform(
+    # binary_probaで補正（2着以内に入る確率が高い馬を優遇）
+    df['win_proba_raw'] = df['rank_score'] * df['binary_proba']
+    
+    # レースごとに正規化（合計が100%に近づく）
+    df['win_proba'] = df.groupby('race_id')['win_proba_raw'].transform(
         lambda x: x / (x.sum() + 1e-10)
     )
     
-    # 2着確率は2着以内確率からより控えめに計算
-    # binary_proba（2着以内確率）とwin_probaの関係を考慮
-    df['place_proba'] = df.groupby('race_id').apply(
-        lambda g: (g['binary_proba'] * (1 - g['win_proba'])).clip(0, 1)
-    ).reset_index(level=0, drop=True)
+    # 2着確率の計算（binary_probaベース）
+    # 2着確率 = 2着以内確率 × (1 - 1着確率)
+    df['place_proba'] = df['binary_proba'] * (1 - df['win_proba'])
+    df['place_proba'] = df['place_proba'].clip(lower=0, upper=1)
     
-    print(f"  ✅ 確率計算完了")
+    print(f"  ✅ 確率計算完了（人気薄フィルタ適用済み）")
     
     # 買い目生成
     print(f"\n[3/4] 馬単買い目生成")
@@ -214,24 +221,26 @@ def generate_umatan_tickets(ensemble_csv, output_txt, top_n=5, max_combinations=
 
 if __name__ == "__main__":
     if len(sys.argv) < 3:
-        print("使用法: python step7_generate_umatan.py <ensemble_csv> <output_txt> [top_n] [max_combinations]")
+        print("使用法: python step7_generate_umatan.py <ensemble_csv> <output_txt> [top_n] [max_combinations] [min_binary_proba]")
         print("\n例: python step7_generate_umatan.py \\")
         print("      data/phase12_umatan/predictions/ensemble/船橋_20260422_ensemble.csv \\")
         print("      data/phase12_umatan/predictions/tickets/船橋_20260422_umatan.txt \\")
-        print("      5 4  # オプション: top_n（デフォルト: 5）, max_combinations（デフォルト: 4）")
-        print("\n推奨設定:")
+        print("      5 4 0.25  # オプション: top_n（デフォルト: 5）, max_combinations（デフォルト: 4）, min_binary_proba（デフォルト: 0.25）")
+        print("\n推奨設定（馬単的中特化）:")
         print("  - max_combinations=4: 各レース4通り（資金節約型）")
         print("  - max_combinations=5: 各レース5通り（バランス型）")
-        print("  - max_combinations=6: 各レース6通り（網羅型）")
+        print("  - min_binary_proba=0.25: 2着以内確率25%未満の人気薄を除外")
+        print("  - min_binary_proba=0.20: より多くの候補を残す（リスク高）")
         sys.exit(1)
     
     try:
         ensemble_csv = sys.argv[1]
         output_txt = sys.argv[2]
         top_n = int(sys.argv[3]) if len(sys.argv) > 3 else 5
-        max_combinations = int(sys.argv[4]) if len(sys.argv) > 4 else 5
+        max_combinations = int(sys.argv[4]) if len(sys.argv) > 4 else 4
+        min_binary_proba = float(sys.argv[5]) if len(sys.argv) > 5 else 0.25
         
-        generate_umatan_tickets(ensemble_csv, output_txt, top_n, max_combinations)
+        generate_umatan_tickets(ensemble_csv, output_txt, top_n, max_combinations, min_binary_proba)
     except Exception as e:
         print(f"\n❌ エラー発生: {e}")
         import traceback
