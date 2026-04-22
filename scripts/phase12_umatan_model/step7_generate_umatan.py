@@ -40,6 +40,18 @@ def generate_umatan_tickets(ensemble_csv, output_txt, top_n=5, max_combinations=
     print(f"  - データ件数: {len(df):,}")
     print(f"  - レース数: {df['race_id'].nunique()}件")
     
+    # 馬名列を探す
+    bamei_col = None
+    for col in df.columns:
+        if '馬名' in col or 'bamei' in col.lower() or col == 'name':
+            bamei_col = col
+            break
+    
+    if bamei_col:
+        print(f"  - 馬名列: {bamei_col}")
+    else:
+        print(f"  ⚠️  馬名列が見つかりません（馬番のみ表示されます）")
+    
     # 1着確率・2着確率の計算
     print(f"\n[2/4] 1着確率・2着確率の計算")
     
@@ -109,8 +121,12 @@ def generate_umatan_tickets(ensemble_csv, output_txt, top_n=5, max_combinations=
         # 上位候補の情報
         output_lines.append("  上位候補:")
         for idx, row in top_horses.iterrows():
+            uma_info = f"{int(row['umaban'])}番"
+            if bamei_col and bamei_col in row and pd.notna(row[bamei_col]):
+                uma_info += f" {row[bamei_col]}"
+            
             output_lines.append(
-                f"    {int(row['ensemble_rank'])}位: {int(row['umaban'])}番 "
+                f"    {int(row['ensemble_rank'])}位: {uma_info} "
                 f"(スコア: {row['ensemble_score']:.3f}, "
                 f"1着確率: {row['win_proba']:.1%}, 2着確率: {row['place_proba']:.1%})"
             )
@@ -123,6 +139,14 @@ def generate_umatan_tickets(ensemble_csv, output_txt, top_n=5, max_combinations=
         # 上位3頭を中心に組合せを生成
         # 戦略: 本命軸流し（本命→2,3,4着候補）+ 2番人気軸（2番人気→本命, 3着候補）
         top_3 = top_horses.head(3)
+        
+        # 馬番→馬名のマッピングを作成
+        uma_name_map = {}
+        if bamei_col:
+            for _, row in top_horses.iterrows():
+                umaban = int(row['umaban'])
+                if bamei_col in row and pd.notna(row[bamei_col]):
+                    uma_name_map[umaban] = row[bamei_col]
         
         for i, row1 in top_3.iterrows():
             for j, row2 in top_horses.iterrows():
@@ -151,8 +175,16 @@ def generate_umatan_tickets(ensemble_csv, output_txt, top_n=5, max_combinations=
         
         # 上位組合せを表示（max_combinations通り、デフォルト4通り）
         for idx, (uma1, uma2, umatan_proba_adj, win1, place2, umatan_original) in enumerate(combinations[:max_combinations], 1):
+            # 馬名を取得
+            uma1_info = f"{uma1}番"
+            uma2_info = f"{uma2}番"
+            if uma1 in uma_name_map:
+                uma1_info += f" {uma_name_map[uma1]}"
+            if uma2 in uma_name_map:
+                uma2_info += f" {uma_name_map[uma2]}"
+            
             output_lines.append(
-                f"    {idx:2d}. {uma1}番 → {uma2}番 "
+                f"    {idx:2d}. {uma1_info} → {uma2_info} "
                 f"(馬単確率: {umatan_original:.2%}, {uma1}番1着: {win1:.1%}, {uma2}番2着: {place2:.1%})"
             )
         

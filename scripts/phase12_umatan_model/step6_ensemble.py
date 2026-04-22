@@ -44,12 +44,24 @@ def ensemble_predictions(binary_csv, ranking_csv, regression_csv, output_csv,
     # データ結合
     print(f"\n[2/4] データ結合")
     
-    # 識別列を使って結合
+    # 識別列を使って結合（馬名も保持）
     id_cols = ['race_id', 'kaisai_nen', 'kaisai_tsukihi', 'keibajo_code', 
                'race_bango', 'ketto_toroku_bango', 'umaban']
     merge_cols = [col for col in id_cols if col in df_binary.columns]
     
-    df = df_binary[merge_cols + ['binary_proba', 'binary_pred']].copy()
+    # 馬名列を探す
+    bamei_col = None
+    for col in df_binary.columns:
+        if '馬名' in col or 'bamei' in col.lower() or col == 'name':
+            bamei_col = col
+            break
+    
+    # 結合する列リスト
+    binary_cols = merge_cols + ['binary_proba', 'binary_pred']
+    if bamei_col and bamei_col in df_binary.columns:
+        binary_cols.append(bamei_col)
+    
+    df = df_binary[binary_cols].copy()
     df = df.merge(df_ranking[merge_cols + ['ranking_score', 'ranking_rank']], 
                   on=merge_cols, how='inner')
     df = df.merge(df_regression[merge_cols + ['predicted_time', 'time_rank']], 

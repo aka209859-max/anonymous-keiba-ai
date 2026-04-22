@@ -33,10 +33,23 @@ def predict_binary_top2(test_csv, model_path, output_csv):
     if 'race_id' not in df.columns:
         raise ValueError("race_id列が見つかりません")
     
-    # 識別情報を保存
+    # 識別情報を保存（馬名も含む）
     id_cols = ['race_id', 'kaisai_nen', 'kaisai_tsukihi', 'keibajo_code',
                'race_bango', 'ketto_toroku_bango', 'umaban']
-    id_data = df[[col for col in id_cols if col in df.columns]].copy()
+    
+    # 馬名列を探す
+    bamei_col = None
+    for col in df.columns:
+        if '馬名' in col or 'bamei' in col.lower() or col == 'name':
+            bamei_col = col
+            break
+    
+    # ID列に馬名を追加
+    id_cols_with_bamei = [col for col in id_cols if col in df.columns]
+    if bamei_col:
+        id_cols_with_bamei.append(bamei_col)
+    
+    id_data = df[id_cols_with_bamei].copy()
     
     # モデル読み込み
     print(f"\n[2/4] モデル読み込み: {model_path}")
