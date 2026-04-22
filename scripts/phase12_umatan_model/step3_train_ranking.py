@@ -205,6 +205,7 @@ def train_ranking_model(input_dir, output_dir):
             total_matches = 0
             total_races = df['race_id'].nunique()
             debug_count = 0
+            hit_races = 0  # 的中レース数
             for race_id, group in df.groupby('race_id'):
                 # 予測上位K頭（predicted_scoreが大きい方から）
                 top_k_predicted = set(group.nlargest(k, 'predicted_score')['umaban'].values)
@@ -214,12 +215,17 @@ def train_ranking_model(input_dir, output_dir):
                 matches = len(top_k_predicted & top_k_actual)
                 if matches > 0:
                     total_matches += matches
-                # デバッグ出力（最初の3レースのみ）
-                if debug_count < 3 and k == 1:
+                    hit_races += 1
+                # デバッグ出力（最初の10レースのみ）
+                if debug_count < 10 and k == 1:
                     safe_print(f"  [Debug] レース{race_id}: 予測上位{k}={top_k_predicted}, 実際上位{k}={top_k_actual}, 一致数={matches}")
                     debug_count += 1
             # 的中率 = 一致した馬の総数 / (レース数 × K)
-            return total_matches / (total_races * k)
+            accuracy = total_matches / (total_races * k)
+            # 的中レース率も表示
+            if k == 1:
+                safe_print(f"  [統計] Top-{k}的中レース: {hit_races}/{total_races}レース ({hit_races/total_races*100:.2f}%)")
+            return accuracy
         
         top1_acc = calc_topk_accuracy(val_df, 1)
         top3_acc = calc_topk_accuracy(val_df, 3)
