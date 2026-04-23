@@ -12,13 +12,16 @@ import warnings
 warnings.filterwarnings('ignore')
 
 def ensemble_predictions(binary_csv, ranking_csv, regression_csv, output_csv, 
-                        weight_binary=0.6, weight_ranking=0.3, weight_regression=0.1):
+                        weight_binary=0.4, weight_ranking=0.5, weight_regression=0.1):
     """Phase 12 アンサンブル予測（馬単的中特化版）
     
-    重み設定（馬単的中率最適化）:
-        - binary（2着以内確率）: 0.6（高重視）
-        - ranking（順位予測）: 0.3（中重視）
+    重み設定（馬単的中率最適化・バランス型）:
+        - ranking（順位予測）: 0.5（最重視） ⭐ 1着を当てることが最重要
+        - binary（2着以内確率）: 0.4（高重視） ⭐ 2着以内に入る確率も重要
         - regression（タイム予測）: 0.1（低重視）
+    
+    変更履歴:
+        - 2026-04-23: binary 0.6→0.4, ranking 0.3→0.5 に変更（1着順位重視に修正）
     """
     print(f"\n{'='*80}")
     print(f"Phase 12: Step 6 - アンサンブル予測")
@@ -162,8 +165,8 @@ if __name__ == "__main__":
         output_csv = sys.argv[4]
         
         # オプション: 重み（馬単的中特化版）
-        weight_binary = float(sys.argv[5]) if len(sys.argv) > 5 else 0.6
-        weight_ranking = float(sys.argv[6]) if len(sys.argv) > 6 else 0.3
+        weight_binary = float(sys.argv[5]) if len(sys.argv) > 5 else 0.4
+        weight_ranking = float(sys.argv[6]) if len(sys.argv) > 6 else 0.5
         weight_regression = float(sys.argv[7]) if len(sys.argv) > 7 else 0.1
         
         ensemble_predictions(binary_csv, ranking_csv, regression_csv, output_csv,
