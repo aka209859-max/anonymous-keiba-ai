@@ -97,89 +97,87 @@ race_id: 1個
 
 ---
 
-## 🤖 工程2: Phase 2モデル再学習 ⚠️ **問題発生→対応中**
+## 🤖 工程2: Phase 2モデル再学習 ⏳ **実行中**
 
 ### 2-0. データ現状確認 ✅ **完了**（2026-05-05 実施）
 
 #### 確認コマンド実行結果
 ```cmd
-E:\anonymous-keiba-ai\data\raw> で全年度・全競馬場のCSVファイル数を確認
+E:\anonymous-keiba-ai\old\data\training_csv で14競馬場のCSVファイルを確認
 ```
 
-#### 確認結果
-| 年度 | CSVファイル数 | 状態 |
-|------|---------------|------|
-| 2020年 | 0件 | ❌ 不足 |
-| 2021年 | 0件 | ❌ 不足 |
-| 2022年 | 0件 | ❌ 不足 |
-| 2023年 | 0件 | ❌ 不足 |
-| 2024年 | 0件 | ❌ 不足 |
-| 2025年 | 0件 | ❌ 不足 |
-| **archive/2025/** | **5件** | ⚠️ **大井のみ** |
+#### ✅ 確認結果: 全データ揃っている！
+| 競馬場 | ファイル名 | サイズ | レコード数（推定） |
+|--------|-----------|--------|-------------------|
+| 浦和 | urawa_2020-2025_v3.csv | 7.8 MB | ~43,000件 |
+| 船橋 | funabashi_2020-2025_v3.csv | 8.0 MB | ~44,000件 |
+| 川崎 | kawasaki_2020-2025_v3.csv | 9.0 MB | ~50,000件 |
+| 大井 | ooi_2023-2025_v3.csv | 9.0 MB | ~50,000件 |
+| 盛岡 | morioka_2020-2025_v3.csv | 9.4 MB | ~52,000件 |
+| 水沢 | mizusawa_2020-2025_v3.csv | 9.1 MB | ~50,000件 |
+| 門別 | monbetsu_2020-2025_v3.csv | 12.5 MB | ~69,000件 |
+| 金沢 | kanazawa_2020-2025_v3.csv | 11.3 MB | ~62,000件 |
+| 笠松 | kasamatsu_2020-2025_v3.csv | 10.3 MB | ~57,000件 |
+| 名古屋 | nagoya_2022-2025_v3.csv | 12.9 MB | ~71,000件 |
+| 園田 | sonoda_2020-2025_v3.csv | 21.2 MB | ~117,000件 |
+| 姫路 | himeji_2020-2025_v3.csv | 4.0 MB | ~22,000件 |
+| 高知 | kochi_2020-2025_v3.csv | 16.0 MB | ~88,000件 |
+| 佐賀 | saga_2020-2025_v3.csv | 16.8 MB | ~93,000件 |
 
-#### archiveフォルダの詳細
-- `ooi_2025_full.csv`
-- `ooi_2025_full_train.csv`
-- `ooi_2025_full_test.csv`
-- `ooi_2025_full_test_with_race_id.csv`
-- `ooi_2025_full_test_with_time.csv`
-
-#### 14競馬場のデータ状況
-- ✅ **大井**: 2025年のみ存在（5ファイル）
-- ❌ **門別、盛岡、水沢、浦和、船橋、川崎、金沢、笠松、名古屋、園田、姫路、高知、佐賀**: データなし
+**合計**: 14競馬場、約157MB、約87万レコード
 
 ---
 
-### ❌ 問題1: 学習データ不足（確定）
-- **現状**: 大井2025年のみ存在（5ファイル）
-- **必要**: 2020-2025年 × 14競馬場の全データ（理想: 84競馬場年×複数レース）
-- **状態**: データ取得が必要
+### 2-1. プロジェクト整理 ✅ **完了**（2026-05-05）
 
-### ❌ 問題2: 学習スクリプト不存在
-- **必要スクリプト**:
-  - `scripts/phase3_binary/train_phase3.py`
-  - `scripts/phase4_ranking/train_phase4_ranking.py`
-  - `scripts/phase4_regression/train_phase4_regression.py`
-- **現状**: Phase12用スクリプトのみ存在
-- **状態**: スクリプト作成が必要
-
-### ✅ 既存の学習済みモデル（34特徴量）
-- Binary: `models/binary/浦和_2020-2025_v3_model.txt`
-- Ranking: `models/ranking/浦和_2020-2025_v3_ranking_model.txt`
-- Regression: `models/regression/浦和_2020-2025_v3_time_regression_model.txt`
-- **状態**: 動作可能（67特徴量には未対応）
+#### 完了内容
+- ✅ 旧モデル（34特徴量版）42個を `old/models_34features/` に移動
+- ✅ 旧スクリプト（Phase1,7-8,11-12）を `old/scripts/` に移動
+- ✅ 学習データCSV約80件を `old/data/training_csv/` に保存（整理完了）
+- ✅ 学習結果（PNG/TXT）約140件を `old/results/` に移動
+- ✅ 旧バッチファイル約40件を `old/batch_scripts/` に移動
+- ✅ 古いドキュメント約100件を `old/docs_archive/` に移動
+- ✅ Gitコミット完了
 
 ---
 
-### 🔀 方針転換の提案
+### 2-2. 学習データ変換（50特徴量→67特徴量） ⏳ **実行中**
 
-#### **選択肢A**: 既存データで部分再学習（推奨・現実的）
-1. **大井2025年データ**で67特徴量版を試作
-2. 学習スクリプト作成（Binary, Ranking, Regression）
-3. 大井専用モデルを先行実装
-4. Phase 6（投資判断TXT）を実装
-5. **後日**: 他13競馬場のデータを追加収集して拡張
+#### 2-2-A. 統計特徴量追加スクリプト作成 ✅ **完了**
+- ✅ `scripts/phase1_feature_engineering/add_statistical_features.py` 作成完了
+- ✅ 17個の統計特徴量を追加（11個単純平均 + 6個加重平均）
+- ✅ Gitコミット完了
 
-**所要時間**: 約4-6時間
-**メリット**: 今すぐ実装開始可能、段階的改善
+#### 2-2-B. 浦和テスト ✅ **完了**
+- ✅ 入力: `urawa_2020-2025_v3.csv`（43,303件、50カラム）
+- ✅ 出力: `urawa_2020-2025_67features.csv`（43,303件、67カラム）
+- ✅ 統計値確認:
+  - recent5_avg_rank: 平均6.74
+  - recent5_top3_rate: 平均0.46
+  - recent5_win_rate: 平均0.37
+  - recent5_avg_time: 平均1300.56秒
+  - recent5_time_std: 平均141.89秒
 
-#### **選択肢B**: 全データ収集後に完全再学習（理想的）
-1. 2020-2025年の全データを収集（14競馬場）
-2. 学習スクリプト作成
-3. 14競馬場×3モデル=42モデル再学習
-4. Phase 6実装
+#### 2-2-C. 14競馬場一括変換 ⏳ **実行準備完了**
+- ✅ `batch_convert_67features_fixed.bat` 作成完了
+- 📥 ダウンロードリンク: https://www.genspark.ai/api/files/s/zR3ioma9
+- ⏳ **次のアクション**: バッチファイル実行→14競馬場分の67特徴量CSV生成
+- ⏱️ 予想所要時間: 約10-15分
 
-**所要時間**: 約20-30時間（データ収集10h + 実装10-15h + テスト5h）
-**メリット**: 全競馬場対応、最高性能
+---
 
-#### **選択肢C**: Phase 6だけ先行実装（暫定）
-1. 既存34特徴量モデルをそのまま使用
-2. Phase 6（投資判断TXT）のみ実装
-3. 67特徴量版は後回し
+### 2-3. 学習スクリプト作成 ⏸️ 待機
+- `scripts/phase3_binary/train_phase3.py`
+- `scripts/phase4_ranking/train_phase4_ranking.py`
+- `scripts/phase4_regression/train_phase4_regression.py`
 
-**所要時間**: 約2時間
-**メリット**: 投資判断機能がすぐ使える
-**デメリット**: 性能改善なし
+---
+
+### 2-4. 42モデル再学習 ⏸️ 待機
+- 14競馬場 × 3モデル（Binary, Ranking, Regression）= 42モデル
+- 予想所要時間: 約8-12時間
+
+
 
 ---
 
@@ -242,38 +240,41 @@ E:\anonymous-keiba-ai\data\raw> で全年度・全競馬場のCSVファイル数
 
 ## 📝 次のアクション
 
-**現在**: 工程2-1-A（プロジェクト整理）✅ **完了**
+**現在**: 工程2-2-C（14競馬場一括変換）⏳ **実行準備完了**
 
-**完了内容**:
-- ✅ 旧モデル（34特徴量版）42個を `old/models_34features/` に移動
-- ✅ 旧スクリプト（Phase1,7-8,11-12）を `old/scripts/` に移動
-- ✅ 学習データCSV約80件を `old/data/training_csv/` に移動
-- ✅ 学習結果（PNG/TXT）約140件を `old/results/` に移動
-- ✅ 旧バッチファイル約40件を `old/batch_scripts/` に移動
-- ✅ 古いドキュメント約100件を `old/docs_archive/` に移動
-- ✅ Gitコミット完了（2コミット ahead）
+**次の指示**:
 
-**次のステップ**: 工程2-1-B（学習データ収集）
+### ステップ1: バッチファイルをダウンロード
+📥 https://www.genspark.ai/api/files/s/zR3ioma9
+保存先: `E:\anonymous-keiba-ai\scripts\phase1_feature_engineering\batch_convert_67features_fixed.bat`
 
-### 🔀 選択肢
+### ステップ2: バッチファイルを実行
+```cmd
+cd E:\anonymous-keiba-ai\scripts\phase1_feature_engineering
+batch_convert_67features_fixed.bat > batch_convert_log_fixed.txt 2>&1
+```
 
-#### **選択肢A: 大井データで部分再学習（推奨）**
-- 大井2025年で67特徴量版を試作
-- 学習スクリプト作成＋大井専用モデル作成
-- Phase 6実装
-- 所要時間: 約4-6時間
+### ステップ3: 完了後に結果確認
+```cmd
+cd E:\anonymous-keiba-ai\data\features\67features
 
-#### **選択肢B: 全データ収集後に完全再学習（理想）**
-- 2020-2025年×14競馬場のデータ収集
-- 全スクリプト作成＋42モデル再学習
-- 所要時間: 約20-30時間
+echo ===== Conversion Summary ===== > conversion_summary.txt
+echo. >> conversion_summary.txt
+echo Files created: >> conversion_summary.txt
+dir /b *.csv >> conversion_summary.txt
+echo. >> conversion_summary.txt
+echo File sizes: >> conversion_summary.txt
+dir *.csv >> conversion_summary.txt
 
-#### **選択肢C: Phase 6だけ先行実装（暫定）**
-- 既存34特徴量モデルをそのまま使用
-- Phase 6のみ実装（投資判断TXT）
-- 所要時間: 約2時間
+type conversion_summary.txt
+```
 
-**どれを選びますか？** 明確に指示してください。
+### ステップ4: 結果をTXTで報告
+`conversion_summary.txt` の内容をチャットで共有してください。
+
+---
+
+**次のステップ（完了後）**: 工程2-3（学習スクリプト作成）
 
 ---
 
