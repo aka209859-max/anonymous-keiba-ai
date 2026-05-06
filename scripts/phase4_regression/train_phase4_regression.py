@@ -90,7 +90,7 @@ def train_regression_model(input_dir: str, output_dir: str):
                 'target', 'rank_target', 'time', 'is_1st', 'is_2nd', 'is_top2',
                 'finish_position', 'race_id', 'kaisai_tsukihi', 'ketto_toroku_bango',
                 'keibajo_code', 'kaisai_nen', 'race_bango', 'umaban',
-                'kakutei_chakujun', 'bamei'
+                'kakutei_chakujun', 'bamei', 'grade_code'
             ]
             
             # Select features

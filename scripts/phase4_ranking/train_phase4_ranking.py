@@ -120,7 +120,7 @@ def train_ranking_model(input_dir: str, output_dir: str):
                 'race_bango', 'ketto_toroku_bango', 'umaban',
                 'finish_position', 'kakutei_chakujun',
                 'time', 'bamei',
-                'is_top2', 'is_1st', 'is_2nd'
+                'is_top2', 'is_1st', 'is_2nd', 'grade_code'
             ]
             
             # Select features

@@ -82,7 +82,7 @@ def train_binary_model(input_dir: str, output_dir: str):
             exclude_cols = [
                 'target', 'rank_target', 'time', 'is_1st', 'is_2nd', 'is_top2', 
                 'finish_position', 'race_id', 'kaisai_tsukihi', 'ketto_toroku_bango',
-                'keibajo_code'
+                'keibajo_code', 'grade_code'
             ]
             
             # Select features
