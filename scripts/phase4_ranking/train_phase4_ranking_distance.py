@@ -101,12 +101,25 @@ def train_ranking_model_with_distance(input_dir: str, output_dir: str):
             if 'rank_target' not in df_all.columns:
                 safe_print("[ERROR] 'rank_target' column not found")
                 continue
-            if 'race_id' not in df_all.columns:
-                safe_print("[ERROR] 'race_id' column not found")
-                continue
             if 'kyori' not in df_all.columns:
                 safe_print("[ERROR] 'kyori' column not found")
                 continue
+            
+            # Create race_id if not exists
+            if 'race_id' not in df_all.columns:
+                safe_print("[INFO] 'race_id' not found, creating from kaisai_nen + kaisai_tsukihi + keibajo_code + race_bango")
+                required_cols = ['kaisai_nen', 'kaisai_tsukihi', 'keibajo_code', 'race_bango']
+                missing = [col for col in required_cols if col not in df_all.columns]
+                if missing:
+                    safe_print(f"[ERROR] Cannot create race_id, missing columns: {missing}")
+                    continue
+                df_all['race_id'] = (
+                    df_all['kaisai_nen'].astype(str) + '_' +
+                    df_all['kaisai_tsukihi'].astype(str) + '_' +
+                    df_all['keibajo_code'].astype(str) + '_' +
+                    df_all['race_bango'].astype(str)
+                )
+                safe_print(f"[OK] Created race_id: {df_all['race_id'].nunique():,} unique races")
             
             # Prepare target
             df_all['rank_target'] = pd.to_numeric(df_all['rank_target'], errors='coerce')
