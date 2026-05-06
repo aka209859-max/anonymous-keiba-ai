@@ -28,13 +28,13 @@ def add_statistical_features(input_csv, output_csv, encoding='shift-jis'):
     # Try Shift-JIS first, fallback to UTF-8
     try:
         df = pd.read_csv(input_csv, encoding='shift-jis')
-        print(f"✓ Loaded with Shift-JIS encoding")
+        print(f"[OK] Loaded with Shift-JIS encoding")
     except:
         try:
             df = pd.read_csv(input_csv, encoding='utf-8')
-            print(f"✓ Loaded with UTF-8 encoding")
+            print(f"[OK] Loaded with UTF-8 encoding")
         except Exception as e:
-            print(f"✗ Error loading CSV: {e}")
+            print(f"[ERROR] Error loading CSV: {e}")
             sys.exit(1)
     
     print(f"Records: {len(df)}, Columns: {len(df.columns)}")
@@ -176,10 +176,10 @@ def add_statistical_features(input_csv, output_csv, encoding='shift-jis'):
     # Save with encoding
     try:
         df.to_csv(output_csv, index=False, encoding='shift-jis')
-        print(f"✓ Saved with Shift-JIS encoding")
+        print(f"[OK] Saved with Shift-JIS encoding")
     except:
         df.to_csv(output_csv, index=False, encoding='utf-8')
-        print(f"✓ Saved with UTF-8 encoding")
+        print(f"[OK] Saved with UTF-8 encoding")
     
     print(f"\nFinal dataset:")
     print(f"  Records: {len(df)}")
@@ -187,7 +187,7 @@ def add_statistical_features(input_csv, output_csv, encoding='shift-jis'):
     print(f"  Output: {output_csv}")
     
     print("\n" + "="*50)
-    print("✓ Statistical Features Added Successfully!")
+    print("[SUCCESS] Statistical Features Added Successfully!")
     print("="*50)
     
     return df
