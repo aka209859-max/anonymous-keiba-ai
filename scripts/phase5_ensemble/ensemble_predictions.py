@@ -50,7 +50,7 @@ def normalize_score(series, ascending=True):
     return normalized
 
 def ensemble_predictions(binary_csv, ranking_csv, regression_csv, output_path,
-                        weight_binary=0.3, weight_ranking=0.5, weight_regression=0.2):
+                        weight_binary=0.4, weight_ranking=0.4, weight_regression=0.2):
     """
     Phase 3〜4 の予測結果をアンサンブル統合
     
@@ -256,8 +256,8 @@ if __name__ == "__main__":
     output_path = sys.argv[4]
     
     # 重みの指定（オプション）
-    weight_binary = float(sys.argv[5]) if len(sys.argv) > 5 else 0.3
-    weight_ranking = float(sys.argv[6]) if len(sys.argv) > 6 else 0.5
+    weight_binary = float(sys.argv[5]) if len(sys.argv) > 5 else 0.4
+    weight_ranking = float(sys.argv[6]) if len(sys.argv) > 6 else 0.4
     weight_regression = float(sys.argv[7]) if len(sys.argv) > 7 else 0.2
     
     try:

@@ -92,9 +92,22 @@ echo [Phase 5] Starting...
 python scripts\phase5_ensemble\ensemble_predictions.py data\predictions\phase3\temp_%DATE_SHORT%_phase3_binary.csv data\predictions\phase4_ranking\temp_%DATE_SHORT%_phase4_ranking.csv data\predictions\phase4_regression\temp_%DATE_SHORT%_phase4_regression.csv data\predictions\phase5\temp_%DATE_SHORT%_ensemble.csv
 if errorlevel 1 exit /b 1
 
-echo [Phase 6] Starting...
+echo [Phase 6-1] Starting - Investment Advice Calculation...
+python scripts\phase6_betting\calculate_investment_advice.py data\predictions\phase5\temp_%DATE_SHORT%_ensemble.csv 100000
+if errorlevel 1 exit /b 1
+
+echo [Phase 6-2] Starting - Investment TXT Generation...
+python scripts\phase6_betting\generate_investment_txt.py data\predictions\phase5\temp_%DATE_SHORT%_investment_advice.csv data\predictions\phase5\temp_%DATE_SHORT%_ensemble.csv predictions\%KEIBA_NAME%_%DATE_SHORT%_投資判断.txt
+if errorlevel 1 exit /b 1
+
+echo [Phase 6-3] Starting - Distribution Generation...
 call scripts\phase6_betting\DAILY_OPERATION.bat %KEIBAJO_CODE% %TARGET_DATE% "data\predictions\phase5\temp_%DATE_SHORT%_ensemble.csv"
 
+echo.
+echo ========================================
 echo Complete!
+echo ========================================
+echo 投資判断アドバイス: predictions\%KEIBA_NAME%_%DATE_SHORT%_投資判断.txt
+echo ========================================
 
 endlocal
