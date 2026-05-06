@@ -185,39 +185,85 @@ E:\anonymous-keiba-ai\old\data\training_csv で14競馬場のCSVファイルを�
 
 **合計**: 739,317レコード、全て67特徴量に変換完了
 
-### 2-3. 学習スクリプト作成 ⏳ **次のタスク**
+### 2-3. 学習スクリプト作成 ✅ **完了**（2026-05-06）
 
-以下の3つの学習スクリプトを作成します:
+以下の3つの学習スクリプトを作成しました:
 
-#### 必要なスクリプト
-1. **train_phase3_binary.py** - 2値分類モデル（勝ち/負け予測）
-   - LightGBM Binary分類
-   - 複勝的中予測（3着以内）
-   - 14競馬場×1モデル = 14モデル
+#### 作成したスクリプト
+1. **train_phase3_binary.py** ✅ - 2値分類モデル（複勝的中予測）
+   - パス: `scripts/phase3_binary/train_phase3_binary.py`
+   - 目的: 3着以内に入るかどうかを予測
+   - ターゲット: `target` (1=3着以内, 0=それ以外)
+   - モデル: LightGBM Binary Classification
+   - 評価指標: Accuracy, Precision, Recall, F1-Score, ROC-AUC
+   - 出力: `models/binary/{競馬場}_2020-2025_v3_67features_model.txt`
 
-2. **train_phase4_ranking.py** - ランキングモデル（着順予測）
-   - LightGBM Ranking
-   - 着順予測（1位〜最下位）
-   - 14競馬場×1モデル = 14モデル
+2. **train_phase4_ranking.py** ✅ - ランキングモデル（着順予測）
+   - パス: `scripts/phase4_ranking/train_phase4_ranking.py`
+   - 目的: 着順を予測（1位〜最下位）
+   - ターゲット: `rank_target` (1=1位, 2=2位, ...)
+   - モデル: LightGBM LambdaRank
+   - 評価指標: Top-1/3/5 Accuracy, NDCG@1,3,5
+   - 出力: `models/ranking/{競馬場}_2020-2025_v3_67features_ranking_model.txt`
 
-3. **train_phase4_regression.py** - タイム回帰モデル（走行時間予測）
-   - LightGBM Regression
-   - 走行時間予測（秒単位）
-   - 14競馬場×1モデル = 14モデル
+3. **train_phase4_regression.py** ✅ - 回帰モデル（タイム予測）
+   - パス: `scripts/phase4_regression/train_phase4_regression.py`
+   - 目的: 走行時間を予測（秒単位）
+   - ターゲット: `time` (レース完走時間)
+   - モデル: LightGBM Regression
+   - 評価指標: MAE, RMSE, R²Score, MAPE
+   - 出力: `models/regression/{競馬場}_2020-2025_v3_67features_time_regression_model.txt`
 
-#### 学習パラメータ（既存モデルを参考）
-- 学習データ: `data/features/67features/*.csv`
-- Train/Test分割: 80% / 20%
-- 評価指標:
-  - Binary: AUC, 精度、再現率
-  - Ranking: NDCG@5, NDCG@10
-  - Regression: MAE, RMSE, R²
+#### 共通仕様
+- **入力**: `data/features/67features/*.csv`（67特徴量CSV）
+- **競馬場別学習**: 14競馬場ごとに独立したモデルを学習
+- **Train/Val分割**: 80% / 20%（Rankingはrace_id単位で分割）
+- **Early Stopping**: 50〜100 rounds
+- **特徴量**: 67個（50元特徴量 + 17統計特徴量）
+- **メタデータ保存**: JSON形式で特徴量リスト・評価指標を保存
+
+#### 学習パラメータ
+- `learning_rate`: 0.05
+- `num_leaves`: 31
+- `feature_fraction`: 0.8
+- `bagging_fraction`: 0.8
+- `bagging_freq`: 5
+- `num_boost_round`: 1000〜2000
+- `seed`: 42
+
+#### Gitコミット
+- ✅ コミット完了: `feat(training): 67特徴量版学習スクリプト3種類作成 - Binary/Ranking/Regression`
+- ✅ 3ファイル追加: 807行
 
 ---
 
-### 2-4. 42モデル再学習 ⏸️ 待機
-- 14競馬場 × 3モデル（Binary, Ranking, Regression）= 42モデル
-- 予想所要時間: 約8-12時間
+### 2-4. 42モデル再学習 ⏳ **次のタスク**
+
+14競馬場 × 3モデル（Binary, Ranking, Regression）= 42モデルを学習します。
+
+#### 実行コマンド
+```bash
+# Binary Classification
+python scripts/phase3_binary/train_phase3_binary.py \
+  --input data/features/67features \
+  --output models/binary
+
+# Ranking
+python scripts/phase4_ranking/train_phase4_ranking.py \
+  --input data/features/67features \
+  --output models/ranking
+
+# Regression
+python scripts/phase4_regression/train_phase4_regression.py \
+  --input data/features/67features \
+  --output models/regression
+```
+
+#### 予想所要時間
+- **Binary**: 約2〜3時間（14競馬場 × 10〜15分）
+- **Ranking**: 約3〜4時間（14競馬場 × 15〜20分）
+- **Regression**: 約2〜3時間（14競馬場 × 10〜15分）
+- **合計**: 約8〜12時間
 
 
 
