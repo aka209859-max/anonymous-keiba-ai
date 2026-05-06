@@ -141,11 +141,12 @@ E:\anonymous-keiba-ai\old\data\training_csv で14競馬場のCSVファイルを�
 
 ---
 
-### 2-2. 学習データ変換（50特徴量→67特徴量） ⏳ **実行中**
+### 2-2. 学習データ変換（50特徴量→67特徴量） ✅ **完了**（2026-05-06）
 
 #### 2-2-A. 統計特徴量追加スクリプト作成 ✅ **完了**
 - ✅ `scripts/phase1_feature_engineering/add_statistical_features.py` 作成完了
 - ✅ 17個の統計特徴量を追加（11個単純平均 + 6個加重平均）
+- ✅ Unicodeエンコーディングエラー修正（Windows CP932対応）
 - ✅ Gitコミット完了
 
 #### 2-2-B. 浦和テスト ✅ **完了**
@@ -158,18 +159,59 @@ E:\anonymous-keiba-ai\old\data\training_csv で14競馬場のCSVファイルを�
   - recent5_avg_time: 平均1300.56秒
   - recent5_time_std: 平均141.89秒
 
-#### 2-2-C. 14競馬場一括変換 ⏳ **実行準備完了**
-- ✅ `batch_convert_67features_fixed.bat` 作成完了
-- 📥 ダウンロードリンク: https://www.genspark.ai/api/files/s/zR3ioma9
-- ⏳ **次のアクション**: バッチファイル実行→14競馬場分の67特徴量CSV生成
-- ⏱️ 予想所要時間: 約10-15分
+#### 2-2-C. 14競馬場一括変換 ✅ **完了**（2026-05-06）
+- ✅ `batch_convert_67features_fixed.bat` 実行完了
+- ✅ 13競馬場バッチ処理成功
+- ✅ 浦和を手動処理完了
+- ✅ **全14競馬場の67特徴量CSV生成完了**
 
----
+#### 変換結果サマリー
+| 競馬場 | レコード数 | 状態 |
+|--------|-----------|------|
+| 浦和 | 43,303件 | ✅ 完了 |
+| 船橋 | 44,376件 | ✅ 完了 |
+| 川崎 | 50,140件 | ✅ 完了 |
+| 大井 | 40,842件 | ✅ 完了 |
+| 門別 | 57,017件 | ✅ 完了 |
+| 盛岡 | 42,984件 | ✅ 完了 |
+| 水沢 | 41,544件 | ✅ 完了 |
+| 金沢 | 51,334件 | ✅ 完了 |
+| 笠松 | 47,062件 | ✅ 完了 |
+| 名古屋 | 58,798件 | ✅ 完了 |
+| 園田 | 96,119件 | ✅ 完了 |
+| 姫路 | 17,969件 | ✅ 完了 |
+| 高知 | 71,984件 | ✅ 完了 |
+| 佐賀 | 75,845件 | ✅ 完了 |
 
-### 2-3. 学習スクリプト作成 ⏸️ 待機
-- `scripts/phase3_binary/train_phase3.py`
-- `scripts/phase4_ranking/train_phase4_ranking.py`
-- `scripts/phase4_regression/train_phase4_regression.py`
+**合計**: 739,317レコード、全て67特徴量に変換完了
+
+### 2-3. 学習スクリプト作成 ⏳ **次のタスク**
+
+以下の3つの学習スクリプトを作成します:
+
+#### 必要なスクリプト
+1. **train_phase3_binary.py** - 2値分類モデル（勝ち/負け予測）
+   - LightGBM Binary分類
+   - 複勝的中予測（3着以内）
+   - 14競馬場×1モデル = 14モデル
+
+2. **train_phase4_ranking.py** - ランキングモデル（着順予測）
+   - LightGBM Ranking
+   - 着順予測（1位〜最下位）
+   - 14競馬場×1モデル = 14モデル
+
+3. **train_phase4_regression.py** - タイム回帰モデル（走行時間予測）
+   - LightGBM Regression
+   - 走行時間予測（秒単位）
+   - 14競馬場×1モデル = 14モデル
+
+#### 学習パラメータ（既存モデルを参考）
+- 学習データ: `data/features/67features/*.csv`
+- Train/Test分割: 80% / 20%
+- 評価指標:
+  - Binary: AUC, 精度、再現率
+  - Ranking: NDCG@5, NDCG@10
+  - Regression: MAE, RMSE, R²
 
 ---
 
@@ -240,21 +282,19 @@ E:\anonymous-keiba-ai\old\data\training_csv で14競馬場のCSVファイルを�
 
 ## 📝 次のアクション
 
-**現在**: 工程2-2-C（14競馬場一括変換）⏳ **実行準備完了**
+**現在**: 工程2-2-C（14競馬場一括変換）✅ **完了**
 
-**次の指示**:
+**完了内容**:
+- ✅ 全14競馬場の67特徴量CSV生成完了（739,317レコード）
+- ✅ 統計特徴量17個追加成功（recent5_avg_rank, recent5_top3_rate等）
+- ✅ Unicodeエンコーディングエラー修正完了
 
-### ステップ1: バッチファイルをダウンロード
-📥 https://www.genspark.ai/api/files/s/zR3ioma9
-保存先: `E:\anonymous-keiba-ai\scripts\phase1_feature_engineering\batch_convert_67features_fixed.bat`
+**次のステップ**: 工程2-3（学習スクリプト作成）
 
-### ステップ2: バッチファイルを実行
-```cmd
-cd E:\anonymous-keiba-ai\scripts\phase1_feature_engineering
-batch_convert_67features_fixed.bat > batch_convert_log_fixed.txt 2>&1
-```
+### 📋 完了確認コマンド
 
-### ステップ3: 完了後に結果確認
+以下のコマンドで最終確認を実行してください:
+
 ```cmd
 cd E:\anonymous-keiba-ai\data\features\67features
 
@@ -263,18 +303,25 @@ echo. >> conversion_summary.txt
 echo Files created: >> conversion_summary.txt
 dir /b *.csv >> conversion_summary.txt
 echo. >> conversion_summary.txt
+echo Total files: >> conversion_summary.txt
+dir *.csv | find "File(s)" >> conversion_summary.txt
+echo. >> conversion_summary.txt
 echo File sizes: >> conversion_summary.txt
 dir *.csv >> conversion_summary.txt
 
 type conversion_summary.txt
 ```
 
-### ステップ4: 結果をTXTで報告
-`conversion_summary.txt` の内容をチャットで共有してください。
+**期待される結果**: 14ファイル、約200-300MB
 
----
+### 🎯 次の作業
 
-**次のステップ（完了後）**: 工程2-3（学習スクリプト作成）
+工程2-3の学習スクリプト作成に進みます:
+1. `train_phase3_binary.py` - 2値分類（複勝的中予測）
+2. `train_phase4_ranking.py` - ランキング（着順予測）
+3. `train_phase4_regression.py` - 回帰（タイム予測）
+
+準備ができたら指示してください。
 
 ---
 
